@@ -1,6 +1,6 @@
 VERSION         := 0.0.1
 
-PACK            := xyz
+PACK            := aws-static-website
 PROJECT         := github.com/pulumi/pulumi-${PACK}
 
 PROVIDER        := pulumi-resource-${PACK}
@@ -9,6 +9,7 @@ VERSION_PATH    := provider/pkg/version.Version
 
 WORKING_DIR     := $(shell pwd)
 SCHEMA_PATH     := ${WORKING_DIR}/schema.json
+SHELL 			:= /bin/bash
 
 override target := "14.15.3"
 
@@ -16,7 +17,7 @@ generate:: gen_go_sdk gen_dotnet_sdk gen_nodejs_sdk gen_python_sdk
 
 build:: build_provider build_dotnet_sdk build_nodejs_sdk build_python_sdk
 
-install:: install_provider install_dotnet_sdk install_nodejs_sdk
+install:: install_provider install_nodejs_sdk
 
 # Ensure all dependencies are installed
 ensure::
