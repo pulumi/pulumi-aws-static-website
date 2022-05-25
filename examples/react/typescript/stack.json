@@ -1,0 +1,1595 @@
+{
+    "version": 3,
+    "deployment": {
+        "manifest": {
+            "time": "2022-04-25T19:23:26.599021781-07:00",
+            "magic": "041865666b345a0d81ed0536d8ac707a379d21bb4a114eaec7eca514c516daa7",
+            "version": "3.29.0-alpha.1649773974+af5c1699.dirty"
+        },
+        "secrets_providers": {
+            "type": "service",
+            "state": {
+                "url": "https://api.pulumi.com",
+                "owner": "sean1588",
+                "project": "test",
+                "stack": "dev"
+            }
+        },
+        "resources": [
+            {
+                "urn": "urn:pulumi:dev::test::pulumi:pulumi:Stack::test-dev",
+                "custom": false,
+                "type": "pulumi:pulumi:Stack",
+                "outputs": {
+                    "bucket": "holung.com.s3.amazonaws.com"
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::pulumi:providers:aws-static-website::default_0_0_1",
+                "custom": true,
+                "id": "bd14bc1f-5e30-41bf-a09a-cf74981319d5",
+                "type": "pulumi:providers:aws-static-website",
+                "inputs": {
+                    "version": "0.0.1"
+                },
+                "outputs": {
+                    "version": "0.0.1"
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::pulumi-aws-static-website:index:Website::test",
+                "custom": false,
+                "type": "pulumi-aws-static-website:index:Website",
+                "outputs": {
+                    "bucketName": "holung.com.s3.amazonaws.com",
+                    "bucketWebsiteURL": "http://holung.com.s3-website.us-east-2.amazonaws.com",
+                    "websiteURL": "http://holung.com"
+                },
+                "parent": "urn:pulumi:dev::test::pulumi:pulumi:Stack::test-dev",
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1",
+                "custom": true,
+                "id": "24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "type": "pulumi:providers:aws",
+                "inputs": {
+                    "region": "us-east-2",
+                    "version": "4.38.1"
+                },
+                "outputs": {
+                    "region": "us-east-2",
+                    "version": "4.38.1"
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::pulumi:providers:aws::east",
+                "custom": true,
+                "id": "8539ed02-b864-4207-952f-ebdbed64af3e",
+                "type": "pulumi:providers:aws",
+                "inputs": {
+                    "region": "us-east-1",
+                    "skipCredentialsValidation": "true",
+                    "skipGetEc2Platforms": "true",
+                    "skipMetadataApiCheck": "true",
+                    "skipRegionValidation": "true",
+                    "version": "4.38.1"
+                },
+                "outputs": {
+                    "region": "us-east-1",
+                    "skipCredentialsValidation": "true",
+                    "skipGetEc2Platforms": "true",
+                    "skipMetadataApiCheck": "true",
+                    "skipRegionValidation": "true",
+                    "version": "4.38.1"
+                },
+                "parent": "urn:pulumi:dev::test::pulumi:pulumi:Stack::test-dev",
+                "propertyDependencies": {
+                    "region": null,
+                    "skipCredentialsValidation": null,
+                    "skipGetEc2Platforms": null,
+                    "skipMetadataApiCheck": null,
+                    "skipRegionValidation": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:cloudfront/originAccessIdentity:OriginAccessIdentity::originAccessIdentity",
+                "custom": true,
+                "id": "E36BHLOI8TRYKK",
+                "type": "aws:cloudfront/originAccessIdentity:OriginAccessIdentity",
+                "inputs": {
+                    "__defaults": [],
+                    "comment": "this is needed to setup s3 polices and make s3 not public."
+                },
+                "outputs": {
+                    "callerReference": "terraform-20220426020319863800000001",
+                    "cloudfrontAccessIdentityPath": "origin-access-identity/cloudfront/E36BHLOI8TRYKK",
+                    "comment": "this is needed to setup s3 polices and make s3 not public.",
+                    "etag": "E2X0FNY1QATJWH",
+                    "iamArn": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E36BHLOI8TRYKK",
+                    "id": "E36BHLOI8TRYKK",
+                    "s3CanonicalUserId": "4b28cf322a265ea9c4f117c715e65cde46720ff242192ff175e3bb42e6c928711ab72b9c9666d30ffde9ac71a4097c26"
+                },
+                "parent": "urn:pulumi:dev::test::pulumi:pulumi:Stack::test-dev",
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "comment": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "custom": true,
+                "id": "holung.com",
+                "type": "aws:s3/bucket:Bucket",
+                "inputs": {
+                    "__defaults": [],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "forceDestroy": true,
+                    "website": {
+                        "__defaults": [],
+                        "errorDocument": "404.html",
+                        "indexDocument": "index.html"
+                    }
+                },
+                "outputs": {
+                    "accelerationStatus": "",
+                    "acl": "public-read",
+                    "arn": "arn:aws:s3:::holung.com",
+                    "bucket": "holung.com",
+                    "bucketDomainName": "holung.com.s3.amazonaws.com",
+                    "bucketRegionalDomainName": "holung.com.s3.us-east-2.amazonaws.com",
+                    "corsRules": [],
+                    "forceDestroy": true,
+                    "grants": [],
+                    "hostedZoneId": "Z2O1EMRO9K5GLX",
+                    "id": "holung.com",
+                    "lifecycleRules": [],
+                    "loggings": [],
+                    "objectLockConfiguration": null,
+                    "region": "us-east-2",
+                    "replicationConfiguration": null,
+                    "requestPayer": "BucketOwner",
+                    "serverSideEncryptionConfiguration": null,
+                    "tags": {},
+                    "tagsAll": {},
+                    "versioning": {
+                        "enabled": false,
+                        "mfaDelete": false
+                    },
+                    "website": {
+                        "errorDocument": "404.html",
+                        "indexDocument": "index.html",
+                        "redirectAllRequestsTo": "",
+                        "routingRules": ""
+                    },
+                    "websiteDomain": "s3-website.us-east-2.amazonaws.com",
+                    "websiteEndpoint": "holung.com.s3-website.us-east-2.amazonaws.com"
+                },
+                "parent": "urn:pulumi:dev::test::pulumi:pulumi:Stack::test-dev",
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": null,
+                    "forceDestroy": null,
+                    "website": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+                "custom": true,
+                "id": "static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "image/svg+xml",
+                    "forceDestroy": false,
+                    "key": "static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "6000b0e9b0b05b3f112de04f0d039768a1db63588ff9b6ef7099dbd71632f383",
+                        "path": "/home/work/sean1588/test/website/build/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "image/svg+xml",
+                    "etag": "06e733283fa43d1dd57738cfc409adbd",
+                    "forceDestroy": false,
+                    "id": "static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+                    "key": "static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "6000b0e9b0b05b3f112de04f0d039768a1db63588ff9b6ef7099dbd71632f383",
+                        "path": "/home/work/sean1588/test/website/build/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::robots.txt",
+                "custom": true,
+                "id": "robots.txt",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "text/plain",
+                    "forceDestroy": false,
+                    "key": "robots.txt",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "90d24bc3bf698ac1e173739502298ccca72adf1f564fab05f484b8c48d1cadd2",
+                        "path": "/home/work/sean1588/test/website/build/robots.txt"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "text/plain",
+                    "etag": "fa1ded1ed7c11438a9b0385b1e112850",
+                    "forceDestroy": false,
+                    "id": "robots.txt",
+                    "key": "robots.txt",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "90d24bc3bf698ac1e173739502298ccca72adf1f564fab05f484b8c48d1cadd2",
+                        "path": "/home/work/sean1588/test/website/build/robots.txt"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::index.html",
+                "custom": true,
+                "id": "index.html",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "text/html",
+                    "forceDestroy": false,
+                    "key": "index.html",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "39b3df1a630f6521a115f3ffa594b2625b0a9de714d32f9a854e010c126ea102",
+                        "path": "/home/work/sean1588/test/website/build/index.html"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "text/html",
+                    "etag": "a865aa77be8b95e91dca665cee43f572",
+                    "forceDestroy": false,
+                    "id": "index.html",
+                    "key": "index.html",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "39b3df1a630f6521a115f3ffa594b2625b0a9de714d32f9a854e010c126ea102",
+                        "path": "/home/work/sean1588/test/website/build/index.html"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::static/css/main.073c9b0a.css",
+                "custom": true,
+                "id": "static/css/main.073c9b0a.css",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "text/css",
+                    "forceDestroy": false,
+                    "key": "static/css/main.073c9b0a.css",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "1dbd631b3b11d2e0701cfc9fd3b8a6129ff32067338366c9b4677db545fa65cc",
+                        "path": "/home/work/sean1588/test/website/build/static/css/main.073c9b0a.css"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "text/css",
+                    "etag": "89d76f95e100fc61f7271096ce86e7fc",
+                    "forceDestroy": false,
+                    "id": "static/css/main.073c9b0a.css",
+                    "key": "static/css/main.073c9b0a.css",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "1dbd631b3b11d2e0701cfc9fd3b8a6129ff32067338366c9b4677db545fa65cc",
+                        "path": "/home/work/sean1588/test/website/build/static/css/main.073c9b0a.css"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::logo192.png",
+                "custom": true,
+                "id": "logo192.png",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "image/png",
+                    "forceDestroy": false,
+                    "key": "logo192.png",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "c386396ec70db3608075b5fbfaac4ab1ccaa86ba05a68ab393ec551eb66c3e00",
+                        "path": "/home/work/sean1588/test/website/build/logo192.png"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "image/png",
+                    "etag": "33dbdd0177549353eeeb785d02c294af",
+                    "forceDestroy": false,
+                    "id": "logo192.png",
+                    "key": "logo192.png",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "c386396ec70db3608075b5fbfaac4ab1ccaa86ba05a68ab393ec551eb66c3e00",
+                        "path": "/home/work/sean1588/test/website/build/logo192.png"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::static/js/787.71e672d5.chunk.js.map",
+                "custom": true,
+                "id": "static/js/787.71e672d5.chunk.js.map",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "application/json",
+                    "forceDestroy": false,
+                    "key": "static/js/787.71e672d5.chunk.js.map",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "a192a9e84b9623e9a9f81e43b9e6bc8ed164ef18f05b51b4ccb597b498818a7f",
+                        "path": "/home/work/sean1588/test/website/build/static/js/787.71e672d5.chunk.js.map"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "application/json",
+                    "etag": "a8652fc278334cd85476ad384f6c254d",
+                    "forceDestroy": false,
+                    "id": "static/js/787.71e672d5.chunk.js.map",
+                    "key": "static/js/787.71e672d5.chunk.js.map",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "a192a9e84b9623e9a9f81e43b9e6bc8ed164ef18f05b51b4ccb597b498818a7f",
+                        "path": "/home/work/sean1588/test/website/build/static/js/787.71e672d5.chunk.js.map"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::static/js/main.53bfb942.js.LICENSE.txt",
+                "custom": true,
+                "id": "static/js/main.53bfb942.js.LICENSE.txt",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "text/plain",
+                    "forceDestroy": false,
+                    "key": "static/js/main.53bfb942.js.LICENSE.txt",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "bc83aaff43d3ef9301331bbfeaacc4d2d8549dfc9029f786bd6abdd32363b020",
+                        "path": "/home/work/sean1588/test/website/build/static/js/main.53bfb942.js.LICENSE.txt"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "text/plain",
+                    "etag": "b114cc85da504a772f040e3f40f8e46a",
+                    "forceDestroy": false,
+                    "id": "static/js/main.53bfb942.js.LICENSE.txt",
+                    "key": "static/js/main.53bfb942.js.LICENSE.txt",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "bc83aaff43d3ef9301331bbfeaacc4d2d8549dfc9029f786bd6abdd32363b020",
+                        "path": "/home/work/sean1588/test/website/build/static/js/main.53bfb942.js.LICENSE.txt"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::static/css/main.073c9b0a.css.map",
+                "custom": true,
+                "id": "static/css/main.073c9b0a.css.map",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "application/json",
+                    "forceDestroy": false,
+                    "key": "static/css/main.073c9b0a.css.map",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "31483fc7abaaca4234ac4a2777fe483500b27a90ccb8b6a392f59f60d1a05287",
+                        "path": "/home/work/sean1588/test/website/build/static/css/main.073c9b0a.css.map"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "application/json",
+                    "etag": "4284557f70f03d562b659f38b01eaa66",
+                    "forceDestroy": false,
+                    "id": "static/css/main.073c9b0a.css.map",
+                    "key": "static/css/main.073c9b0a.css.map",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "31483fc7abaaca4234ac4a2777fe483500b27a90ccb8b6a392f59f60d1a05287",
+                        "path": "/home/work/sean1588/test/website/build/static/css/main.073c9b0a.css.map"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::static/js/main.53bfb942.js",
+                "custom": true,
+                "id": "static/js/main.53bfb942.js",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "application/javascript",
+                    "forceDestroy": false,
+                    "key": "static/js/main.53bfb942.js",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "da40280f648e687583650dfd9171f8753c37951c6e5141999b47b31117d45a74",
+                        "path": "/home/work/sean1588/test/website/build/static/js/main.53bfb942.js"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "application/javascript",
+                    "etag": "dd1efb8821e58ca9da1c0e3b36af9285",
+                    "forceDestroy": false,
+                    "id": "static/js/main.53bfb942.js",
+                    "key": "static/js/main.53bfb942.js",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "da40280f648e687583650dfd9171f8753c37951c6e5141999b47b31117d45a74",
+                        "path": "/home/work/sean1588/test/website/build/static/js/main.53bfb942.js"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::logo512.png",
+                "custom": true,
+                "id": "logo512.png",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "image/png",
+                    "forceDestroy": false,
+                    "key": "logo512.png",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "9ea4f4da7050c0cc408926f6a39c253624e9babb1d43c7977cd821445a60b461",
+                        "path": "/home/work/sean1588/test/website/build/logo512.png"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "image/png",
+                    "etag": "917515db74ea8d1aee6a246cfbcc0b45",
+                    "forceDestroy": false,
+                    "id": "logo512.png",
+                    "key": "logo512.png",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "9ea4f4da7050c0cc408926f6a39c253624e9babb1d43c7977cd821445a60b461",
+                        "path": "/home/work/sean1588/test/website/build/logo512.png"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::asset-manifest.json",
+                "custom": true,
+                "id": "asset-manifest.json",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "application/json",
+                    "forceDestroy": false,
+                    "key": "asset-manifest.json",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "5c4880bf9af421399a55e908444ce697c048cf5dcfb0eb9ab601b0a4c31e155c",
+                        "path": "/home/work/sean1588/test/website/build/asset-manifest.json"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "application/json",
+                    "etag": "c160c67a404a0f35e21e23006991e238",
+                    "forceDestroy": false,
+                    "id": "asset-manifest.json",
+                    "key": "asset-manifest.json",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "5c4880bf9af421399a55e908444ce697c048cf5dcfb0eb9ab601b0a4c31e155c",
+                        "path": "/home/work/sean1588/test/website/build/asset-manifest.json"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::favicon.ico",
+                "custom": true,
+                "id": "favicon.ico",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "image/vnd.microsoft.icon",
+                    "forceDestroy": false,
+                    "key": "favicon.ico",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "3d10f7da6c603178340081668c4ac5b3ae9743ca9a262ab0fcd312fbb9f48bdd",
+                        "path": "/home/work/sean1588/test/website/build/favicon.ico"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "image/vnd.microsoft.icon",
+                    "etag": "c92b85a5b907c70211f4ec25e29a8c4a",
+                    "forceDestroy": false,
+                    "id": "favicon.ico",
+                    "key": "favicon.ico",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "3d10f7da6c603178340081668c4ac5b3ae9743ca9a262ab0fcd312fbb9f48bdd",
+                        "path": "/home/work/sean1588/test/website/build/favicon.ico"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::manifest.json",
+                "custom": true,
+                "id": "manifest.json",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "application/json",
+                    "forceDestroy": false,
+                    "key": "manifest.json",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "50b3d8c3903af3f78d871b94557ab14f4e39ca192eaca3d2cfa863c867279a14",
+                        "path": "/home/work/sean1588/test/website/build/manifest.json"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "application/json",
+                    "etag": "d9d975cebe2ec20b6c652e1e4c12ccf0",
+                    "forceDestroy": false,
+                    "id": "manifest.json",
+                    "key": "manifest.json",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "50b3d8c3903af3f78d871b94557ab14f4e39ca192eaca3d2cfa863c867279a14",
+                        "path": "/home/work/sean1588/test/website/build/manifest.json"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::static/js/787.71e672d5.chunk.js",
+                "custom": true,
+                "id": "static/js/787.71e672d5.chunk.js",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "application/javascript",
+                    "forceDestroy": false,
+                    "key": "static/js/787.71e672d5.chunk.js",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "df3c2078422e3087921bc1805ab1ecfa8acf62c364abae3fe36b353663c1d356",
+                        "path": "/home/work/sean1588/test/website/build/static/js/787.71e672d5.chunk.js"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "application/javascript",
+                    "etag": "d95602c8a8bdb73b00fa5ed23e902214",
+                    "forceDestroy": false,
+                    "id": "static/js/787.71e672d5.chunk.js",
+                    "key": "static/js/787.71e672d5.chunk.js",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "df3c2078422e3087921bc1805ab1ecfa8acf62c364abae3fe36b353663c1d356",
+                        "path": "/home/work/sean1588/test/website/build/static/js/787.71e672d5.chunk.js"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucket:Bucket$aws:s3/bucketObject:BucketObject::static/js/main.53bfb942.js.map",
+                "custom": true,
+                "id": "static/js/main.53bfb942.js.map",
+                "type": "aws:s3/bucketObject:BucketObject",
+                "inputs": {
+                    "__defaults": [
+                        "forceDestroy"
+                    ],
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "contentType": "application/json",
+                    "forceDestroy": false,
+                    "key": "static/js/main.53bfb942.js.map",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "c3389dba9ea2ce2b6e5912f4b53856c1b867954fd782b0fa226210c6dec170bb",
+                        "path": "/home/work/sean1588/test/website/build/static/js/main.53bfb942.js.map"
+                    }
+                },
+                "outputs": {
+                    "acl": "public-read",
+                    "bucket": "holung.com",
+                    "bucketKeyEnabled": false,
+                    "cacheControl": "",
+                    "contentDisposition": "",
+                    "contentEncoding": "",
+                    "contentLanguage": "",
+                    "contentType": "application/json",
+                    "etag": "289e6f600860dd1d5e7697ac6330e4e8",
+                    "forceDestroy": false,
+                    "id": "static/js/main.53bfb942.js.map",
+                    "key": "static/js/main.53bfb942.js.map",
+                    "metadata": {},
+                    "objectLockLegalHoldStatus": "",
+                    "objectLockMode": "",
+                    "objectLockRetainUntilDate": "",
+                    "serverSideEncryption": "",
+                    "source": {
+                        "4dabf18193072939515e22adb298388d": "c44067f5952c0a294b673a41bacd8c17",
+                        "hash": "c3389dba9ea2ce2b6e5912f4b53856c1b867954fd782b0fa226210c6dec170bb",
+                        "path": "/home/work/sean1588/test/website/build/static/js/main.53bfb942.js.map"
+                    },
+                    "storageClass": "STANDARD",
+                    "tags": {},
+                    "tagsAll": {},
+                    "versionId": "",
+                    "websiteRedirect": ""
+                },
+                "parent": "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "acl": null,
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "contentType": null,
+                    "key": null,
+                    "source": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:s3/bucketPolicy:BucketPolicy::bucketPolicy",
+                "custom": true,
+                "id": "holung.com",
+                "type": "aws:s3/bucketPolicy:BucketPolicy",
+                "inputs": {
+                    "__defaults": [],
+                    "bucket": "holung.com",
+                    "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E36BHLOI8TRYKK\"},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::holung.com/*\"]}]}"
+                },
+                "outputs": {
+                    "bucket": "holung.com",
+                    "id": "holung.com",
+                    "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E36BHLOI8TRYKK\"},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::holung.com/*\"]}]}"
+                },
+                "parent": "urn:pulumi:dev::test::pulumi:pulumi:Stack::test-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:cloudfront/originAccessIdentity:OriginAccessIdentity::originAccessIdentity",
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "bucket": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "policy": [
+                        "urn:pulumi:dev::test::aws:cloudfront/originAccessIdentity:OriginAccessIdentity::originAccessIdentity",
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ]
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::aws:acm/certificate:Certificate::certificate",
+                "custom": true,
+                "id": "arn:aws:acm:us-east-1:616138583583:certificate/673a634a-11e3-4322-a4c0-f061df56406b",
+                "type": "aws:acm/certificate:Certificate",
+                "inputs": {
+                    "__defaults": [],
+                    "domainName": "holung.com",
+                    "subjectAlternativeNames": [
+                        "www.holung.com"
+                    ],
+                    "validationMethod": "DNS"
+                },
+                "outputs": {
+                    "arn": "arn:aws:acm:us-east-1:616138583583:certificate/673a634a-11e3-4322-a4c0-f061df56406b",
+                    "certificateAuthorityArn": "",
+                    "domainName": "holung.com",
+                    "domainValidationOptions": [
+                        {
+                            "domainName": "holung.com",
+                            "resourceRecordName": "_90b2abc484bc80c2ce41447cb02b7ec8.holung.com.",
+                            "resourceRecordType": "CNAME",
+                            "resourceRecordValue": "_65b937aaab01f36d22c703161c45bf10.rdvkfhcmrm.acm-validations.aws."
+                        },
+                        {
+                            "domainName": "www.holung.com",
+                            "resourceRecordName": "_df494dd8abdd1b57becf6116c7479a54.www.holung.com.",
+                            "resourceRecordType": "CNAME",
+                            "resourceRecordValue": "_da48abfa1eb789d9cc3e2fed0f5d4002.xdvyhgsvzs.acm-validations.aws."
+                        }
+                    ],
+                    "id": "arn:aws:acm:us-east-1:616138583583:certificate/673a634a-11e3-4322-a4c0-f061df56406b",
+                    "options": {
+                        "certificateTransparencyLoggingPreference": "ENABLED"
+                    },
+                    "status": "PENDING_VALIDATION",
+                    "subjectAlternativeNames": [
+                        "www.holung.com"
+                    ],
+                    "tags": {},
+                    "tagsAll": {},
+                    "validationEmails": [],
+                    "validationMethod": "DNS"
+                },
+                "parent": "urn:pulumi:dev::test::pulumi:pulumi:Stack::test-dev",
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::east::8539ed02-b864-4207-952f-ebdbed64af3e",
+                "propertyDependencies": {
+                    "domainName": null,
+                    "subjectAlternativeNames": null,
+                    "validationMethod": null
+                },
+                "sequenceNumber": 2
+            },
+            {
+                "urn": "urn:pulumi:dev::test::pulumi-aws-static-website:index:Website$aws:route53/record:Record::certificate-validation",
+                "custom": true,
+                "id": "Z09767412ATG2WR0LCYAY__90b2abc484bc80c2ce41447cb02b7ec8.holung.com._CNAME",
+                "type": "aws:route53/record:Record",
+                "inputs": {
+                    "__defaults": [],
+                    "name": "_90b2abc484bc80c2ce41447cb02b7ec8.holung.com.",
+                    "records": [
+                        "_65b937aaab01f36d22c703161c45bf10.rdvkfhcmrm.acm-validations.aws."
+                    ],
+                    "ttl": 600,
+                    "type": "CNAME",
+                    "zoneId": "Z09767412ATG2WR0LCYAY"
+                },
+                "outputs": {
+                    "__meta": "{\"schema_version\":\"2\"}",
+                    "fqdn": "_90b2abc484bc80c2ce41447cb02b7ec8.holung.com",
+                    "id": "Z09767412ATG2WR0LCYAY__90b2abc484bc80c2ce41447cb02b7ec8.holung.com._CNAME",
+                    "name": "_90b2abc484bc80c2ce41447cb02b7ec8.holung.com",
+                    "records": [
+                        "_65b937aaab01f36d22c703161c45bf10.rdvkfhcmrm.acm-validations.aws."
+                    ],
+                    "ttl": 600,
+                    "type": "CNAME",
+                    "zoneId": "Z09767412ATG2WR0LCYAY"
+                },
+                "parent": "urn:pulumi:dev::test::pulumi-aws-static-website:index:Website::test",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:acm/certificate:Certificate::certificate"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "name": [
+                        "urn:pulumi:dev::test::aws:acm/certificate:Certificate::certificate"
+                    ],
+                    "records": [
+                        "urn:pulumi:dev::test::aws:acm/certificate:Certificate::certificate"
+                    ],
+                    "ttl": null,
+                    "type": [
+                        "urn:pulumi:dev::test::aws:acm/certificate:Certificate::certificate"
+                    ],
+                    "zoneId": null
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::pulumi-aws-static-website:index:Website$aws:cloudfront/distribution:Distribution::website-cdn",
+                "custom": true,
+                "id": "E2RMDK3QHL9YGO",
+                "type": "aws:cloudfront/distribution:Distribution",
+                "inputs": {
+                    "__defaults": [
+                        "httpVersion",
+                        "isIpv6Enabled",
+                        "retainOnDelete",
+                        "waitForDeployment"
+                    ],
+                    "aliases": [
+                        "holung.com"
+                    ],
+                    "customErrorResponses": [
+                        {
+                            "__defaults": [],
+                            "errorCode": 404,
+                            "responseCode": 404,
+                            "responsePagePath": "/404.html"
+                        }
+                    ],
+                    "defaultCacheBehavior": {
+                        "__defaults": [
+                            "compress"
+                        ],
+                        "allowedMethods": [
+                            "GET",
+                            "HEAD",
+                            "OPTIONS"
+                        ],
+                        "cachedMethods": [
+                            "GET",
+                            "HEAD",
+                            "OPTIONS"
+                        ],
+                        "compress": false,
+                        "defaultTtl": 600,
+                        "forwardedValues": {
+                            "__defaults": [],
+                            "cookies": {
+                                "__defaults": [],
+                                "forward": "none"
+                            },
+                            "queryString": false
+                        },
+                        "maxTtl": 600,
+                        "minTtl": 0,
+                        "targetOriginId": "arn:aws:s3:::holung.com",
+                        "viewerProtocolPolicy": "redirect-to-https"
+                    },
+                    "defaultRootObject": "index.html",
+                    "enabled": true,
+                    "httpVersion": "http2",
+                    "isIpv6Enabled": false,
+                    "origins": [
+                        {
+                            "__defaults": [
+                                "connectionAttempts",
+                                "connectionTimeout"
+                            ],
+                            "connectionAttempts": 3,
+                            "connectionTimeout": 10,
+                            "customOriginConfig": {
+                                "__defaults": [
+                                    "originKeepaliveTimeout",
+                                    "originReadTimeout"
+                                ],
+                                "httpPort": 80,
+                                "httpsPort": 443,
+                                "originKeepaliveTimeout": 5,
+                                "originProtocolPolicy": "http-only",
+                                "originReadTimeout": 30,
+                                "originSslProtocols": [
+                                    "TLSv1.2"
+                                ]
+                            },
+                            "domainName": "holung.com.s3.us-east-2.amazonaws.com",
+                            "originId": "arn:aws:s3:::holung.com"
+                        }
+                    ],
+                    "priceClass": "PriceClass_100",
+                    "restrictions": {
+                        "__defaults": [],
+                        "geoRestriction": {
+                            "__defaults": [],
+                            "restrictionType": "none"
+                        }
+                    },
+                    "retainOnDelete": false,
+                    "viewerCertificate": {
+                        "__defaults": [
+                            "minimumProtocolVersion"
+                        ],
+                        "acmCertificateArn": "arn:aws:acm:us-east-1:616138583583:certificate/59e0e4b0-c998-402e-aab6-d6a0e08ff956",
+                        "minimumProtocolVersion": "TLSv1",
+                        "sslSupportMethod": "sni-only"
+                    },
+                    "waitForDeployment": true
+                },
+                "outputs": {
+                    "__meta": "{\"schema_version\":\"1\"}",
+                    "aliases": [
+                        "holung.com",
+                        "www.holung.com"
+                    ],
+                    "arn": "arn:aws:cloudfront::616138583583:distribution/E2RMDK3QHL9YGO",
+                    "callerReference": "terraform-20220426020328987600000002",
+                    "customErrorResponses": [
+                        {
+                            "errorCachingMinTtl": 0,
+                            "errorCode": 404,
+                            "responseCode": 404,
+                            "responsePagePath": "/404.html"
+                        }
+                    ],
+                    "defaultCacheBehavior": {
+                        "allowedMethods": [
+                            "GET",
+                            "HEAD",
+                            "OPTIONS"
+                        ],
+                        "cachePolicyId": "",
+                        "cachedMethods": [
+                            "GET",
+                            "HEAD",
+                            "OPTIONS"
+                        ],
+                        "compress": false,
+                        "defaultTtl": 600,
+                        "fieldLevelEncryptionId": "",
+                        "forwardedValues": {
+                            "cookies": {
+                                "forward": "none",
+                                "whitelistedNames": []
+                            },
+                            "headers": [],
+                            "queryString": false,
+                            "queryStringCacheKeys": []
+                        },
+                        "functionAssociations": [],
+                        "lambdaFunctionAssociations": [],
+                        "maxTtl": 600,
+                        "minTtl": 0,
+                        "originRequestPolicyId": "",
+                        "realtimeLogConfigArn": "",
+                        "responseHeadersPolicyId": "",
+                        "smoothStreaming": false,
+                        "targetOriginId": "arn:aws:s3:::holung.com",
+                        "trustedKeyGroups": [],
+                        "trustedSigners": [],
+                        "viewerProtocolPolicy": "redirect-to-https"
+                    },
+                    "defaultRootObject": "index.html",
+                    "domainName": "d2tpodi5y8lzpr.cloudfront.net",
+                    "enabled": true,
+                    "etag": "E2S2SQ1W4107C0",
+                    "hostedZoneId": "Z2FDTNDATAQYW2",
+                    "httpVersion": "http2",
+                    "id": "E2RMDK3QHL9YGO",
+                    "inProgressValidationBatches": 0,
+                    "isIpv6Enabled": false,
+                    "lastModifiedTime": "2022-04-26 02:03:48.211 +0000 UTC",
+                    "loggingConfig": null,
+                    "orderedCacheBehaviors": [],
+                    "originGroups": [],
+                    "origins": [
+                        {
+                            "connectionAttempts": 3,
+                            "connectionTimeout": 10,
+                            "customHeaders": [],
+                            "customOriginConfig": {
+                                "httpPort": 80,
+                                "httpsPort": 443,
+                                "originKeepaliveTimeout": 5,
+                                "originProtocolPolicy": "http-only",
+                                "originReadTimeout": 30,
+                                "originSslProtocols": [
+                                    "TLSv1.2"
+                                ]
+                            },
+                            "domainName": "holung.com.s3.us-east-2.amazonaws.com",
+                            "originId": "arn:aws:s3:::holung.com",
+                            "originPath": "",
+                            "originShield": null,
+                            "s3OriginConfig": null
+                        }
+                    ],
+                    "priceClass": "PriceClass_100",
+                    "restrictions": {
+                        "geoRestriction": {
+                            "locations": [],
+                            "restrictionType": "none"
+                        }
+                    },
+                    "retainOnDelete": false,
+                    "status": "Deployed",
+                    "tags": {},
+                    "tagsAll": {},
+                    "trustedKeyGroups": [
+                        {
+                            "enabled": false,
+                            "items": []
+                        }
+                    ],
+                    "trustedSigners": [
+                        {
+                            "enabled": false,
+                            "items": []
+                        }
+                    ],
+                    "viewerCertificate": {
+                        "acmCertificateArn": "arn:aws:acm:us-east-1:616138583583:certificate/673a634a-11e3-4322-a4c0-f061df56406b",
+                        "cloudfrontDefaultCertificate": false,
+                        "iamCertificateId": "",
+                        "minimumProtocolVersion": "TLSv1",
+                        "sslSupportMethod": "sni-only"
+                    },
+                    "waitForDeployment": true,
+                    "webAclId": ""
+                },
+                "parent": "urn:pulumi:dev::test::pulumi-aws-static-website:index:Website::test",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket",
+                    "urn:pulumi:dev::test::aws:acm/certificate:Certificate::certificate"
+                ],
+                "initErrors": [
+                    "updating urn:pulumi:dev::test::pulumi-aws-static-website:index:Website$aws:cloudfront/distribution:Distribution::website-cdn: 1 error occurred:\n\t* error updating CloudFront Distribution (E2RMDK3QHL9YGO): InvalidViewerCertificate: The specified SSL certificate doesn't exist, isn't in us-east-1 region, isn't valid, or doesn't include a valid certificate chain.\n\tstatus code: 400, request id: f6c8a668-9225-4956-bba5-7ea710f51ec6\n\n"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "aliases": null,
+                    "customErrorResponses": null,
+                    "defaultCacheBehavior": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "defaultRootObject": null,
+                    "enabled": null,
+                    "origins": [
+                        "urn:pulumi:dev::test::aws:s3/bucket:Bucket::content-bucket"
+                    ],
+                    "priceClass": null,
+                    "restrictions": null,
+                    "viewerCertificate": [
+                        "urn:pulumi:dev::test::aws:acm/certificate:Certificate::certificate"
+                    ]
+                },
+                "sequenceNumber": 1
+            },
+            {
+                "urn": "urn:pulumi:dev::test::pulumi-aws-static-website:index:Website$aws:route53/record:Record::holung.com",
+                "custom": true,
+                "id": "Z09767412ATG2WR0LCYAY_holung.com_A",
+                "type": "aws:route53/record:Record",
+                "inputs": {
+                    "__defaults": [],
+                    "aliases": [
+                        {
+                            "__defaults": [],
+                            "evaluateTargetHealth": true,
+                            "name": "d2tpodi5y8lzpr.cloudfront.net",
+                            "zoneId": "Z2FDTNDATAQYW2"
+                        }
+                    ],
+                    "name": "holung.com",
+                    "type": "A",
+                    "zoneId": "Z09767412ATG2WR0LCYAY"
+                },
+                "outputs": {
+                    "__meta": "{\"schema_version\":\"2\"}",
+                    "aliases": [
+                        {
+                            "evaluateTargetHealth": true,
+                            "name": "d2tpodi5y8lzpr.cloudfront.net",
+                            "zoneId": "Z2FDTNDATAQYW2"
+                        }
+                    ],
+                    "fqdn": "holung.com",
+                    "id": "Z09767412ATG2WR0LCYAY_holung.com_A",
+                    "name": "holung.com",
+                    "type": "A",
+                    "zoneId": "Z09767412ATG2WR0LCYAY"
+                },
+                "parent": "urn:pulumi:dev::test::pulumi-aws-static-website:index:Website::test",
+                "dependencies": [
+                    "urn:pulumi:dev::test::aws:acm/certificate:Certificate::certificate",
+                    "urn:pulumi:dev::test::pulumi-aws-static-website:index:Website$aws:cloudfront/distribution:Distribution::website-cdn"
+                ],
+                "provider": "urn:pulumi:dev::test::pulumi:providers:aws::default_4_38_1::24574d7f-6ae8-444b-ab4f-bc651dbfcfba",
+                "propertyDependencies": {
+                    "aliases": [
+                        "urn:pulumi:dev::test::pulumi-aws-static-website:index:Website$aws:cloudfront/distribution:Distribution::website-cdn"
+                    ],
+                    "name": null,
+                    "type": null,
+                    "zoneId": null
+                },
+                "sequenceNumber": 1
+            }
+        ],
+        "pending_operations": [
+        ]
+    }
+}

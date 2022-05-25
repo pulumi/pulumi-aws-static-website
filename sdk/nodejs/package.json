@@ -1,8 +1,9 @@
 {
-    "name": "@pulumi/xyz",
+    "name": "@pulumi/aws-static-website",
     "version": "${VERSION}",
     "scripts": {
-        "build": "tsc"
+        "build": "tsc",
+        "install": "node scripts/install-pulumi-plugin.js resource aws-static-website ${VERSION}"
     },
     "dependencies": {
         "@pulumi/aws": "^4.0.0"

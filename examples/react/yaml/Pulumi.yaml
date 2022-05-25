@@ -1,0 +1,11 @@
+name: static-website
+runtime: yaml
+description: Example of a Pulumi program deploying a static website using the YAML
+  provider.
+resources:
+  web:
+    type: "aws-static-website:index:Website"
+    properties:
+      sitePath: "../website/build"
+outputs:
+  website: ${web.bucketWebsiteURL}
