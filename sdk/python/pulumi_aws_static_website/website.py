@@ -26,9 +26,9 @@ class WebsiteArgs:
         The set of arguments for constructing a Website resource.
         :param pulumi.Input[str] site_path: The root directory containing the website's contents.
         :param pulumi.Input[float] cache_ttl: TTL in seconds for cached objects. 
-        :param pulumi.Input[str] certificate_arn: The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during th providioning process.
+        :param pulumi.Input[str] certificate_arn: The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
         :param pulumi.Input[str] error404: default 404 page
-        :param pulumi.Input[str] index_html: index.HTML page
+        :param pulumi.Input[str] index_html: The default document for the site. Defaults to index.html
         :param pulumi.Input[str] price_class: The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
         :param pulumi.Input[str] target_domain: The domain used to serve the content. A Route53 hosted zone must exist for this domain.
         :param pulumi.Input[bool] with_cdn: Provision CloudFront CDN to serve content.
@@ -80,7 +80,7 @@ class WebsiteArgs:
     @pulumi.getter(name="certificateARN")
     def certificate_arn(self) -> Optional[pulumi.Input[str]]:
         """
-        The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during th providioning process.
+        The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
         """
         return pulumi.get(self, "certificate_arn")
 
@@ -104,7 +104,7 @@ class WebsiteArgs:
     @pulumi.getter(name="indexHTML")
     def index_html(self) -> Optional[pulumi.Input[str]]:
         """
-        index.HTML page
+        The default document for the site. Defaults to index.html
         """
         return pulumi.get(self, "index_html")
 
@@ -181,9 +181,9 @@ class Website(pulumi.ComponentResource):
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[float] cache_ttl: TTL in seconds for cached objects. 
-        :param pulumi.Input[str] certificate_arn: The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during th providioning process.
+        :param pulumi.Input[str] certificate_arn: The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
         :param pulumi.Input[str] error404: default 404 page
-        :param pulumi.Input[str] index_html: index.HTML page
+        :param pulumi.Input[str] index_html: The default document for the site. Defaults to index.html
         :param pulumi.Input[str] price_class: The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
         :param pulumi.Input[str] site_path: The root directory containing the website's contents.
         :param pulumi.Input[str] target_domain: The domain used to serve the content. A Route53 hosted zone must exist for this domain.

@@ -6,7 +6,6 @@ const websiteArgs =  {
     withLogs: true,
     cacheTTL: 600,
     indexHTML: "index.html",
-    targetDomain: "dev.holung.com"
 } as staticwebsite.WebsiteArgs
 
 const web = new staticwebsite.Website("test", websiteArgs);

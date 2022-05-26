@@ -49,11 +49,11 @@ func NewWebsite(ctx *pulumi.Context,
 type websiteArgs struct {
 	// TTL in seconds for cached objects.
 	CacheTTL *float64 `pulumi:"cacheTTL"`
-	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during th providioning process.
+	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
 	CertificateARN *string `pulumi:"certificateARN"`
 	// default 404 page
 	Error404 *string `pulumi:"error404"`
-	// index.HTML page
+	// The default document for the site. Defaults to index.html
 	IndexHTML *string `pulumi:"indexHTML"`
 	// The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
 	PriceClass *string `pulumi:"priceClass"`
@@ -71,11 +71,11 @@ type websiteArgs struct {
 type WebsiteArgs struct {
 	// TTL in seconds for cached objects.
 	CacheTTL pulumi.Float64PtrInput
-	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during th providioning process.
+	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
 	CertificateARN pulumi.StringPtrInput
 	// default 404 page
 	Error404 pulumi.StringPtrInput
-	// index.HTML page
+	// The default document for the site. Defaults to index.html
 	IndexHTML pulumi.StringPtrInput
 	// The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
 	PriceClass pulumi.StringPtrInput

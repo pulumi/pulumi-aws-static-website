@@ -6,6 +6,7 @@ resources:
   web:
     type: "aws-static-website:index:Website"
     properties:
+      withCDN: true
       sitePath: "../website/build"
 outputs:
-  website: ${web.bucketWebsiteURL}
+  websiteURL: ${web.websiteURL}

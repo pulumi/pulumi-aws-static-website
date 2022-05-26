@@ -2,7 +2,7 @@ name: release
 on:
   workflow_dispatch:
     tags:
-      - v0.0.1
+      - v0.0.1-alpha
 env:
   PROVIDER: "pulumi-resource-aws-static-website"
   # THIS GITHUB_TOKEN IS A REQUIREMENT TO BE ABLE TO WRITE TO GH RELEASES
@@ -51,6 +51,11 @@ jobs:
       - run: make build_provider
       - name: Create Provider Binaries
         run: make dist
+      - name: Create GH Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/*.tar.gz
     strategy:
       fail-fast: true
       matrix:

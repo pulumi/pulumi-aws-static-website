@@ -83,7 +83,7 @@ namespace Pulumi.AwsStaticWebsite
         public Input<double>? CacheTTL { get; set; }
 
         /// <summary>
-        /// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during th providioning process.
+        /// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
         /// </summary>
         [Input("certificateARN")]
         public Input<string>? CertificateARN { get; set; }
@@ -95,7 +95,7 @@ namespace Pulumi.AwsStaticWebsite
         public Input<string>? Error404 { get; set; }
 
         /// <summary>
-        /// index.HTML page
+        /// The default document for the site. Defaults to index.html
         /// </summary>
         [Input("indexHTML")]
         public Input<string>? IndexHTML { get; set; }

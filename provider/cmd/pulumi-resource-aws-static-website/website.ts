@@ -66,7 +66,7 @@ export class Website extends pulumi.ComponentResource {
 
         // Check the default document exists.
         if (!fs.existsSync(path.join(args.sitePath, args.indexHTML))) {
-            pulumi.log.warn(`Default document "${args.indexHTML}" does not exist.`);
+            pulumi.log.error(`Default document "${args.indexHTML}" does not exist.`);
         }
 
         // Check the error document exists if specified.
@@ -78,7 +78,8 @@ export class Website extends pulumi.ComponentResource {
         this.bucket = this.provisionContentBucket();
         this.bucketName = this.bucket.bucketDomainName;
         this.bucketWebsiteURL = pulumi.interpolate`http://${this.bucket.websiteEndpoint}`;
-
+        this.websiteURL = pulumi.interpolate`http://${this.bucket.websiteEndpoint}`;
+        
         // Provision logs bucket if specified in config.
         if (this.args.withLogs) {
             this.logsBucket = this.provisionLogsBucket();
@@ -90,7 +91,12 @@ export class Website extends pulumi.ComponentResource {
             const cdn = this.provisionCDN();
             this.cdnDomainName = cdn.domainName;
             this.cdnURL = pulumi.interpolate`https://${cdn.domainName}`;
-            this.websiteURL = pulumi.interpolate`https://${this.args.targetDomain}`;
+            if (this.args.targetDomain) {
+                this.websiteURL = pulumi.interpolate`https://${this.args.targetDomain}`;
+            } else {
+                this.websiteURL = pulumi.interpolate`https://${cdn.domainName}`;
+            }
+            
         }
 
         this.registerOutputs({

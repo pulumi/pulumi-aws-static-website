@@ -18,7 +18,7 @@
                 },
                 "indexHTML": {
                     "type": "string",
-                    "description": "index.HTML page"
+                    "description": "The default document for the site. Defaults to index.html"
                 },
                 "error404": {
                     "type": "string",
@@ -26,7 +26,7 @@
                 },
                 "certificateARN": {
                     "type": "string",
-                    "description": "The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during th providioning process."
+                    "description": "The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process."
                 },
                 "cacheTTL": {
                     "type": "number",

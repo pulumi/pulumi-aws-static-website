@@ -95,7 +95,7 @@ export interface WebsiteArgs {
      */
     cacheTTL?: pulumi.Input<number>;
     /**
-     * The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during th providioning process.
+     * The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
      */
     certificateARN?: pulumi.Input<string>;
     /**
@@ -103,7 +103,7 @@ export interface WebsiteArgs {
      */
     error404?: pulumi.Input<string>;
     /**
-     * index.HTML page
+     * The default document for the site. Defaults to index.html
      */
     indexHTML?: pulumi.Input<string>;
     /**

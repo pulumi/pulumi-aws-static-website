@@ -1,9 +1,32 @@
 # Pulumi AWS Static Website Component
 
-This component makes it easy to deploy a static website to s3 using any of the supported Pulumi programming languages such as TypeScript, Python, Go C#, Java, or markup languages like YAML and JSON. It can also optionally provison and configure a CloudFront distribution.
-
+This component makes it easy to deploy a static website to s3 along with an optional CloudFront distribution using any of the supported Pulumi programming languages including markup languages like YAML and JSON.
 
 ## Example Usage
+
+### Simple (only s3 bucket)
+
+Typescript:
+```typescript
+const args =  {
+    sitePath: "../website/build",
+} as staticwebsite.WebsiteArgs
+
+const site = new staticwebsite.Website("website", args);
+```
+
+YAML:
+```yaml
+resources:
+  web:
+    type: "aws-static-website:index:Website"
+    properties:
+      sitePath: "../website/build"
+outputs:
+  website: ${web.websiteURL}
+```
+
+### With CloudFront CDN
 
 Typescript:
 ```typescript
@@ -13,10 +36,9 @@ const args =  {
     targetDomain: "my-awesome-site.com",
     withLogs: true,
     cacheTTL: 600,
-    indexHTML: "index.html",
 } as staticwebsite.WebsiteArgs
 
-const web = new staticwebsite.Website("website", args);
+const site = new staticwebsite.Website("website", args);
 
 ```
 
@@ -28,8 +50,9 @@ resources:
     properties:
       withCDN: true
       sitePath: "../website/build"
-      targetDomain: "holung.com"
+      targetDomain: "my-awesome-site.com"
       withLogs: true
+      cacheTTL: 600
 outputs:
   website: ${web.websiteURL}
 ```
@@ -37,71 +60,26 @@ See the examples directory for fully working examples of how to consume this com
 
 ## Input Properties
 
-```json
-    "withCDN": {
-        "type": "boolean",
-        "description": "Provision a CloudFront CDN to serve content."
-    },
-    "targetDomain": {
-        "type": "string",
-        "description": "The domain used to serve the content. A Route53 hosted zone must exist for this domain."
-    },
-    "sitePath": {
-        "type": "string",
-        "description": "The root directory containing the website's contents."
-    },
-    "indexHTML": {
-        "type": "string",
-        "description": "index.HTML page"
-    },
-    "error404": {
-        "type": "string",
-        "description": "default 404 page"
-    },
-    "certificateARN": {
-        "type": "string",
-        "description": "The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during th providioning process."
-    },
-    "cacheTTL": {
-        "type": "number",
-        "description": "TTL in seconds for cached objects. "
-    },
-    "withLogs": {
-        "type": "boolean",
-        "description": "Provision a bucket to hold access logs."
-    }
-```
+This component takes the following inputs.
+
+- sitePath (string) - the root directory containing the website's contents to be served (required)
+- withCDN (boolean) - provision a CloudFront CDN to serve content
+- targetDomain (string) - the domain used to serve the content. A Route53 hosted zone must exist for this domain is this option is specified
+- index.html (string) - the default document for the site. Defaults to index.html
+- error404 (string) - the default 404 error page
+- certificateARN (string) - the ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process
+- cacheTTL (number) - TTL inseconds for cached objects
+- withLogs (boolean) - provision a bucket to house access logs
 
 ## Outputs
 
-```json
-    {
-        "bucketName": {
-            "type": "string",
-            "description": "The name of the s3 bucket containing the website contents."
-        },
-        "bucketWebsiteURL": {
-            "type": "string",
-            "description": "The website URL for the s3 bucket."
-        },
-        "cdnDomainName" : {
-            "type": "string",
-            "description": "The CDN domain name."
-        },
-        "cdnURL" : {
-            "type": "string",
-            "description": "The CDN URL"
-        },
-        "logsBucketName": {
-            "type": "string",
-            "description": "The name of the s3 bucket containing the access logs."
-        },
-        "websiteURL": {
-            "type": "string",
-            "description": "The URL to access the website"
-        }
-    }
-```
+- bucketName - the name of the s3 bucket containing the website's contents
+- bucketWebsiteURL - the website URL for the s3 bucket
+- cdnDomainName - the CDN domain name
+- cdnURL - the CDN's endpoint URL
+- logsBucketName - the name of the s3 bucket containing the access logs
+- websiteURL - the URL to access the website
+
 
 ## Notes:
 
