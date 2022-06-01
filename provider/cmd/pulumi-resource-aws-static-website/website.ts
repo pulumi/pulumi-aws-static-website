@@ -79,7 +79,7 @@ export class Website extends pulumi.ComponentResource {
         this.bucketName = this.bucket.bucketDomainName;
         this.bucketWebsiteURL = pulumi.interpolate`http://${this.bucket.websiteEndpoint}`;
         this.websiteURL = pulumi.interpolate`http://${this.bucket.websiteEndpoint}`;
-        
+
         // Provision logs bucket if specified in config.
         if (this.args.withLogs) {
             this.logsBucket = this.provisionLogsBucket();
@@ -96,7 +96,7 @@ export class Website extends pulumi.ComponentResource {
             } else {
                 this.websiteURL = pulumi.interpolate`https://${cdn.domainName}`;
             }
-            
+
         }
 
         this.registerOutputs({
