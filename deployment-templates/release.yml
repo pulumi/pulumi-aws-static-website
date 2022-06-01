@@ -3,21 +3,22 @@ on:
   push:
     tags:
       - v*.*.*
+      - '!v*.*.*-**'
 env:
-  PROVIDER: "pulumi-resource-aws-static-website"
+  PROVIDER: "YOUR PROVIDER NAME HERE eg: xyz"
   # THIS GITHUB_TOKEN IS A REQUIREMENT TO BE ABLE TO WRITE TO GH RELEASES
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GITHUB_TOKEN: ${{ YOUR GITHUB TOKEN HERE }}
   # IF YOU NEED TO PUBLISH A NPM PACKAGE THEN ENSURE A NPM_TOKEN SECRET IS SET
   # AND PUBLISH_NPM: TRUE. IF YOU WANT TO PUBLISH TO A PRIVATE NPM REGISTRY
   # THEN ENSURE THE NPM_REGISTRY_URL IS CHANGED
-  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  NODE_AUTH_TOKEN: ${{ YOUR NPM TOKEN HERE }}
+  NPM_TOKEN: ${{ YOUR NPM TOKEN HERE }}
   PUBLISH_NPM: true
   NPM_REGISTRY_URL: https://registry.npmjs.org
   # IF YOU NEED TO PUBLISH A NUGET PACKAGE THEN ENSURE AN NUGET_PUBLISH_KEY
   # SECRET IS SET AND PUBLISH_NUGET: TRUE. IF YOU WANT TO PUBLISH TO AN ALTERNATIVE
   # NPM REGISTRY THEN ENSURE THE NPM_REGISTRY_URL IS CHANGED
-  NUGET_PUBLISH_KEY: ${{ secrets.NUGET_PUBLISH_KEY }}
+  NUGET_PUBLISH_KEY: ${{ YOUR NUGET PUBLISH KEY HERE }}
   NUGET_FEED_URL: https://api.nuget.org/v3/index.json
   PUBLISH_NUGET: true
   # IF YOU NEED TO PUBLISH A PYPI PACKAGE THEN ENSURE AN PYPI_API_TOKEN
@@ -25,8 +26,8 @@ env:
   # PYPI REGISTRY THEN ENSURE THE PYPI_REPOSITORY_URL IS SET. IF YOU ARE USING AN API_TOKEN THEN
   # YOU DO NOT NEED TO CHANGE THE PYPI_USERNAME (__token__) , IF YOU ARE USING PASSWORD AUTHENTICATION THEN YOU WILL
   # NEED TO CHANGE TO USE THE CORRECT PASSWORD
-  PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-  PYPI_USERNAME: "pulumi"
+  PYPI_PASSWORD: ${{ YOUR PYPI PASSWORD HERE }}
+  PYPI_USERNAME: "YOUR PYPI USERNAME HERE"
   PYPI_REPOSITORY_URL: ""
   PUBLISH_PYPI: true
 jobs:
@@ -37,11 +38,14 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
       - name: Unshallow clone for tags
-        run: git fetch --prune --unshallow --tags --force
+        run: git fetch --prune --unshallow --tags
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: ${{matrix.nodeversion}}
+      - uses: MOZGIII/install-ldid-action@v1
+        with:
+          tag: v2.1.5-procursus2
       - name: Install pulumictl
         uses: jaxxstorm/action-install-gh-release@v1.5.0
         with:
@@ -51,6 +55,13 @@ jobs:
       - run: make build_provider
       - name: Create Provider Binaries
         run: make dist
+      - name: Create GH Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.PULUMI_BOT_TOKEN }}
     strategy:
       fail-fast: true
       matrix:
@@ -64,7 +75,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
       - name: Unshallow clone for tags
-        run: git fetch --prune --unshallow --tags --force
+        run: git fetch --prune --unshallow --tags
       - name: Install Go
         uses: actions/setup-go@v2
         with:
@@ -133,4 +144,3 @@ jobs:
           - 14.x
         pythonversion:
           - "3.9"
-
