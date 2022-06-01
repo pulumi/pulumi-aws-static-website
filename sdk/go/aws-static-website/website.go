@@ -176,36 +176,6 @@ func (o WebsiteOutput) ToWebsiteOutputWithContext(ctx context.Context) WebsiteOu
 	return o
 }
 
-// The name of the s3 bucket containing the website contents.
-func (o WebsiteOutput) BucketName() pulumi.StringOutput {
-	return o.ApplyT(func(v *Website) pulumi.StringOutput { return v.BucketName }).(pulumi.StringOutput)
-}
-
-// The website URL for the s3 bucket.
-func (o WebsiteOutput) BucketWebsiteURL() pulumi.StringOutput {
-	return o.ApplyT(func(v *Website) pulumi.StringOutput { return v.BucketWebsiteURL }).(pulumi.StringOutput)
-}
-
-// The domain name for the CDN.
-func (o WebsiteOutput) CdnDomainName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *Website) pulumi.StringPtrOutput { return v.CdnDomainName }).(pulumi.StringPtrOutput)
-}
-
-// The URL for the CDN
-func (o WebsiteOutput) CdnURL() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *Website) pulumi.StringPtrOutput { return v.CdnURL }).(pulumi.StringPtrOutput)
-}
-
-// The name of the s3 bucket containing the access logs.
-func (o WebsiteOutput) LogsBucketName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *Website) pulumi.StringPtrOutput { return v.LogsBucketName }).(pulumi.StringPtrOutput)
-}
-
-// The URL to access the website
-func (o WebsiteOutput) WebsiteURL() pulumi.StringOutput {
-	return o.ApplyT(func(v *Website) pulumi.StringOutput { return v.WebsiteURL }).(pulumi.StringOutput)
-}
-
 type WebsiteArrayOutput struct{ *pulumi.OutputState }
 
 func (WebsiteArrayOutput) ElementType() reflect.Type {
