@@ -33,7 +33,7 @@ build_provider:: ensure
 install_provider:: PKG_ARGS := --no-bytecode --public-packages "*" --public
 install_provider:: build_provider
 	cd provider/cmd/${PROVIDER}/ && \
-		yarn run pkg . ${PKG_ARGS} --target node16 --output ../../../bin/${PROVIDER} -t host -b
+		yarn run pkg . ${PKG_ARGS} --target node16 --output ../../../bin/${PROVIDER}
 
 # builds all providers required for publishing
 dist:: PKG_ARGS := --no-bytecode --public-packages "*" --public
@@ -89,7 +89,7 @@ build_nodejs_sdk:: gen_nodejs_sdk
 		yarn run tsc && \
 		cp -R scripts/ bin && \
 		cp ../../README.md ../../LICENSE package.json yarn.lock ./bin/ && \
-		sed -i.bak -e "s/\$${VERSION}/$(VERSION)/g" ./bin/package.json && \
+		sed -i.bak -e 's/^VERSION = .*/VERSION = "$(PYPI_VERSION)"/g' -e 's/^PLUGIN_VERSION = .*/PLUGIN_VERSION = "$(VERSION)"/g' ./bin/setup.py && \
 		rm ./bin/package.json.bak
 
 install_nodejs_sdk:: build_nodejs_sdk
