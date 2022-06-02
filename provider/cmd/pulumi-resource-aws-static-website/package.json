@@ -1,9 +1,9 @@
 {
-    "version": "1.0.0",
+    "version": "0.0.1-alpha",
     "bin": "bin/index.js",
     "dependencies": {
-        "@pulumi/aws": "^5.0.0",
-        "@pulumi/pulumi": "^3.33.1",
+        "@pulumi/pulumi": "^3.0.0",
+        "@pulumi/aws": "^4.0.0",
         "blob": "^0.1.0",
         "fs": "0.0.1-security",
         "glob": "^8.0.1",
@@ -14,6 +14,6 @@
         "@types/mime": "^2.0.3",
         "@types/node": "^10.0.0",
         "pkg": "^5.6.0",
-        "typescript": "^4.7.0"
+        "typescript": "^4.0.0"
     }
 }

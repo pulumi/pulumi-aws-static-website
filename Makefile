@@ -1,4 +1,4 @@
-VERSION         := 0.0.1
+VERSION         := 0.0.1-alpha
 
 PACK            := aws-static-website
 PROJECT         := github.com/pulumi/pulumi-${PACK}
@@ -89,7 +89,7 @@ build_nodejs_sdk:: gen_nodejs_sdk
 		yarn run tsc && \
 		cp -R scripts/ bin && \
 		cp ../../README.md ../../LICENSE package.json yarn.lock ./bin/ && \
-		sed -i.bak -e 's/^VERSION = .*/VERSION = "$(PYPI_VERSION)"/g' -e 's/^PLUGIN_VERSION = .*/PLUGIN_VERSION = "$(VERSION)"/g' ./bin/setup.py && \
+		sed -i.bak -e "s/\$${VERSION}/$(VERSION)/g" ./bin/package.json && \
 		rm ./bin/package.json.bak
 
 install_nodejs_sdk:: build_nodejs_sdk
