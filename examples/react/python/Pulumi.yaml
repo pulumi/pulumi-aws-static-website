@@ -1,0 +1,6 @@
+name: aws-static-website
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: Pulumi program to deploy static website to AWS

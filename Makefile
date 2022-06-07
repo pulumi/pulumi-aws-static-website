@@ -1,4 +1,4 @@
-VERSION         := 0.0.3
+VERSION         := 0.0.4
 
 PACK            := aws-static-website
 PROJECT         := github.com/pulumi/pulumi-${PACK}

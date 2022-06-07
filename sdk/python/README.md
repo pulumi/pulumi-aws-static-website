@@ -79,7 +79,7 @@ pip3 install pulumi_aws_static_website
 ### Go
 
 ```
-go get -t github.com/pulumi/pulumi-aws-static-website/sdk
+go get -t github.com/pulumi/pulumi-aws-static-website/sdk/go/aws-static-website
 ```
 
 This package can then be consumed just like any other package by importing it into your project (e.g. `import * as website from '@pulumi/aws-static-website'`)

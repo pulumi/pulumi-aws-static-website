@@ -1,0 +1,3 @@
+name: aws-static-website-go
+runtime: go
+description: A Pulumi program to deploy static website to AWS
