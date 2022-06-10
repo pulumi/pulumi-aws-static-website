@@ -1,0 +1,10 @@
+name: hugo-static-website
+runtime: yaml
+description: Example of deploying Hugo with Pulumi
+resources:
+  web:
+    type: "aws-static-website:index:Website"
+    properties:
+      sitePath: "./public"
+outputs:
+  websiteURL: ${web.websiteURL}
