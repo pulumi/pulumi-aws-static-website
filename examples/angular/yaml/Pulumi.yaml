@@ -1,0 +1,10 @@
+name: angular-static-website
+runtime: yaml
+description: Example of deploying Angular with Pulumi
+resources:
+  web:
+    type: "aws-static-website:index:Website"
+    properties:
+      sitePath: "./dist/static-website"
+outputs:
+  websiteURL: ${web.websiteURL}
