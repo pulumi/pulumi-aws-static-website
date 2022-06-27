@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { local } from "@pulumi/command";
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
-import * as mime from "mime";
 import * as path from "path";
 import * as fs from "fs";
 
@@ -147,39 +147,20 @@ export class Website extends pulumi.ComponentResource {
 
     // Upload website content to s3 content bucket.
     private putContents (bucket: aws.s3.Bucket, rootDir: string) {
-        function crawlDirectory (dir: string, f: (_: string) => void) {
-            const files = fs.readdirSync(dir);
-            for (const file of files) {
-                const filePath = `${dir}/${file}`;
-                const stat = fs.statSync(filePath);
-                if (stat.isDirectory()) {
-                    crawlDirectory(filePath, f);
-                }
-                if (stat.isFile()) {
-                    f(filePath);
-                }
-            }
-        }
-
         pulumi.log.info(`Syncing contents from local disk at ${rootDir}.`);
-        crawlDirectory(
-            rootDir,
-            (filePath: string) => {
-                const relativeFilePath = filePath.replace(rootDir + "/", "");
-                const contentFile = new aws.s3.BucketObject(
-                    relativeFilePath,
-                    {
-                        key: relativeFilePath,
+        const bucketSync = new local.Command("sync_bucket", {
+            create: `aws s3 sync "$BUILD_DIR" "$DESTINATION_BUCKET" --acl public-read --delete --quiet --region "$REGION"`,
+            update: `aws s3 sync "$BUILD_DIR" "$DESTINATION_BUCKET" --acl public-read --delete --quiet --region "$REGION"`,
+            environment: {
+                BUILD_DIR: rootDir,
+                DESTINATION_BUCKET: bucket.bucket.apply((b) => `s3://${b}`),
+                REGION: aws.config.region!,
 
-                        acl: "public-read",
-                        bucket,
-                        contentType: mime.getType(filePath) || undefined,
-                        source: new pulumi.asset.FileAsset(filePath),
-                    },
-                    {
-                        parent: bucket,
-                    });
-            });
+                // This tells Pulumi to rerun the command on every run.
+                REBUILD_TRIGGER: new Date().getTime().toString(),
+            },
+        });
+        pulumi.log.info("Sync complete.");
     }
 
     // Provision CloudFront CDN.
