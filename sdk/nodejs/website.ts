@@ -63,6 +63,7 @@ export class Website extends pulumi.ComponentResource {
             resourceInputs["error404"] = args ? args.error404 : undefined;
             resourceInputs["indexHTML"] = args ? args.indexHTML : undefined;
             resourceInputs["priceClass"] = args ? args.priceClass : undefined;
+            resourceInputs["pulumiOrganization"] = args ? args.pulumiOrganization : undefined;
             resourceInputs["sitePath"] = args ? args.sitePath : undefined;
             resourceInputs["targetDomain"] = args ? args.targetDomain : undefined;
             resourceInputs["withCDN"] = args ? args.withCDN : undefined;
@@ -110,6 +111,10 @@ export interface WebsiteArgs {
      * The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
      */
     priceClass?: pulumi.Input<string>;
+    /**
+     * The Pulumi Organization you are deploying the website with. You only need to set this option if you are using an Organization in the Pulumi Service.
+     */
+    pulumiOrganization?: pulumi.Input<string>;
     /**
      * The root directory containing the website's contents.
      */

@@ -57,6 +57,8 @@ type websiteArgs struct {
 	IndexHTML *string `pulumi:"indexHTML"`
 	// The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
 	PriceClass *string `pulumi:"priceClass"`
+	// The Pulumi Organization you are deploying the website with. You only need to set this option if you are using an Organization in the Pulumi Service.
+	PulumiOrganization *string `pulumi:"pulumiOrganization"`
 	// The root directory containing the website's contents.
 	SitePath string `pulumi:"sitePath"`
 	// The domain used to serve the content. A Route53 hosted zone must exist for this domain.
@@ -79,6 +81,8 @@ type WebsiteArgs struct {
 	IndexHTML pulumi.StringPtrInput
 	// The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
 	PriceClass pulumi.StringPtrInput
+	// The Pulumi Organization you are deploying the website with. You only need to set this option if you are using an Organization in the Pulumi Service.
+	PulumiOrganization pulumi.StringPtrInput
 	// The root directory containing the website's contents.
 	SitePath pulumi.StringInput
 	// The domain used to serve the content. A Route53 hosted zone must exist for this domain.
