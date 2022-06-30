@@ -39,6 +39,10 @@
                 "priceClass": {
                     "type": "string",
                     "description": "The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`"
+                },
+                "pulumiOrganization": {
+                    "type": "string",
+                    "description": "The Pulumi Organization you are deploying the website with. You only need to set this option if you are using an Organization in the Pulumi Service."
                 }
             },
             "requiredInputs": [

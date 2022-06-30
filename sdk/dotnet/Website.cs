@@ -107,6 +107,12 @@ namespace Pulumi.AwsStaticWebsite
         public Input<string>? PriceClass { get; set; }
 
         /// <summary>
+        /// The Pulumi Organization you are deploying the website with. You only need to set this option if you are using an Organization in the Pulumi Service.
+        /// </summary>
+        [Input("pulumiOrganization")]
+        public Input<string>? PulumiOrganization { get; set; }
+
+        /// <summary>
         /// The root directory containing the website's contents.
         /// </summary>
         [Input("sitePath", required: true)]
