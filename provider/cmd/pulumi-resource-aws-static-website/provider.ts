@@ -15,7 +15,8 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as provider from "@pulumi/pulumi/provider";
 
-import { WebsiteArgs, Website } from "./website"
+import * as awsWeb from "./aws"
+import * as azureWeb from "./azure"
 
 export class Provider implements provider.Provider {
     constructor(readonly version: string, readonly schema: string) { }
@@ -25,19 +26,41 @@ export class Provider implements provider.Provider {
 
         // TODO: Add support for additional component resources here.
         switch (type) {
-            case "aws-static-website:index:Website":
-                return await constructWebsite(name, inputs, options);
+            case "aws-static-website:aws:Website":
+                return await constructAWSWebsite(name, inputs, options);
+            case "aws-static-website:azure:Website":
+                return await constructAzureWebsite(name, inputs, options);
             default:
                 throw new Error(`unknown resource type ${type}`);
         }
     }
 }
 
-async function constructWebsite(name: string, inputs: pulumi.Inputs,
+async function constructAWSWebsite(name: string, inputs: pulumi.Inputs,
     options: pulumi.ComponentResourceOptions): Promise<provider.ConstructResult> {
 
     // Create the component resource.
-    const website = new Website(name, inputs as WebsiteArgs, options);
+    const website = new awsWeb.Website(name, inputs as awsWeb.WebsiteArgs, options);
+
+    // Return the component resource's URN and outputs as its state.
+    return {
+        urn: website.urn,
+        state: {
+            bucketName: website.bucketName,
+            bucketWebsiteURL: website.bucketWebsiteURL,
+            cdnDomainName: website.cdnDomainName,
+            cdnURL: website.cdnURL,
+            websiteURL: website.websiteURL,
+            logsBucketName: website.websiteLogsBucketName
+        }
+    };
+}
+
+async function constructAzureWebsite(name: string, inputs: pulumi.Inputs,
+    options: pulumi.ComponentResourceOptions): Promise<provider.ConstructResult> {
+
+    // Create the component resource.
+    const website = new azureWeb.Website(name, inputs as azureWeb.WebsiteArgs, options);
 
     // Return the component resource's URN and outputs as its state.
     return {

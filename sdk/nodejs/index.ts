@@ -6,23 +6,15 @@ import * as utilities from "./utilities";
 
 // Export members:
 export * from "./provider";
-export * from "./website";
 
-// Import resources to register:
-import { Website } from "./website";
+// Export sub-modules:
+import * as aws from "./aws";
+import * as azure from "./azure";
 
-const _module = {
-    version: utilities.getVersion(),
-    construct: (name: string, type: string, urn: string): pulumi.Resource => {
-        switch (type) {
-            case "aws-static-website:index:Website":
-                return new Website(name, <any>undefined, { urn })
-            default:
-                throw new Error(`unknown resource type ${type}`);
-        }
-    },
+export {
+    aws,
+    azure,
 };
-pulumi.runtime.registerResourceModule("aws-static-website", "index", _module)
 
 import { Provider } from "./provider";
 

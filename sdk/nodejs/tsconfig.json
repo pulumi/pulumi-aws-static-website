@@ -13,9 +13,12 @@
         "strict": true
     },
     "files": [
+        "aws/index.ts",
+        "aws/website.ts",
+        "azure/index.ts",
+        "azure/website.ts",
         "index.ts",
         "provider.ts",
-        "utilities.ts",
-        "website.ts"
+        "utilities.ts"
     ]
 }

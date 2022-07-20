@@ -1,0 +1,433 @@
+resources:
+    - 
+        type: 'aws:cloudfront/originAccessIdentity:OriginAccessIdentity'
+        properties:
+            __defaults: []
+            comment: this is needed to setup s3 polices and make s3 not public.
+        outputs:
+            etag: E174WV7T35RC8Z
+            iamArn: 'arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E1B594PXTK4S9T'
+        provider: 'urn:pulumi:test::static-website::pulumi:providers:aws::default_5_7_0::3465a66f-37f0-4be9-abb1-37db5586a7d9'
+        propertyDependencies:
+            comment: null
+        sequenceNumber: 1
+    - 
+        type: 'aws:s3/bucket:Bucket'
+        properties:
+            __defaults: []
+            acl: public-read
+            bucket: holung.com-content
+            forceDestroy: true
+            website:
+                __defaults: []
+                indexDocument: index.html
+        outputs:
+            accelerationStatus: ''
+            acl: public-read
+            arn: 'arn:aws:s3:::holung.com-content'
+            bucket: holung.com-content
+            bucketDomainName: holung.com-content.s3.amazonaws.com
+            bucketRegionalDomainName: holung.com-content.s3.amazonaws.com
+            corsRules: []
+            forceDestroy: true
+            grants: []
+            hostedZoneId: Z3AQBSTGFYJSTF
+            id: holung.com-content
+            lifecycleRules: []
+            loggings: []
+            objectLockConfiguration: null
+            region: us-east-1
+            replicationConfiguration: null
+            requestPayer: BucketOwner
+            serverSideEncryptionConfiguration: null
+            tags: {}
+            tagsAll: {}
+            versioning:
+                enabled: false
+                mfaDelete: false
+            website:
+                errorDocument: ''
+                indexDocument: index.html
+                redirectAllRequestsTo: ''
+                routingRules: ''
+            websiteDomain: s3-website-us-east-1.amazonaws.com
+            websiteEndpoint: holung.com-content.s3-website-us-east-1.amazonaws.com
+        provider: 'urn:pulumi:test::static-website::pulumi:providers:aws::default_5_7_0::3465a66f-37f0-4be9-abb1-37db5586a7d9'
+        propertyDependencies:
+            acl: null
+            bucket: null
+            forceDestroy: null
+            website: null
+        sequenceNumber: 1
+    - 
+        type: 'aws:s3/bucketObject:BucketObject'
+        properties:
+            __defaults:
+                - forceDestroy
+            acl: public-read
+            bucket: holung.com-content
+            contentType: text/html
+            forceDestroy: false
+            key: index.html
+            source:
+                4dabf18193072939515e22adb298388d: c44067f5952c0a294b673a41bacd8c17
+                hash: 7b17aaa1a89770ee6b2692151ee56ade353050955ccf176e4ff99b2b14fd4e1f
+                path: /home/work/pulumi/pulumi-aws-static-website/examples/react/website/build/index.html
+        outputs:
+            acl: public-read
+            bucket: holung.com-content
+            bucketKeyEnabled: false
+            cacheControl: ''
+            contentDisposition: ''
+            contentEncoding: ''
+            contentLanguage: ''
+            contentType: text/html
+            etag: f66b9bd0ce2daa24d855280f94bcdd0e
+            forceDestroy: false
+            id: index.html
+            key: index.html
+            metadata: {}
+            objectLockLegalHoldStatus: ''
+            objectLockMode: ''
+            objectLockRetainUntilDate: ''
+            serverSideEncryption: ''
+            source:
+                4dabf18193072939515e22adb298388d: c44067f5952c0a294b673a41bacd8c17
+                hash: 7b17aaa1a89770ee6b2692151ee56ade353050955ccf176e4ff99b2b14fd4e1f
+                path: /home/work/pulumi/pulumi-aws-static-website/examples/react/website/build/index.html
+            storageClass: STANDARD
+            tags: {}
+            tagsAll: {}
+            versionId: ''
+            websiteRedirect: ''
+        parent: 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:s3/bucket:Bucket::holung.com-content'
+        dependencies:
+            - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:s3/bucket:Bucket::holung.com-content'
+        provider: 'urn:pulumi:test::static-website::pulumi:providers:aws::default_5_7_0::3465a66f-37f0-4be9-abb1-37db5586a7d9'
+        propertyDependencies:
+            acl: null
+            bucket:
+                - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:s3/bucket:Bucket::holung.com-content'
+            contentType: null
+            key: null
+            source: null
+        sequenceNumber: 2
+    - 
+        type: 'aws:acm/certificate:Certificate'
+        properties:
+            __defaults: []
+            domainName: holung.com
+            validationMethod: DNS
+        outputs:
+            arn: 'arn:aws:acm:us-east-1:616138583583:certificate/289a4e62-7d51-441d-ac27-67a47372ce1a'
+            certificateAuthorityArn: ''
+            domainName: holung.com
+            domainValidationOptions:
+                - 
+                    domainName: holung.com
+                    resourceRecordName: _90b2abc484bc80c2ce41447cb02b7ec8.holung.com.
+                    resourceRecordType: CNAME
+                    resourceRecordValue: _65b937aaab01f36d22c703161c45bf10.rdvkfhcmrm.acm-validations.aws.
+            id: 'arn:aws:acm:us-east-1:616138583583:certificate/289a4e62-7d51-441d-ac27-67a47372ce1a'
+            options:
+                certificateTransparencyLoggingPreference: ENABLED
+            status: PENDING_VALIDATION
+            subjectAlternativeNames:
+                - holung.com
+            tags: {}
+            tagsAll: {}
+            validationEmails: []
+            validationMethod: DNS
+        provider: 'urn:pulumi:test::static-website::pulumi:providers:aws::east::c4434204-278b-4db3-890c-404ee7e59cf2'
+        propertyDependencies:
+            domainName: null
+            validationMethod: null
+        sequenceNumber: 1
+    - 
+        type: 'aws:s3/bucketPolicy:BucketPolicy'
+        properties:
+            __defaults: []
+            bucket: holung.com-content
+            policy: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"AWS":"arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E1B594PXTK4S9T"},"Action":["s3:GetObject"],"Resource":["arn:aws:s3:::holung.com-content/*"]}]}'
+        outputs:
+            bucket: holung.com-content
+            id: holung.com-content
+            policy: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"AWS":"arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E1B594PXTK4S9T"},"Action":["s3:GetObject"],"Resource":["arn:aws:s3:::holung.com-content/*"]}]}'
+        dependencies:
+            - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:s3/bucket:Bucket::holung.com-content'
+            - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:cloudfront/originAccessIdentity:OriginAccessIdentity::originAccessIdentity'
+        provider: 'urn:pulumi:test::static-website::pulumi:providers:aws::default_5_7_0::3465a66f-37f0-4be9-abb1-37db5586a7d9'
+        propertyDependencies:
+            bucket:
+                - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:s3/bucket:Bucket::holung.com-content'
+            policy:
+                - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:cloudfront/originAccessIdentity:OriginAccessIdentity::originAccessIdentity'
+                - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:s3/bucket:Bucket::holung.com-content'
+        sequenceNumber: 1
+    - 
+        type: 'aws:route53/record:Record'
+        properties:
+            __defaults: []
+            name: _90b2abc484bc80c2ce41447cb02b7ec8.holung.com.
+            records:
+                - _65b937aaab01f36d22c703161c45bf10.rdvkfhcmrm.acm-validations.aws.
+            ttl: 600
+            type: CNAME
+            zoneId: Z09767412ATG2WR0LCYAY
+        outputs:
+            __meta: '{"schema_version":"2"}'
+            fqdn: _90b2abc484bc80c2ce41447cb02b7ec8.holung.com
+            id: Z09767412ATG2WR0LCYAY__90b2abc484bc80c2ce41447cb02b7ec8.holung.com._CNAME
+            name: _90b2abc484bc80c2ce41447cb02b7ec8.holung.com
+            records:
+                - _65b937aaab01f36d22c703161c45bf10.rdvkfhcmrm.acm-validations.aws.
+            ttl: 600
+            type: CNAME
+            zoneId: Z09767412ATG2WR0LCYAY
+        dependencies:
+            - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:acm/certificate:Certificate::certificate'
+        provider: 'urn:pulumi:test::static-website::pulumi:providers:aws::default_5_7_0::3465a66f-37f0-4be9-abb1-37db5586a7d9'
+        propertyDependencies:
+            name:
+                - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:acm/certificate:Certificate::certificate'
+            records:
+                - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:acm/certificate:Certificate::certificate'
+            ttl: null
+            type:
+                - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:acm/certificate:Certificate::certificate'
+            zoneId: null
+        sequenceNumber: 1
+    - 
+        type: 'aws:cloudfront/distribution:Distribution'
+        properties:
+            __defaults:
+                - httpVersion
+                - isIpv6Enabled
+                - retainOnDelete
+                - waitForDeployment
+            aliases:
+                - holung.com
+            customErrorResponses:
+                - 
+                    __defaults: []
+                    errorCode: 404
+                    responseCode: 404
+                    responsePagePath: /undefined
+            defaultCacheBehavior:
+                __defaults:
+                    - compress
+                allowedMethods:
+                    - GET
+                    - HEAD
+                    - OPTIONS
+                cachedMethods:
+                    - GET
+                    - HEAD
+                    - OPTIONS
+                compress: false
+                defaultTtl: 600
+                forwardedValues:
+                    __defaults: []
+                    cookies:
+                        __defaults: []
+                        forward: none
+                    queryString: false
+                maxTtl: 600
+                minTtl: 0
+                targetOriginId: 'arn:aws:s3:::holung.com-content'
+                viewerProtocolPolicy: redirect-to-https
+            defaultRootObject: index.html
+            enabled: true
+            httpVersion: http2
+            isIpv6Enabled: false
+            origins:
+                - 
+                    __defaults:
+                        - connectionAttempts
+                        - connectionTimeout
+                        - originPath
+                    connectionAttempts: 3
+                    connectionTimeout: 10
+                    customOriginConfig:
+                        __defaults:
+                            - originKeepaliveTimeout
+                            - originReadTimeout
+                        httpPort: 80
+                        httpsPort: 443
+                        originKeepaliveTimeout: 5
+                        originProtocolPolicy: http-only
+                        originReadTimeout: 30
+                        originSslProtocols:
+                            - TLSv1.2
+                    domainName: holung.com-content.s3.amazonaws.com
+                    originId: 'arn:aws:s3:::holung.com-content'
+                    originPath: ''
+            priceClass: PriceClass_100
+            restrictions:
+                __defaults: []
+                geoRestriction:
+                    __defaults: []
+                    restrictionType: none
+            retainOnDelete: false
+            viewerCertificate:
+                __defaults:
+                    - minimumProtocolVersion
+                acmCertificateArn: 'arn:aws:acm:us-east-1:616138583583:certificate/289a4e62-7d51-441d-ac27-67a47372ce1a'
+                cloudfrontDefaultCertificate: false
+                minimumProtocolVersion: TLSv1
+                sslSupportMethod: sni-only
+            waitForDeployment: true
+        outputs:
+            __meta: '{"schema_version":"1"}'
+            aliases:
+                - holung.com
+            arn: 'arn:aws:cloudfront::616138583583:distribution/E1YIGZ9HBBVBVJ'
+            callerReference: terraform-20220615222951666200000001
+            customErrorResponses:
+                - 
+                    errorCachingMinTtl: 0
+                    errorCode: 404
+                    responseCode: 404
+                    responsePagePath: /undefined
+            defaultCacheBehavior:
+                allowedMethods:
+                    - GET
+                    - HEAD
+                    - OPTIONS
+                cachePolicyId: ''
+                cachedMethods:
+                    - GET
+                    - HEAD
+                    - OPTIONS
+                compress: false
+                defaultTtl: 600
+                fieldLevelEncryptionId: ''
+                forwardedValues:
+                    cookies:
+                        forward: none
+                        whitelistedNames: []
+                    headers: []
+                    queryString: false
+                    queryStringCacheKeys: []
+                functionAssociations: []
+                lambdaFunctionAssociations: []
+                maxTtl: 600
+                minTtl: 0
+                originRequestPolicyId: ''
+                realtimeLogConfigArn: ''
+                responseHeadersPolicyId: ''
+                smoothStreaming: false
+                targetOriginId: 'arn:aws:s3:::holung.com-content'
+                trustedKeyGroups: []
+                trustedSigners: []
+                viewerProtocolPolicy: redirect-to-https
+            defaultRootObject: index.html
+            domainName: d3ecctqnjgnqra.cloudfront.net
+            enabled: true
+            etag: E3RC30GV9YC1Y0
+            hostedZoneId: Z2FDTNDATAQYW2
+            httpVersion: http2
+            id: E1YIGZ9HBBVBVJ
+            inProgressValidationBatches: 0
+            isIpv6Enabled: false
+            lastModifiedTime: '2022-06-15 22:42:06.181 +0000 UTC'
+            loggingConfig: null
+            orderedCacheBehaviors: []
+            originGroups: []
+            origins:
+                - 
+                    connectionAttempts: 3
+                    connectionTimeout: 10
+                    customHeaders: []
+                    customOriginConfig:
+                        httpPort: 80
+                        httpsPort: 443
+                        originKeepaliveTimeout: 5
+                        originProtocolPolicy: http-only
+                        originReadTimeout: 30
+                        originSslProtocols:
+                            - TLSv1.2
+                    domainName: holung.com-content.s3.amazonaws.com
+                    originId: 'arn:aws:s3:::holung.com-content'
+                    originPath: ''
+                    originShield: null
+                    s3OriginConfig: null
+            priceClass: PriceClass_100
+            restrictions:
+                geoRestriction:
+                    locations: []
+                    restrictionType: none
+            retainOnDelete: false
+            status: Deployed
+            tags: {}
+            tagsAll: {}
+            trustedKeyGroups:
+                - 
+                    enabled: false
+                    items: []
+            trustedSigners:
+                - 
+                    enabled: false
+                    items: []
+            viewerCertificate:
+                acmCertificateArn: 'arn:aws:acm:us-east-1:616138583583:certificate/289a4e62-7d51-441d-ac27-67a47372ce1a'
+                cloudfrontDefaultCertificate: false
+                iamCertificateId: ''
+                minimumProtocolVersion: TLSv1
+                sslSupportMethod: sni-only
+            waitForDeployment: true
+            webAclId: ''
+        dependencies:
+            - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:s3/bucket:Bucket::holung.com-content'
+            - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:acm/certificate:Certificate::certificate'
+        provider: 'urn:pulumi:test::static-website::pulumi:providers:aws::default_5_7_0::3465a66f-37f0-4be9-abb1-37db5586a7d9'
+        propertyDependencies:
+            aliases: null
+            customErrorResponses: null
+            defaultCacheBehavior:
+                - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:s3/bucket:Bucket::holung.com-content'
+            defaultRootObject: null
+            enabled: null
+            origins:
+                - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:s3/bucket:Bucket::holung.com-content'
+            priceClass: null
+            restrictions: null
+            viewerCertificate:
+                - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:acm/certificate:Certificate::certificate'
+        sequenceNumber: 1
+    - 
+        type: 'aws:route53/record:Record'
+        properties:
+            __defaults: []
+            aliases:
+                - 
+                    __defaults: []
+                    evaluateTargetHealth: true
+                    name: d3ecctqnjgnqra.cloudfront.net
+                    zoneId: Z2FDTNDATAQYW2
+            name: holung.com
+            type: A
+            zoneId: Z09767412ATG2WR0LCYAY
+        outputs:
+            __meta: '{"schema_version":"2"}'
+            aliases:
+                - 
+                    evaluateTargetHealth: true
+                    name: d3ecctqnjgnqra.cloudfront.net
+                    zoneId: Z2FDTNDATAQYW2
+            fqdn: holung.com
+            id: Z09767412ATG2WR0LCYAY_holung.com_A
+            name: holung.com
+            type: A
+            zoneId: Z09767412ATG2WR0LCYAY
+        dependencies:
+            - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:acm/certificate:Certificate::certificate'
+            - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:cloudfront/distribution:Distribution::website-cdn'
+        provider: 'urn:pulumi:test::static-website::pulumi:providers:aws::default_5_7_0::3465a66f-37f0-4be9-abb1-37db5586a7d9'
+        propertyDependencies:
+            aliases:
+                - 'urn:pulumi:test::static-website::pulumi-aws-static-website:index:Website$aws:cloudfront/distribution:Distribution::website-cdn'
+            name: null
+            type: null
+            zoneId: null
+        sequenceNumber: 1

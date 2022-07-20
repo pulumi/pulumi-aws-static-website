@@ -6,16 +6,34 @@ from . import _utilities
 import typing
 # Export this package's modules as members:
 from .provider import *
-from .website import *
+
+# Make subpackages available:
+if typing.TYPE_CHECKING:
+    import pulumi_aws_static_website.aws as __aws
+    aws = __aws
+    import pulumi_aws_static_website.azure as __azure
+    azure = __azure
+else:
+    aws = _utilities.lazy_import('pulumi_aws_static_website.aws')
+    azure = _utilities.lazy_import('pulumi_aws_static_website.azure')
+
 _utilities.register(
     resource_modules="""
 [
  {
   "pkg": "aws-static-website",
-  "mod": "index",
-  "fqn": "pulumi_aws_static_website",
+  "mod": "aws",
+  "fqn": "pulumi_aws_static_website.aws",
   "classes": {
-   "aws-static-website:index:Website": "Website"
+   "aws-static-website:aws:Website": "Website"
+  }
+ },
+ {
+  "pkg": "aws-static-website",
+  "mod": "azure",
+  "fqn": "pulumi_aws_static_website.azure",
+  "classes": {
+   "aws-static-website:azure:Website": "Website"
   }
  }
 ]

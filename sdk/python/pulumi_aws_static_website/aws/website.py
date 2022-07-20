@@ -6,7 +6,7 @@ import warnings
 import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
-from . import _utilities
+from .. import _utilities
 
 __all__ = ['WebsiteArgs', 'Website']
 
@@ -254,7 +254,7 @@ class Website(pulumi.ComponentResource):
             __props__.__dict__["logs_bucket_name"] = None
             __props__.__dict__["website_url"] = None
         super(Website, __self__).__init__(
-            'aws-static-website:index:Website',
+            'aws-static-website:aws:Website',
             resource_name,
             __props__,
             opts,

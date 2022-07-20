@@ -1,0 +1,3 @@
+name: hugo-static-website
+runtime: yaml
+description: Example of deploying Hugo with Pulumi

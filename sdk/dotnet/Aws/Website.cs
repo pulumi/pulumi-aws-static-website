@@ -7,9 +7,9 @@ using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
 
-namespace Pulumi.AwsStaticWebsite
+namespace Pulumi.AwsStaticWebsite.Aws
 {
-    [AwsStaticWebsiteResourceType("aws-static-website:index:Website")]
+    [AwsStaticWebsiteResourceType("aws-static-website:aws:Website")]
     public partial class Website : Pulumi.ComponentResource
     {
         /// <summary>
@@ -57,7 +57,7 @@ namespace Pulumi.AwsStaticWebsite
         /// <param name="args">The arguments used to populate this resource's properties</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
         public Website(string name, WebsiteArgs args, ComponentResourceOptions? options = null)
-            : base("aws-static-website:index:Website", name, args ?? new WebsiteArgs(), MakeResourceOptions(options, ""), remote: true)
+            : base("aws-static-website:aws:Website", name, args ?? new WebsiteArgs(), MakeResourceOptions(options, ""), remote: true)
         {
         }
 

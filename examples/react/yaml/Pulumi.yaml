@@ -4,7 +4,7 @@ description: Example of a Pulumi program deploying a static website using the YA
   provider.
 resources:
   web:
-    type: "aws-static-website:index:Website"
+    type: "aws-static-website:azure:Website"
     properties:
       withCDN: true
       sitePath: "../website/build"

@@ -1,7 +1,82 @@
 {
     "name": "aws-static-website",
     "resources": {
-        "aws-static-website:index:Website": {
+        "aws-static-website:aws:Website": {
+            "isComponent": true,
+            "inputProperties": {
+                "withCDN": {
+                    "type": "boolean",
+                    "description": "Provision CloudFront CDN to serve content."
+                },
+                "targetDomain": {
+                    "type": "string",
+                    "description": "The domain used to serve the content. A Route53 hosted zone must exist for this domain."
+                },
+                "sitePath": {
+                    "type": "string",
+                    "description": "The root directory containing the website's contents."
+                },
+                "indexHTML": {
+                    "type": "string",
+                    "description": "The default document for the site. Defaults to index.html"
+                },
+                "error404": {
+                    "type": "string",
+                    "description": "default 404 page"
+                },
+                "certificateARN": {
+                    "type": "string",
+                    "description": "The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process."
+                },
+                "cacheTTL": {
+                    "type": "number",
+                    "description": "TTL in seconds for cached objects. "
+                },
+                "withLogs": {
+                    "type": "boolean",
+                    "description": "Provision a bucket to hold access logs."
+                },
+                "priceClass": {
+                    "type": "string",
+                    "description": "The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`"
+                }
+            },
+            "requiredInputs": [
+                "sitePath"
+            ],
+            "properties": {
+                "bucketName": {
+                    "type": "string",
+                    "description": "The name of the s3 bucket containing the website contents."
+                },
+                "bucketWebsiteURL": {
+                    "type": "string",
+                    "description": "The website URL for the s3 bucket."
+                },
+                "cdnDomainName" : {
+                    "type": "string",
+                    "description": "The domain name for the CDN."
+                },
+                "cdnURL" : {
+                    "type": "string",
+                    "description": "The URL for the CDN"
+                },
+                "logsBucketName": {
+                    "type": "string",
+                    "description": "The name of the s3 bucket containing the access logs."
+                },
+                "websiteURL": {
+                    "type": "string",
+                    "description": "The URL to access the website"
+                }
+            },
+            "required": [
+                "bucketName",
+                "bucketWebsiteURL",
+                "websiteURL"
+            ]
+        },
+        "aws-static-website:azure:Website": {
             "isComponent": true,
             "inputProperties": {
                 "withCDN": {
@@ -76,6 +151,7 @@
                 "websiteURL"
             ]
         }
+
     },
     "language": {
         "csharp": {

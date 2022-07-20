@@ -2,11 +2,11 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 import * as pulumi from "@pulumi/pulumi";
-import * as utilities from "./utilities";
+import * as utilities from "../utilities";
 
 export class Website extends pulumi.ComponentResource {
     /** @internal */
-    public static readonly __pulumiType = 'aws-static-website:index:Website';
+    public static readonly __pulumiType = 'aws-static-website:aws:Website';
 
     /**
      * Returns true if the given object is an instance of Website.  This is designed to work even

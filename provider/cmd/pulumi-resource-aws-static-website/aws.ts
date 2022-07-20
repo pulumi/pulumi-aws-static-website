@@ -47,7 +47,7 @@ export class Website extends pulumi.ComponentResource {
     cdnURL?: pulumi.Output<string>;
 
     constructor (name: string, args: WebsiteArgs, opts?: pulumi.CustomResourceOptions) {
-        super("pulumi-aws-static-website:index:Website", name, args, opts);
+        super("pulumi-aws-static-website:aws:Website", name, args, opts);
         this.args = args;
 
         this.resourceOptions = {
