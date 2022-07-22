@@ -2,6 +2,7 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 import * as pulumi from "@pulumi/pulumi";
+import { input as inputs, output as outputs } from "./types";
 import * as utilities from "./utilities";
 
 export class Website extends pulumi.ComponentResource {
@@ -58,12 +59,13 @@ export class Website extends pulumi.ComponentResource {
             if ((!args || args.sitePath === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'sitePath'");
             }
+            resourceInputs["atomicDeployments"] = args ? args.atomicDeployments : undefined;
             resourceInputs["cacheTTL"] = args ? args.cacheTTL : undefined;
             resourceInputs["certificateARN"] = args ? args.certificateARN : undefined;
+            resourceInputs["enableLambdaEdgeCacheControl"] = args ? args.enableLambdaEdgeCacheControl : undefined;
             resourceInputs["error404"] = args ? args.error404 : undefined;
             resourceInputs["indexHTML"] = args ? args.indexHTML : undefined;
             resourceInputs["priceClass"] = args ? args.priceClass : undefined;
-            resourceInputs["pulumiOrganization"] = args ? args.pulumiOrganization : undefined;
             resourceInputs["sitePath"] = args ? args.sitePath : undefined;
             resourceInputs["targetDomain"] = args ? args.targetDomain : undefined;
             resourceInputs["withCDN"] = args ? args.withCDN : undefined;
@@ -91,6 +93,7 @@ export class Website extends pulumi.ComponentResource {
  * The set of arguments for constructing a Website resource.
  */
 export interface WebsiteArgs {
+    atomicDeployments?: pulumi.Input<inputs.AtomicDeploymentArgsArgs>;
     /**
      * TTL in seconds for cached objects. 
      */
@@ -99,6 +102,10 @@ export interface WebsiteArgs {
      * The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
      */
     certificateARN?: pulumi.Input<string>;
+    /**
+     * Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized.
+     */
+    enableLambdaEdgeCacheControl?: pulumi.Input<string>;
     /**
      * default 404 page
      */
@@ -111,10 +118,6 @@ export interface WebsiteArgs {
      * The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
      */
     priceClass?: pulumi.Input<string>;
-    /**
-     * The Pulumi Organization you are deploying the website with. You only need to set this option if you are using an Organization in the Pulumi Service.
-     */
-    pulumiOrganization?: pulumi.Input<string>;
     /**
      * The root directory containing the website's contents.
      */

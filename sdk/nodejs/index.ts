@@ -8,6 +8,13 @@ import * as utilities from "./utilities";
 export * from "./provider";
 export * from "./website";
 
+// Export sub-modules:
+import * as types from "./types";
+
+export {
+    types,
+};
+
 // Import resources to register:
 import { Website } from "./website";
 
