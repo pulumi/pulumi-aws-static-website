@@ -76,6 +76,9 @@ namespace Pulumi.AwsStaticWebsite
 
     public sealed class WebsiteArgs : Pulumi.ResourceArgs
     {
+        [Input("atomicDeployments")]
+        public Input<Inputs.AtomicDeploymentArgsArgs>? AtomicDeployments { get; set; }
+
         /// <summary>
         /// TTL in seconds for cached objects. 
         /// </summary>
@@ -87,6 +90,12 @@ namespace Pulumi.AwsStaticWebsite
         /// </summary>
         [Input("certificateARN")]
         public Input<string>? CertificateARN { get; set; }
+
+        /// <summary>
+        /// Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized.
+        /// </summary>
+        [Input("enableLambdaEdgeCacheControl")]
+        public Input<string>? EnableLambdaEdgeCacheControl { get; set; }
 
         /// <summary>
         /// default 404 page
@@ -105,12 +114,6 @@ namespace Pulumi.AwsStaticWebsite
         /// </summary>
         [Input("priceClass")]
         public Input<string>? PriceClass { get; set; }
-
-        /// <summary>
-        /// The Pulumi Organization you are deploying the website with. You only need to set this option if you are using an Organization in the Pulumi Service.
-        /// </summary>
-        [Input("pulumiOrganization")]
-        public Input<string>? PulumiOrganization { get; set; }
 
         /// <summary>
         /// The root directory containing the website's contents.

@@ -15,15 +15,18 @@
 import { local } from "@pulumi/command";
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
+import * as mime from "mime";
 import * as path from "path";
 import * as fs from "fs";
 import {
     CloudFrontRequest,
     CloudFrontRequestEvent,
-    CloudFrontResponse,
-    CloudFrontResponseEvent,
 } from "aws-lambda";
 import { LambdaEdge } from "./lambdaEdge";
+
+interface WebsiteAtomicDeploymentArgs {
+    pulumiOrganization?: pulumi.Input<string>;
+}
 
 export interface WebsiteArgs {
     sitePath: string;
@@ -35,7 +38,9 @@ export interface WebsiteArgs {
     certificateARN?: string;
     cacheTTL?: number;
     withLogs?: boolean;
-    pulumiOrganization?: string;
+
+    atomicDeployments?: WebsiteAtomicDeploymentArgs;
+    enableLambdaEdgeCacheControl?: boolean;
 }
 
 /**
@@ -84,16 +89,27 @@ export class Website extends pulumi.ComponentResource {
         }
 
         // Get the current stack and check the outputs.
-        let currentStackName = `${pulumi.getProject()}/${pulumi.getStack()}`
-        if (args.pulumiOrganization) {
-            currentStackName = `${args.pulumiOrganization}/${pulumi.getProject()}/${pulumi.getStack()}`;
+        let currentStackName = pulumi.output(`${pulumi.getProject()}/${pulumi.getStack()}`);
+        if (args.atomicDeployments?.pulumiOrganization !== undefined) {
+            currentStackName = pulumi.interpolate`${args.atomicDeployments.pulumiOrganization}/${pulumi.getProject()}/${pulumi.getStack()}`;
         }
 
-        const currentStack = new pulumi.StackReference(currentStackName);
-        const lastBucketDeployed = currentStack.getOutput("bucketName");
+        const lastBucketDeployed = currentStackName.apply((name): pulumi.Output<any> => {
+            if (args.atomicDeployments?.pulumiOrganization === undefined) {
+                return pulumi.output("");
+            }
+
+            const currentStack = new pulumi.StackReference(name);
+            return currentStack.getOutput("bucketName");
+        });
 
         // Provision content bucket.
-        this.bucket = this.provisionContentBucket(lastBucketDeployed);
+        if (args.atomicDeployments === undefined) {
+            this.bucket = this.provisionContentBucket();
+        } else {
+            this.bucket = this.provisionContentBucketSync(lastBucketDeployed);
+        }
+
         this.bucketName = this.bucket.bucketDomainName;
         this.bucketWebsiteURL = pulumi.interpolate`http://${this.bucket.websiteEndpoint}`;
         this.websiteURL = pulumi.interpolate`http://${this.bucket.websiteEndpoint}`;
@@ -128,7 +144,30 @@ export class Website extends pulumi.ComponentResource {
     }
 
     // Provision s3 bucket to contain the website contents.
-    private provisionContentBucket(lastBucketName: pulumi.Output<any>): aws.s3.Bucket {
+    private provisionContentBucket (): aws.s3.Bucket {
+        const bucketName = `${this.args.targetDomain || "website"}-content`;
+        const contentBucket = new aws.s3.Bucket(
+            bucketName,
+            {
+                bucket: this.args.targetDomain ? bucketName : undefined,
+                website: {
+                    indexDocument: this.args.indexHTML,
+                    errorDocument: this.args.error404,
+                },
+                acl: aws.s3.PublicReadAcl,
+                forceDestroy: true,
+
+            },
+            this.resourceOptions);
+
+        const webContentsRootPath = path.join(process.cwd(), this.args.sitePath);
+        this.putContents(contentBucket, webContentsRootPath);
+
+        return contentBucket;
+    }
+
+    // Provision s3 bucket to contain the website contents.
+    private provisionContentBucketSync(lastBucketName: pulumi.Output<any>): aws.s3.Bucket {
         const baseBucketName = `${this.args.targetDomain || "website"}-content`;
         const bucketName = `${baseBucketName}-${this.buildIdentifier}`;
 
@@ -160,8 +199,13 @@ export class Website extends pulumi.ComponentResource {
         });
 
         const webContentsRootPath = path.join(process.cwd(), this.args.sitePath);
-        this.putContents(currentBucket, webContentsRootPath);
 
+        if (this.args.atomicDeployments === undefined) {
+            this.putContents(currentBucket, webContentsRootPath);
+            return currentBucket;
+        }
+
+        this.putContentsSync(currentBucket, webContentsRootPath);
         return currentBucket;
     }
 
@@ -180,9 +224,46 @@ export class Website extends pulumi.ComponentResource {
 
     // Upload website content to s3 content bucket.
     private putContents (bucket: aws.s3.Bucket, rootDir: string) {
+        function crawlDirectory (dir: string, f: (_: string) => void) {
+            const files = fs.readdirSync(dir);
+            for (const file of files) {
+                const filePath = `${dir}/${file}`;
+                const stat = fs.statSync(filePath);
+                if (stat.isDirectory()) {
+                    crawlDirectory(filePath, f);
+                }
+                if (stat.isFile()) {
+                    f(filePath);
+                }
+            }
+        }
+
+        pulumi.log.info(`Provisioning bucket objects for contents from local disk at ${rootDir}.`);
+        crawlDirectory(
+            rootDir,
+            (filePath: string) => {
+                const relativeFilePath = filePath.replace(rootDir + "/", "");
+                const contentFile = new aws.s3.BucketObject(
+                    relativeFilePath,
+                    {
+                        key: relativeFilePath,
+
+                        acl: "public-read",
+                        bucket,
+                        contentType: mime.getType(filePath) || undefined,
+                        source: new pulumi.asset.FileAsset(filePath),
+                    },
+                    {
+                        parent: bucket,
+                    });
+            });
+    }
+
+    // Upload website content to s3 content bucket.
+    private putContentsSync(bucket: aws.s3.Bucket, rootDir: string) {
         pulumi.log.info(`Syncing contents from local disk at ${rootDir}.`);
 
-        const r = new local.Command("sync_bucket", {
+        new local.Command("sync_bucket", {
             create: `aws s3 sync "$BUILD_DIR" "$DESTINATION_BUCKET" --acl public-read --delete --quiet --region "$REGION"`,
             environment: {
                 BUILD_DIR: rootDir,
@@ -314,16 +395,18 @@ export class Website extends pulumi.ComponentResource {
         });
         const lambdas: aws.types.input.cloudfront.DistributionDefaultCacheBehaviorLambdaFunctionAssociation[] = [];
 
-        const buildHeader = new LambdaEdge("build-header", {
-            func: setWebsiteVersionHeader(this.buildIdentifier.toString()),
-            funcDescription: "Lambda function for setting the website version in header to help control caching.",
-        }, { provider });
+        if (this.args.enableLambdaEdgeCacheControl) {
+            const buildHeader = new LambdaEdge("build-header", {
+                func: setWebsiteVersionHeader(this.buildIdentifier.toString()),
+                funcDescription: "Lambda function for setting the website version in header to help control caching.",
+            }, { provider });
 
-        lambdas.push({
-            includeBody: false,
-            lambdaArn: buildHeader.getLambdaEdgeArn(),
-            eventType: "viewer-request",
-        });
+            lambdas.push({
+                includeBody: false,
+                lambdaArn: buildHeader.getLambdaEdgeArn(),
+                eventType: "viewer-request",
+            });
+        }
 
         const distributionArgs: aws.cloudfront.DistributionArgs = {
             enabled: true,

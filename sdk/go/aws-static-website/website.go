@@ -47,18 +47,19 @@ func NewWebsite(ctx *pulumi.Context,
 }
 
 type websiteArgs struct {
+	AtomicDeployments *AtomicDeploymentArgs `pulumi:"atomicDeployments"`
 	// TTL in seconds for cached objects.
 	CacheTTL *float64 `pulumi:"cacheTTL"`
 	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
 	CertificateARN *string `pulumi:"certificateARN"`
+	// Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized.
+	EnableLambdaEdgeCacheControl *string `pulumi:"enableLambdaEdgeCacheControl"`
 	// default 404 page
 	Error404 *string `pulumi:"error404"`
 	// The default document for the site. Defaults to index.html
 	IndexHTML *string `pulumi:"indexHTML"`
 	// The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
 	PriceClass *string `pulumi:"priceClass"`
-	// The Pulumi Organization you are deploying the website with. You only need to set this option if you are using an Organization in the Pulumi Service.
-	PulumiOrganization *string `pulumi:"pulumiOrganization"`
 	// The root directory containing the website's contents.
 	SitePath string `pulumi:"sitePath"`
 	// The domain used to serve the content. A Route53 hosted zone must exist for this domain.
@@ -71,18 +72,19 @@ type websiteArgs struct {
 
 // The set of arguments for constructing a Website resource.
 type WebsiteArgs struct {
+	AtomicDeployments AtomicDeploymentArgsPtrInput
 	// TTL in seconds for cached objects.
 	CacheTTL pulumi.Float64PtrInput
 	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
 	CertificateARN pulumi.StringPtrInput
+	// Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized.
+	EnableLambdaEdgeCacheControl pulumi.StringPtrInput
 	// default 404 page
 	Error404 pulumi.StringPtrInput
 	// The default document for the site. Defaults to index.html
 	IndexHTML pulumi.StringPtrInput
 	// The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
 	PriceClass pulumi.StringPtrInput
-	// The Pulumi Organization you are deploying the website with. You only need to set this option if you are using an Organization in the Pulumi Service.
-	PulumiOrganization pulumi.StringPtrInput
 	// The root directory containing the website's contents.
 	SitePath pulumi.StringInput
 	// The domain used to serve the content. A Route53 hosted zone must exist for this domain.

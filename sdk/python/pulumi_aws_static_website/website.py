@@ -7,6 +7,7 @@ import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from . import _utilities
+from ._inputs import *
 
 __all__ = ['WebsiteArgs', 'Website']
 
@@ -14,12 +15,13 @@ __all__ = ['WebsiteArgs', 'Website']
 class WebsiteArgs:
     def __init__(__self__, *,
                  site_path: pulumi.Input[str],
+                 atomic_deployments: Optional[pulumi.Input['AtomicDeploymentArgsArgs']] = None,
                  cache_ttl: Optional[pulumi.Input[float]] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
+                 enable_lambda_edge_cache_control: Optional[pulumi.Input[str]] = None,
                  error404: Optional[pulumi.Input[str]] = None,
                  index_html: Optional[pulumi.Input[str]] = None,
                  price_class: Optional[pulumi.Input[str]] = None,
-                 pulumi_organization: Optional[pulumi.Input[str]] = None,
                  target_domain: Optional[pulumi.Input[str]] = None,
                  with_cdn: Optional[pulumi.Input[bool]] = None,
                  with_logs: Optional[pulumi.Input[bool]] = None):
@@ -28,27 +30,29 @@ class WebsiteArgs:
         :param pulumi.Input[str] site_path: The root directory containing the website's contents.
         :param pulumi.Input[float] cache_ttl: TTL in seconds for cached objects. 
         :param pulumi.Input[str] certificate_arn: The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
+        :param pulumi.Input[str] enable_lambda_edge_cache_control: Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized.
         :param pulumi.Input[str] error404: default 404 page
         :param pulumi.Input[str] index_html: The default document for the site. Defaults to index.html
         :param pulumi.Input[str] price_class: The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
-        :param pulumi.Input[str] pulumi_organization: The Pulumi Organization you are deploying the website with. You only need to set this option if you are using an Organization in the Pulumi Service.
         :param pulumi.Input[str] target_domain: The domain used to serve the content. A Route53 hosted zone must exist for this domain.
         :param pulumi.Input[bool] with_cdn: Provision CloudFront CDN to serve content.
         :param pulumi.Input[bool] with_logs: Provision a bucket to hold access logs.
         """
         pulumi.set(__self__, "site_path", site_path)
+        if atomic_deployments is not None:
+            pulumi.set(__self__, "atomic_deployments", atomic_deployments)
         if cache_ttl is not None:
             pulumi.set(__self__, "cache_ttl", cache_ttl)
         if certificate_arn is not None:
             pulumi.set(__self__, "certificate_arn", certificate_arn)
+        if enable_lambda_edge_cache_control is not None:
+            pulumi.set(__self__, "enable_lambda_edge_cache_control", enable_lambda_edge_cache_control)
         if error404 is not None:
             pulumi.set(__self__, "error404", error404)
         if index_html is not None:
             pulumi.set(__self__, "index_html", index_html)
         if price_class is not None:
             pulumi.set(__self__, "price_class", price_class)
-        if pulumi_organization is not None:
-            pulumi.set(__self__, "pulumi_organization", pulumi_organization)
         if target_domain is not None:
             pulumi.set(__self__, "target_domain", target_domain)
         if with_cdn is not None:
@@ -67,6 +71,15 @@ class WebsiteArgs:
     @site_path.setter
     def site_path(self, value: pulumi.Input[str]):
         pulumi.set(self, "site_path", value)
+
+    @property
+    @pulumi.getter(name="atomicDeployments")
+    def atomic_deployments(self) -> Optional[pulumi.Input['AtomicDeploymentArgsArgs']]:
+        return pulumi.get(self, "atomic_deployments")
+
+    @atomic_deployments.setter
+    def atomic_deployments(self, value: Optional[pulumi.Input['AtomicDeploymentArgsArgs']]):
+        pulumi.set(self, "atomic_deployments", value)
 
     @property
     @pulumi.getter(name="cacheTTL")
@@ -91,6 +104,18 @@ class WebsiteArgs:
     @certificate_arn.setter
     def certificate_arn(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "certificate_arn", value)
+
+    @property
+    @pulumi.getter(name="enableLambdaEdgeCacheControl")
+    def enable_lambda_edge_cache_control(self) -> Optional[pulumi.Input[str]]:
+        """
+        Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized.
+        """
+        return pulumi.get(self, "enable_lambda_edge_cache_control")
+
+    @enable_lambda_edge_cache_control.setter
+    def enable_lambda_edge_cache_control(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "enable_lambda_edge_cache_control", value)
 
     @property
     @pulumi.getter
@@ -127,18 +152,6 @@ class WebsiteArgs:
     @price_class.setter
     def price_class(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "price_class", value)
-
-    @property
-    @pulumi.getter(name="pulumiOrganization")
-    def pulumi_organization(self) -> Optional[pulumi.Input[str]]:
-        """
-        The Pulumi Organization you are deploying the website with. You only need to set this option if you are using an Organization in the Pulumi Service.
-        """
-        return pulumi.get(self, "pulumi_organization")
-
-    @pulumi_organization.setter
-    def pulumi_organization(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "pulumi_organization", value)
 
     @property
     @pulumi.getter(name="targetDomain")
@@ -182,12 +195,13 @@ class Website(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 atomic_deployments: Optional[pulumi.Input[pulumi.InputType['AtomicDeploymentArgsArgs']]] = None,
                  cache_ttl: Optional[pulumi.Input[float]] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
+                 enable_lambda_edge_cache_control: Optional[pulumi.Input[str]] = None,
                  error404: Optional[pulumi.Input[str]] = None,
                  index_html: Optional[pulumi.Input[str]] = None,
                  price_class: Optional[pulumi.Input[str]] = None,
-                 pulumi_organization: Optional[pulumi.Input[str]] = None,
                  site_path: Optional[pulumi.Input[str]] = None,
                  target_domain: Optional[pulumi.Input[str]] = None,
                  with_cdn: Optional[pulumi.Input[bool]] = None,
@@ -199,10 +213,10 @@ class Website(pulumi.ComponentResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[float] cache_ttl: TTL in seconds for cached objects. 
         :param pulumi.Input[str] certificate_arn: The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
+        :param pulumi.Input[str] enable_lambda_edge_cache_control: Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized.
         :param pulumi.Input[str] error404: default 404 page
         :param pulumi.Input[str] index_html: The default document for the site. Defaults to index.html
         :param pulumi.Input[str] price_class: The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
-        :param pulumi.Input[str] pulumi_organization: The Pulumi Organization you are deploying the website with. You only need to set this option if you are using an Organization in the Pulumi Service.
         :param pulumi.Input[str] site_path: The root directory containing the website's contents.
         :param pulumi.Input[str] target_domain: The domain used to serve the content. A Route53 hosted zone must exist for this domain.
         :param pulumi.Input[bool] with_cdn: Provision CloudFront CDN to serve content.
@@ -231,12 +245,13 @@ class Website(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 atomic_deployments: Optional[pulumi.Input[pulumi.InputType['AtomicDeploymentArgsArgs']]] = None,
                  cache_ttl: Optional[pulumi.Input[float]] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
+                 enable_lambda_edge_cache_control: Optional[pulumi.Input[str]] = None,
                  error404: Optional[pulumi.Input[str]] = None,
                  index_html: Optional[pulumi.Input[str]] = None,
                  price_class: Optional[pulumi.Input[str]] = None,
-                 pulumi_organization: Optional[pulumi.Input[str]] = None,
                  site_path: Optional[pulumi.Input[str]] = None,
                  target_domain: Optional[pulumi.Input[str]] = None,
                  with_cdn: Optional[pulumi.Input[bool]] = None,
@@ -255,12 +270,13 @@ class Website(pulumi.ComponentResource):
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
             __props__ = WebsiteArgs.__new__(WebsiteArgs)
 
+            __props__.__dict__["atomic_deployments"] = atomic_deployments
             __props__.__dict__["cache_ttl"] = cache_ttl
             __props__.__dict__["certificate_arn"] = certificate_arn
+            __props__.__dict__["enable_lambda_edge_cache_control"] = enable_lambda_edge_cache_control
             __props__.__dict__["error404"] = error404
             __props__.__dict__["index_html"] = index_html
             __props__.__dict__["price_class"] = price_class
-            __props__.__dict__["pulumi_organization"] = pulumi_organization
             if site_path is None and not opts.urn:
                 raise TypeError("Missing required property 'site_path'")
             __props__.__dict__["site_path"] = site_path
