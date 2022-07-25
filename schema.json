@@ -56,7 +56,8 @@
                     "description": "Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized."
                 },
                 "atomicDeployments": {
-                    "$ref": "#/types/aws-static-website:index:AtomicDeploymentArgs"
+                    "description": "Provision a new bucket on each deployment.",
+                    "type": "boolean"
                 }
             },
             "requiredInputs": [
