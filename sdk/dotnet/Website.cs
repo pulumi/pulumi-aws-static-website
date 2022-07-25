@@ -77,6 +77,12 @@ namespace Pulumi.AwsStaticWebsite
     public sealed class WebsiteArgs : Pulumi.ResourceArgs
     {
         /// <summary>
+        /// Provision a new bucket on each deployment.
+        /// </summary>
+        [Input("atomicDeployments")]
+        public Input<bool>? AtomicDeployments { get; set; }
+
+        /// <summary>
         /// TTL in seconds for cached objects. 
         /// </summary>
         [Input("cacheTTL")]
@@ -87,6 +93,12 @@ namespace Pulumi.AwsStaticWebsite
         /// </summary>
         [Input("certificateARN")]
         public Input<string>? CertificateARN { get; set; }
+
+        /// <summary>
+        /// Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized.
+        /// </summary>
+        [Input("enableLambdaEdgeCacheControl")]
+        public Input<string>? EnableLambdaEdgeCacheControl { get; set; }
 
         /// <summary>
         /// default 404 page

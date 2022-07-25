@@ -8,11 +8,9 @@ This component makes it easy to deploy a static website to s3 along with an opti
 
 TypeScript:
 ```typescript
-const args =  {
-    sitePath: "../website/build",
-} as staticwebsite.WebsiteArgs
+const site = new staticwebsite.Website("website", {sitePath: "../website/build"});
 
-const site = new staticwebsite.Website("website", args);
+export const url = site.websiteURL;
 ```
 
 YAML:
@@ -30,16 +28,15 @@ outputs:
 
 TypeScript:
 ```typescript
-const args =  {
+const site = new staticwebsite.Website("website", {
     withCDN: true,
     sitePath: "../website/build",
     targetDomain: "my-awesome-site.com",
     withLogs: true,
     cacheTTL: 600,
-} as staticwebsite.WebsiteArgs
+});
 
-const site = new staticwebsite.Website("website", args);
-
+export const url = site.websiteURL;
 ```
 
 YAML:
