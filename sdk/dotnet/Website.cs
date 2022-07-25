@@ -76,8 +76,11 @@ namespace Pulumi.AwsStaticWebsite
 
     public sealed class WebsiteArgs : Pulumi.ResourceArgs
     {
+        /// <summary>
+        /// Provision a new bucket on each deployment.
+        /// </summary>
         [Input("atomicDeployments")]
-        public Input<Inputs.AtomicDeploymentArgsArgs>? AtomicDeployments { get; set; }
+        public Input<bool>? AtomicDeployments { get; set; }
 
         /// <summary>
         /// TTL in seconds for cached objects. 

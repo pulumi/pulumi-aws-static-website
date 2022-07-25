@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { execSync } from 'child_process'
 import { local } from "@pulumi/command";
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
@@ -24,10 +25,6 @@ import {
 } from "aws-lambda";
 import { LambdaEdge } from "./lambdaEdge";
 
-interface WebsiteAtomicDeploymentArgs {
-    pulumiOrganization?: pulumi.Input<string>;
-}
-
 export interface WebsiteArgs {
     sitePath: string;
     indexHTML: string;
@@ -39,7 +36,7 @@ export interface WebsiteArgs {
     cacheTTL?: number;
     withLogs?: boolean;
 
-    atomicDeployments?: WebsiteAtomicDeploymentArgs;
+    atomicDeployments?: boolean;
     enableLambdaEdgeCacheControl?: boolean;
 }
 
@@ -89,19 +86,12 @@ export class Website extends pulumi.ComponentResource {
         }
 
         // Get the current stack and check the outputs.
-        let currentStackName = pulumi.output(`${pulumi.getProject()}/${pulumi.getStack()}`);
-        if (args.atomicDeployments?.pulumiOrganization !== undefined) {
-            currentStackName = pulumi.interpolate`${args.atomicDeployments.pulumiOrganization}/${pulumi.getProject()}/${pulumi.getStack()}`;
+        let lastBucketDeployed: pulumi.Output<any> = pulumi.output("");
+        if (args.atomicDeployments) {
+            const currentStackName = `${this.getOrganizationName()}/${pulumi.getProject()}/${pulumi.getStack()}`;
+            const currentStack = new pulumi.StackReference(currentStackName);
+            lastBucketDeployed = currentStack.getOutput("bucketName");
         }
-
-        const lastBucketDeployed = currentStackName.apply((name): pulumi.Output<any> => {
-            if (args.atomicDeployments?.pulumiOrganization === undefined) {
-                return pulumi.output("");
-            }
-
-            const currentStack = new pulumi.StackReference(name);
-            return currentStack.getOutput("bucketName");
-        });
 
         // Provision content bucket.
         if (args.atomicDeployments === undefined) {
@@ -141,6 +131,13 @@ export class Website extends pulumi.ComponentResource {
             websiteURL: this.args.withCDN ? this.websiteURL : this.bucketWebsiteURL,
             logsBucketName: this.logsBucket?.bucketDomainName,
         });
+    }
+
+    private getOrganizationName(): string {
+        const [ organization ] = execSync(`pulumi --stack='${pulumi.getStack()}' stack`)
+            .toString()
+            .match(/(?<=Owner: )[^\n]+/)!;
+        return organization;
     }
 
     // Provision s3 bucket to contain the website contents.

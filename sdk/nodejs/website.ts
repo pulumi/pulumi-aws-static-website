@@ -2,7 +2,6 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 import * as pulumi from "@pulumi/pulumi";
-import { input as inputs, output as outputs } from "./types";
 import * as utilities from "./utilities";
 
 export class Website extends pulumi.ComponentResource {
@@ -93,7 +92,10 @@ export class Website extends pulumi.ComponentResource {
  * The set of arguments for constructing a Website resource.
  */
 export interface WebsiteArgs {
-    atomicDeployments?: pulumi.Input<inputs.AtomicDeploymentArgsArgs>;
+    /**
+     * Provision a new bucket on each deployment.
+     */
+    atomicDeployments?: pulumi.Input<boolean>;
     /**
      * TTL in seconds for cached objects. 
      */

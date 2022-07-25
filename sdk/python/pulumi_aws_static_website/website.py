@@ -7,7 +7,6 @@ import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from . import _utilities
-from ._inputs import *
 
 __all__ = ['WebsiteArgs', 'Website']
 
@@ -15,7 +14,7 @@ __all__ = ['WebsiteArgs', 'Website']
 class WebsiteArgs:
     def __init__(__self__, *,
                  site_path: pulumi.Input[str],
-                 atomic_deployments: Optional[pulumi.Input['AtomicDeploymentArgsArgs']] = None,
+                 atomic_deployments: Optional[pulumi.Input[bool]] = None,
                  cache_ttl: Optional[pulumi.Input[float]] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
                  enable_lambda_edge_cache_control: Optional[pulumi.Input[str]] = None,
@@ -28,6 +27,7 @@ class WebsiteArgs:
         """
         The set of arguments for constructing a Website resource.
         :param pulumi.Input[str] site_path: The root directory containing the website's contents.
+        :param pulumi.Input[bool] atomic_deployments: Provision a new bucket on each deployment.
         :param pulumi.Input[float] cache_ttl: TTL in seconds for cached objects. 
         :param pulumi.Input[str] certificate_arn: The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
         :param pulumi.Input[str] enable_lambda_edge_cache_control: Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized.
@@ -74,11 +74,14 @@ class WebsiteArgs:
 
     @property
     @pulumi.getter(name="atomicDeployments")
-    def atomic_deployments(self) -> Optional[pulumi.Input['AtomicDeploymentArgsArgs']]:
+    def atomic_deployments(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Provision a new bucket on each deployment.
+        """
         return pulumi.get(self, "atomic_deployments")
 
     @atomic_deployments.setter
-    def atomic_deployments(self, value: Optional[pulumi.Input['AtomicDeploymentArgsArgs']]):
+    def atomic_deployments(self, value: Optional[pulumi.Input[bool]]):
         pulumi.set(self, "atomic_deployments", value)
 
     @property
@@ -195,7 +198,7 @@ class Website(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 atomic_deployments: Optional[pulumi.Input[pulumi.InputType['AtomicDeploymentArgsArgs']]] = None,
+                 atomic_deployments: Optional[pulumi.Input[bool]] = None,
                  cache_ttl: Optional[pulumi.Input[float]] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
                  enable_lambda_edge_cache_control: Optional[pulumi.Input[str]] = None,
@@ -211,6 +214,7 @@ class Website(pulumi.ComponentResource):
         Create a Website resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[bool] atomic_deployments: Provision a new bucket on each deployment.
         :param pulumi.Input[float] cache_ttl: TTL in seconds for cached objects. 
         :param pulumi.Input[str] certificate_arn: The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
         :param pulumi.Input[str] enable_lambda_edge_cache_control: Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized.
@@ -245,7 +249,7 @@ class Website(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 atomic_deployments: Optional[pulumi.Input[pulumi.InputType['AtomicDeploymentArgsArgs']]] = None,
+                 atomic_deployments: Optional[pulumi.Input[bool]] = None,
                  cache_ttl: Optional[pulumi.Input[float]] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
                  enable_lambda_edge_cache_control: Optional[pulumi.Input[str]] = None,

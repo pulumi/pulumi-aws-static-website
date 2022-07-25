@@ -4,9 +4,3 @@
 import * as pulumi from "@pulumi/pulumi";
 import { input as inputs, output as outputs } from "../types";
 
-export interface AtomicDeploymentArgsArgs {
-    /**
-     * The Pulumi Organization you are deploying the website with. You only need to set this option if you are using an Organization in the Pulumi Service.
-     */
-    pulumiOrganization?: pulumi.Input<string>;
-}
