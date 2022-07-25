@@ -94,10 +94,10 @@ export class Website extends pulumi.ComponentResource {
         }
 
         // Provision content bucket.
-        if (args.atomicDeployments === undefined) {
-            this.bucket = this.provisionContentBucket();
-        } else {
+        if (args.atomicDeployments) {
             this.bucket = this.provisionContentBucketSync(lastBucketDeployed);
+        } else {
+            this.bucket = this.provisionContentBucket();
         }
 
         this.bucketName = this.bucket.bucketDomainName;
