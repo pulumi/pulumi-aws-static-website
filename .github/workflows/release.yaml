@@ -54,11 +54,18 @@ jobs:
       - run: make build_provider
       - name: Create Provider Binaries
         run: make dist
+      - name: Create GH Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.PULUMI_BOT_TOKEN }}
     strategy:
       fail-fast: true
       matrix:
         nodeversion:
-          - 14.x
+          - 16.x
   publish_sdk:
     name: Publish SDKs
     runs-on: ubuntu-latest
@@ -140,7 +147,6 @@ jobs:
           - dotnet
           - go
         nodeversion:
-          - 14.x
+          - 16.x
         pythonversion:
           - "3.9"
-
