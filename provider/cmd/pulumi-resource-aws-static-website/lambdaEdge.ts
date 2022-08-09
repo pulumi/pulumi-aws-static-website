@@ -22,6 +22,7 @@ export interface LambdaEdgeArgs {
      * last CloudFront Distribution association to it is removed.
      */
     disableResourceNamePrefix?: boolean;
+    environment?: pulumi.Input<aws.types.input.lambda.FunctionEnvironment>;
 }
 
 export class LambdaEdge extends pulumi.ComponentResource {
@@ -119,6 +120,7 @@ export class LambdaEdge extends pulumi.ComponentResource {
                 // Note that Lambda@Edge functions have a different max timeout of 30 seconds
                 // than the regular Lambda functions.
                 timeout: 5,
+                environment: this.args.environment,
             },
             {
                 parent: this,

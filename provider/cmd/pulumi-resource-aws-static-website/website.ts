@@ -394,8 +394,13 @@ export class Website extends pulumi.ComponentResource {
 
         if (this.args.enableLambdaEdgeCacheControl) {
             const buildHeader = new LambdaEdge("build-header", {
-                func: setWebsiteVersionHeader(this.buildIdentifier.toString()),
+                func: setWebsiteVersionHeader(),
                 funcDescription: "Lambda function for setting the website version in header to help control caching.",
+                environment: {
+                    variables: {
+                        "BUILD_IDENTIFIER": this.buildIdentifier.toString(),
+                    },
+                },
             }, { provider });
 
             lambdas.push({
@@ -525,14 +530,14 @@ export class Website extends pulumi.ComponentResource {
     }
 }
 
-function setWebsiteVersionHeader(buildIdentifier: string): aws.lambda.Callback<CloudFrontRequestEvent, CloudFrontRequest>  {
+function setWebsiteVersionHeader(): aws.lambda.Callback<CloudFrontRequestEvent, CloudFrontRequest>  {
     return (event, context, callback) => {
         const request = event.Records[0].cf.request;
         const headers = request.headers;
 
         headers["website-version"] = [{
             key: "Website-Version",
-            value: buildIdentifier,
+            value: process.env.BUILD_IDENTIFIER,
         }];
 
         callback(null, request);
