@@ -5,14 +5,12 @@
         "@pulumi/aws": "^5.0.0",
         "@pulumi/command": "^0.3.0",
         "@pulumi/pulumi": "^3.0.0",
-        "aws-lambda": "^1.0.7",
         "blob": "^0.1.0",
         "fs": "0.0.1-security",
         "glob": "^8.0.1",
         "mime": "^3.0.0"
     },
     "devDependencies": {
-        "@types/aws-lambda": "^8.10.101",
         "@types/glob": "^7.2.0",
         "@types/mime": "^2.0.3",
         "@types/node": "^10.0.0",
