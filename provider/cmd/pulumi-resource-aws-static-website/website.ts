@@ -386,27 +386,12 @@ export class Website extends pulumi.ComponentResource {
             },
         };
 
-        // Edge functions must be defined in us-east-1.
-        const provider = new aws.Provider("usEast1", {
-            region: aws.Region.USEast1,
-        });
-        const lambdas: aws.types.input.cloudfront.DistributionDefaultCacheBehaviorLambdaFunctionAssociation[] = [];
-
+        const cfFunctions: pulumi.Input<pulumi.Input<aws.types.input.cloudfront.DistributionDefaultCacheBehaviorFunctionAssociation>[]> = [];
         if (this.args.enableLambdaEdgeCacheControl) {
-            const buildHeader = new LambdaEdge("build-header", {
-                func: setWebsiteVersionHeader(),
-                funcDescription: "Lambda function for setting the website version in header to help control caching.",
-                environment: {
-                    variables: {
-                        "BUILD_IDENTIFIER": this.buildIdentifier.toString(),
-                    },
-                },
-            }, { provider });
-
-            lambdas.push({
-                includeBody: false,
-                lambdaArn: buildHeader.getLambdaEdgeArn(),
+            const cfBuildHeader = this.provisionCloudfrontFunction()
+            cfFunctions.push({
                 eventType: "viewer-request",
+                functionArn: cfBuildHeader.arn,
             });
         }
 
@@ -443,7 +428,8 @@ export class Website extends pulumi.ComponentResource {
                 minTtl: 0,
                 defaultTtl: cacheTtl,
                 maxTtl: cacheTtl,
-                lambdaFunctionAssociations: lambdas,
+
+                functionAssociations: cfFunctions,
             },
 
             // Determines the price class of the CloudFront distribution based on edge locations used to serve the content.
@@ -477,6 +463,16 @@ export class Website extends pulumi.ComponentResource {
         };
 
         return distributionArgs;
+    }
+
+    // Create a Cloudfront function for adding the build identifier
+    // as a cache key.
+    private provisionCloudfrontFunction(): aws.cloudfront.Function {
+        return new aws.cloudfront.Function("build-identifier-header", {
+            runtime: "cloudfront-js-1.0",
+            publish: true,
+            code: createCloudfrontBuildIdentifierFunction(this.buildIdentifier.toString()),
+        });
     }
 
     // Provision and validate ACM certificate.
@@ -530,18 +526,17 @@ export class Website extends pulumi.ComponentResource {
     }
 }
 
-function setWebsiteVersionHeader(): aws.lambda.Callback<CloudFrontRequestEvent, CloudFrontRequest>  {
-    return (event, context, callback) => {
-        const request = event.Records[0].cf.request;
-        const headers = request.headers;
+function createCloudfrontBuildIdentifierFunction(buildIdentifier: string): string {
+    return `function handler(event){
+    var request = event.request;
 
-        headers["website-version"] = [{
-            key: "Website-Version",
-            value: process.env.BUILD_IDENTIFIER,
-        }];
+    request.headers["website-version"] = [{
+        key: "Website-Version",
+        value: ${buildIdentifier},
+    }];
 
-        callback(null, request);
-    };
+    return request;
+}`;
 }
 
 // Split a domain name into its subdomain and parent domain names.
