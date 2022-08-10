@@ -105,7 +105,7 @@ export class Website extends pulumi.ComponentResource {
             cdnDomainName: this.cdnDomainName,
             cdnURL: this.cdnURL,
             websiteURL: this.args.withCDN ? this.websiteURL : this.bucketWebsiteURL,
-            logsBucketName: this.logsBucket?.bucketDomainName,
+            logsBucketName: this.logsBucket?.bucket,
         });
     }
 
