@@ -51,9 +51,9 @@
                     "type": "string",
                     "description": "The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`"
                 },
-                "enableLambdaEdgeCacheControl": {
-                    "type": "string",
-                    "description": "Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized."
+                "addWebsiteVersionHeader": {
+                    "type": "boolean",
+                    "description": "Enable a cache control header to be attached to every request from an Cloudfront Function."
                 },
                 "atomicDeployments": {
                     "description": "Provision a new bucket on each deployment.",

@@ -19,11 +19,6 @@ import * as aws from "@pulumi/aws";
 import * as mime from "mime";
 import * as path from "path";
 import * as fs from "fs";
-import {
-    CloudFrontRequest,
-    CloudFrontRequestEvent,
-} from "aws-lambda";
-import { LambdaEdge } from "./lambdaEdge";
 
 export interface WebsiteArgs {
     sitePath: string;
@@ -37,7 +32,7 @@ export interface WebsiteArgs {
     withLogs?: boolean;
 
     atomicDeployments?: boolean;
-    enableLambdaEdgeCacheControl?: boolean;
+    addWebsiteVersionHeader?: boolean;
 }
 
 /**
@@ -387,7 +382,7 @@ export class Website extends pulumi.ComponentResource {
         };
 
         const cfFunctions: pulumi.Input<pulumi.Input<aws.types.input.cloudfront.DistributionDefaultCacheBehaviorFunctionAssociation>[]> = [];
-        if (this.args.enableLambdaEdgeCacheControl) {
+        if (this.args.addWebsiteVersionHeader) {
             const cfBuildHeader = this.provisionCloudfrontFunction()
             cfFunctions.push({
                 eventType: "viewer-request",
@@ -530,10 +525,9 @@ function createCloudfrontBuildIdentifierFunction(buildIdentifier: string): strin
     return `function handler(event){
     var request = event.request;
 
-    request.headers["website-version"] = [{
-        key: "Website-Version",
-        value: ${buildIdentifier},
-    }];
+    request.headers["website-version"] = {
+        value: "${buildIdentifier}",
+    };
 
     return request;
 }`;

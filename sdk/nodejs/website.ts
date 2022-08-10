@@ -58,10 +58,10 @@ export class Website extends pulumi.ComponentResource {
             if ((!args || args.sitePath === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'sitePath'");
             }
+            resourceInputs["addWebsiteVersionHeader"] = args ? args.addWebsiteVersionHeader : undefined;
             resourceInputs["atomicDeployments"] = args ? args.atomicDeployments : undefined;
             resourceInputs["cacheTTL"] = args ? args.cacheTTL : undefined;
             resourceInputs["certificateARN"] = args ? args.certificateARN : undefined;
-            resourceInputs["enableLambdaEdgeCacheControl"] = args ? args.enableLambdaEdgeCacheControl : undefined;
             resourceInputs["error404"] = args ? args.error404 : undefined;
             resourceInputs["indexHTML"] = args ? args.indexHTML : undefined;
             resourceInputs["priceClass"] = args ? args.priceClass : undefined;
@@ -93,6 +93,10 @@ export class Website extends pulumi.ComponentResource {
  */
 export interface WebsiteArgs {
     /**
+     * Enable a cache control header to be attached to every request from an Cloudfront Function.
+     */
+    addWebsiteVersionHeader?: pulumi.Input<boolean>;
+    /**
      * Provision a new bucket on each deployment.
      */
     atomicDeployments?: pulumi.Input<boolean>;
@@ -104,10 +108,6 @@ export interface WebsiteArgs {
      * The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
      */
     certificateARN?: pulumi.Input<string>;
-    /**
-     * Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized.
-     */
-    enableLambdaEdgeCacheControl?: pulumi.Input<string>;
     /**
      * default 404 page
      */

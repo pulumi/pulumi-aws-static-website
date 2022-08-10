@@ -47,14 +47,14 @@ func NewWebsite(ctx *pulumi.Context,
 }
 
 type websiteArgs struct {
+	// Enable a cache control header to be attached to every request from an Cloudfront Function.
+	AddWebsiteVersionHeader *bool `pulumi:"addWebsiteVersionHeader"`
 	// Provision a new bucket on each deployment.
 	AtomicDeployments *bool `pulumi:"atomicDeployments"`
 	// TTL in seconds for cached objects.
 	CacheTTL *float64 `pulumi:"cacheTTL"`
 	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
 	CertificateARN *string `pulumi:"certificateARN"`
-	// Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized.
-	EnableLambdaEdgeCacheControl *string `pulumi:"enableLambdaEdgeCacheControl"`
 	// default 404 page
 	Error404 *string `pulumi:"error404"`
 	// The default document for the site. Defaults to index.html
@@ -73,14 +73,14 @@ type websiteArgs struct {
 
 // The set of arguments for constructing a Website resource.
 type WebsiteArgs struct {
+	// Enable a cache control header to be attached to every request from an Cloudfront Function.
+	AddWebsiteVersionHeader pulumi.BoolPtrInput
 	// Provision a new bucket on each deployment.
 	AtomicDeployments pulumi.BoolPtrInput
 	// TTL in seconds for cached objects.
 	CacheTTL pulumi.Float64PtrInput
 	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
 	CertificateARN pulumi.StringPtrInput
-	// Enable a cache control header to be attached to every request from an Lambda@Edge Function. This will require you to have a `package.json` available so the Lambda can be serialized.
-	EnableLambdaEdgeCacheControl pulumi.StringPtrInput
 	// default 404 page
 	Error404 pulumi.StringPtrInput
 	// The default document for the site. Defaults to index.html
