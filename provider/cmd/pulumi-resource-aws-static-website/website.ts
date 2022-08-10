@@ -138,7 +138,7 @@ export class Website extends pulumi.ComponentResource {
         return new aws.s3.Bucket(
             bucketName,
             {
-                bucket: this.args.targetDomain ? bucketName : undefined,
+                bucket: bucketName,
                 acl: "private",
                 forceDestroy: true,
             },
