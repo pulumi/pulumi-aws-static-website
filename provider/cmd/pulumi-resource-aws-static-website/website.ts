@@ -83,7 +83,7 @@ export class Website extends pulumi.ComponentResource {
         // Provision logs bucket if specified in config.
         if (this.args.withLogs) {
             this.logsBucket = this.provisionLogsBucket();
-            this.websiteLogsBucketName = this.logsBucket.bucketDomainName;
+            this.websiteLogsBucketName = this.logsBucket.bucket;
         }
 
         // If the user specified withCDN, provision CloudFront distribution.
