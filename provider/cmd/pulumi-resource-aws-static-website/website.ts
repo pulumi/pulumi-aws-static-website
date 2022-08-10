@@ -19,6 +19,7 @@ import * as aws from "@pulumi/aws";
 import * as mime from "mime";
 import * as path from "path";
 import * as fs from "fs";
+import { AtomicBuckets } from "./bucket";
 
 export interface WebsiteArgs {
     sitePath: string;
@@ -85,6 +86,7 @@ export class Website extends pulumi.ComponentResource {
         if (args.atomicDeployments) {
             const currentStackName = `${this.getOrganizationName()}/${pulumi.getProject()}/${pulumi.getStack()}`;
             const currentStack = new pulumi.StackReference(currentStackName);
+
             lastBucketDeployed = currentStack.getOutput("bucketName");
         }
 
@@ -95,7 +97,7 @@ export class Website extends pulumi.ComponentResource {
             this.bucket = this.provisionContentBucket();
         }
 
-        this.bucketName = this.bucket.bucketDomainName;
+        this.bucketName = this.bucket.bucket;
         this.bucketWebsiteURL = pulumi.interpolate`http://${this.bucket.websiteEndpoint}`;
         this.websiteURL = pulumi.interpolate`http://${this.bucket.websiteEndpoint}`;
 
@@ -117,6 +119,10 @@ export class Website extends pulumi.ComponentResource {
             }
 
         }
+
+        const testB = new AtomicBuckets(name, {});
+        console.log(testB.currentBucket)
+        console.log(testB.previousBucket);
 
         this.registerOutputs({
             bucketName: this.bucketName,
@@ -174,8 +180,6 @@ export class Website extends pulumi.ComponentResource {
         }, this.resourceOptions);
 
         lastBucketName.apply(n => {
-            pulumi.log.info(`Last bucket name: ${n}.`);
-
             if (n) {
                 const bName = n.split(".")[0];
                 const previousBucket = new aws.s3.Bucket(bName, {
