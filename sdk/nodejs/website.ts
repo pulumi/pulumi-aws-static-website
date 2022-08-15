@@ -58,6 +58,8 @@ export class Website extends pulumi.ComponentResource {
             if ((!args || args.sitePath === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'sitePath'");
             }
+            resourceInputs["addWebsiteVersionHeader"] = args ? args.addWebsiteVersionHeader : undefined;
+            resourceInputs["atomicDeployments"] = args ? args.atomicDeployments : undefined;
             resourceInputs["cacheTTL"] = args ? args.cacheTTL : undefined;
             resourceInputs["certificateARN"] = args ? args.certificateARN : undefined;
             resourceInputs["error404"] = args ? args.error404 : undefined;
@@ -90,6 +92,14 @@ export class Website extends pulumi.ComponentResource {
  * The set of arguments for constructing a Website resource.
  */
 export interface WebsiteArgs {
+    /**
+     * Enable a cache control header to be attached to every request from an Cloudfront Function.
+     */
+    addWebsiteVersionHeader?: pulumi.Input<boolean>;
+    /**
+     * Provision a new bucket on each deployment.
+     */
+    atomicDeployments?: pulumi.Input<boolean>;
     /**
      * TTL in seconds for cached objects. 
      */

@@ -47,6 +47,10 @@ func NewWebsite(ctx *pulumi.Context,
 }
 
 type websiteArgs struct {
+	// Enable a cache control header to be attached to every request from an Cloudfront Function.
+	AddWebsiteVersionHeader *bool `pulumi:"addWebsiteVersionHeader"`
+	// Provision a new bucket on each deployment.
+	AtomicDeployments *bool `pulumi:"atomicDeployments"`
 	// TTL in seconds for cached objects.
 	CacheTTL *float64 `pulumi:"cacheTTL"`
 	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
@@ -69,6 +73,10 @@ type websiteArgs struct {
 
 // The set of arguments for constructing a Website resource.
 type WebsiteArgs struct {
+	// Enable a cache control header to be attached to every request from an Cloudfront Function.
+	AddWebsiteVersionHeader pulumi.BoolPtrInput
+	// Provision a new bucket on each deployment.
+	AtomicDeployments pulumi.BoolPtrInput
 	// TTL in seconds for cached objects.
 	CacheTTL pulumi.Float64PtrInput
 	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.

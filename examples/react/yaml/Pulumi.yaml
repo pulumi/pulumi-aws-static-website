@@ -8,5 +8,7 @@ resources:
     properties:
       withCDN: true
       sitePath: "../website/build"
+      pulumiOrganization: zchase
 outputs:
   websiteURL: ${web.websiteURL}
+  bucketName: ${web.bucketName}

@@ -77,6 +77,18 @@ namespace Pulumi.AwsStaticWebsite
     public sealed class WebsiteArgs : Pulumi.ResourceArgs
     {
         /// <summary>
+        /// Enable a cache control header to be attached to every request from an Cloudfront Function.
+        /// </summary>
+        [Input("addWebsiteVersionHeader")]
+        public Input<bool>? AddWebsiteVersionHeader { get; set; }
+
+        /// <summary>
+        /// Provision a new bucket on each deployment.
+        /// </summary>
+        [Input("atomicDeployments")]
+        public Input<bool>? AtomicDeployments { get; set; }
+
+        /// <summary>
         /// TTL in seconds for cached objects. 
         /// </summary>
         [Input("cacheTTL")]

@@ -3,6 +3,7 @@
     "bin": "bin/index.js",
     "dependencies": {
         "@pulumi/aws": "^5.0.0",
+        "@pulumi/command": "^0.3.0",
         "@pulumi/pulumi": "^3.0.0",
         "blob": "^0.1.0",
         "fs": "0.0.1-security",

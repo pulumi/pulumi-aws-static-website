@@ -14,6 +14,8 @@ __all__ = ['WebsiteArgs', 'Website']
 class WebsiteArgs:
     def __init__(__self__, *,
                  site_path: pulumi.Input[str],
+                 add_website_version_header: Optional[pulumi.Input[bool]] = None,
+                 atomic_deployments: Optional[pulumi.Input[bool]] = None,
                  cache_ttl: Optional[pulumi.Input[float]] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
                  error404: Optional[pulumi.Input[str]] = None,
@@ -25,6 +27,8 @@ class WebsiteArgs:
         """
         The set of arguments for constructing a Website resource.
         :param pulumi.Input[str] site_path: The root directory containing the website's contents.
+        :param pulumi.Input[bool] add_website_version_header: Enable a cache control header to be attached to every request from an Cloudfront Function.
+        :param pulumi.Input[bool] atomic_deployments: Provision a new bucket on each deployment.
         :param pulumi.Input[float] cache_ttl: TTL in seconds for cached objects. 
         :param pulumi.Input[str] certificate_arn: The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
         :param pulumi.Input[str] error404: default 404 page
@@ -35,6 +39,10 @@ class WebsiteArgs:
         :param pulumi.Input[bool] with_logs: Provision a bucket to hold access logs.
         """
         pulumi.set(__self__, "site_path", site_path)
+        if add_website_version_header is not None:
+            pulumi.set(__self__, "add_website_version_header", add_website_version_header)
+        if atomic_deployments is not None:
+            pulumi.set(__self__, "atomic_deployments", atomic_deployments)
         if cache_ttl is not None:
             pulumi.set(__self__, "cache_ttl", cache_ttl)
         if certificate_arn is not None:
@@ -63,6 +71,30 @@ class WebsiteArgs:
     @site_path.setter
     def site_path(self, value: pulumi.Input[str]):
         pulumi.set(self, "site_path", value)
+
+    @property
+    @pulumi.getter(name="addWebsiteVersionHeader")
+    def add_website_version_header(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable a cache control header to be attached to every request from an Cloudfront Function.
+        """
+        return pulumi.get(self, "add_website_version_header")
+
+    @add_website_version_header.setter
+    def add_website_version_header(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "add_website_version_header", value)
+
+    @property
+    @pulumi.getter(name="atomicDeployments")
+    def atomic_deployments(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Provision a new bucket on each deployment.
+        """
+        return pulumi.get(self, "atomic_deployments")
+
+    @atomic_deployments.setter
+    def atomic_deployments(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "atomic_deployments", value)
 
     @property
     @pulumi.getter(name="cacheTTL")
@@ -166,6 +198,8 @@ class Website(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 add_website_version_header: Optional[pulumi.Input[bool]] = None,
+                 atomic_deployments: Optional[pulumi.Input[bool]] = None,
                  cache_ttl: Optional[pulumi.Input[float]] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
                  error404: Optional[pulumi.Input[str]] = None,
@@ -180,6 +214,8 @@ class Website(pulumi.ComponentResource):
         Create a Website resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[bool] add_website_version_header: Enable a cache control header to be attached to every request from an Cloudfront Function.
+        :param pulumi.Input[bool] atomic_deployments: Provision a new bucket on each deployment.
         :param pulumi.Input[float] cache_ttl: TTL in seconds for cached objects. 
         :param pulumi.Input[str] certificate_arn: The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
         :param pulumi.Input[str] error404: default 404 page
@@ -213,6 +249,8 @@ class Website(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 add_website_version_header: Optional[pulumi.Input[bool]] = None,
+                 atomic_deployments: Optional[pulumi.Input[bool]] = None,
                  cache_ttl: Optional[pulumi.Input[float]] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
                  error404: Optional[pulumi.Input[str]] = None,
@@ -236,6 +274,8 @@ class Website(pulumi.ComponentResource):
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
             __props__ = WebsiteArgs.__new__(WebsiteArgs)
 
+            __props__.__dict__["add_website_version_header"] = add_website_version_header
+            __props__.__dict__["atomic_deployments"] = atomic_deployments
             __props__.__dict__["cache_ttl"] = cache_ttl
             __props__.__dict__["certificate_arn"] = certificate_arn
             __props__.__dict__["error404"] = error404
