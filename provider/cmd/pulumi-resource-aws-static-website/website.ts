@@ -102,7 +102,7 @@ export class Website extends pulumi.ComponentResource {
         // Provision logs bucket if specified in config.
         if (this.args.withLogs) {
             this.logsBucket = this.provisionLogsBucket();
-            this.websiteLogsBucketName = this.logsBucket.bucketDomainName;
+            this.websiteLogsBucketName = this.logsBucket.bucket;
         }
 
         // If the user specified withCDN, provision CloudFront distribution.
@@ -124,7 +124,7 @@ export class Website extends pulumi.ComponentResource {
             cdnDomainName: this.cdnDomainName,
             cdnURL: this.cdnURL,
             websiteURL: this.args.withCDN ? this.websiteURL : this.bucketWebsiteURL,
-            logsBucketName: this.logsBucket?.bucketDomainName,
+            logsBucketName: this.logsBucket?.bucket,
         });
     }
 
@@ -205,7 +205,7 @@ export class Website extends pulumi.ComponentResource {
         return new aws.s3.Bucket(
             bucketName,
             {
-                bucket: this.args.targetDomain ? bucketName : undefined,
+                bucket: bucketName,
                 acl: "private",
                 forceDestroy: true,
             },
