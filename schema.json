@@ -1,5 +1,18 @@
 {
     "name": "aws-static-website",
+    "displayName": "AWS Static Website",
+    "version": "v0.1.1",
+    "description": "A Pulumi component to deploy a static website to AWS",
+    "keywords": [
+        "pulumi",
+        "aws",
+        "category/cloud",
+        "kind/component",
+        "web"
+    ],
+    "homepage": "https://pulumi.com",
+    "publisher": "Pulumi",
+    "repository": "https://github.com/pulumi/pulumi-aws-static-website",
     "types": {
         "aws-static-website:index:AtomicDeploymentArgs": {
             "type": "object",

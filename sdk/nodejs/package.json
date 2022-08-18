@@ -1,6 +1,15 @@
 {
     "name": "@pulumi/aws-static-website",
     "version": "${VERSION}",
+    "keywords": [
+        "pulumi",
+        "aws",
+        "category/cloud",
+        "kind/component",
+        "web"
+    ],
+    "homepage": "https://pulumi.com",
+    "repository": "https://github.com/pulumi/pulumi-aws-static-website",
     "scripts": {
         "build": "tsc",
         "install": "node scripts/install-pulumi-plugin.js resource aws-static-website ${VERSION}"

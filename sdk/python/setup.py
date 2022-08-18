@@ -39,10 +39,16 @@ def readme():
 
 setup(name='pulumi_aws_static_website',
       version=VERSION,
+      description="A Pulumi component to deploy a static website to AWS",
       long_description=readme(),
       long_description_content_type='text/markdown',
       cmdclass={
           'install': InstallPluginCommand,
+      },
+      keywords='pulumi aws category/cloud kind/component web',
+      url='https://pulumi.com',
+      project_urls={
+          'Repository': 'https://github.com/pulumi/pulumi-aws-static-website'
       },
       packages=find_packages(),
       package_data={

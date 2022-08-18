@@ -36,5 +36,3 @@ go get -t github.com/pulumi/pulumi-aws-static-website/sdk
 ```
 
 This package can then be consumed just like any other package by importing it into your project (e.g. `import * as website from '@pulumi/aws-static-website'`)
-
-

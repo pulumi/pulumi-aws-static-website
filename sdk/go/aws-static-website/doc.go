@@ -1,3 +1,3 @@
-// Package aws-static-website exports types, functions, subpackages for provisioning aws-static-website resources.
+// A Pulumi component to deploy a static website to AWS
 //
 package awsstaticwebsite

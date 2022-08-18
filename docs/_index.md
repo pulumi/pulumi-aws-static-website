@@ -50,6 +50,7 @@ This component takes the following inputs.
 - priceClass - the price class to use for the CDN. Defaults to `100` if not specified.
 
 ## Outputs
+
 This component provides the following outputs. Some may not be available depending on the given input configuration (e.g. if `withCDN` was not specified there will be no output for `cdnDomainName` and `cdnURL`)
 
 - bucketName - the name of the s3 bucket containing the website's contents
