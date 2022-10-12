@@ -129,9 +129,9 @@ export class Website extends pulumi.ComponentResource {
     }
 
     private getOrganizationName(): string {
-        const [ organization ] = execSync(`pulumi --stack='${pulumi.getStack()}' stack`)
+        const [ organization = '' ] = execSync(`pulumi --stack=${pulumi.getStack()} stack`)
             .toString()
-            .match(/(?<=Owner: )[^\n]+/)!;
+            .match(/(?<=Owner: )[^\n]+/) ?? [];
         return organization;
     }
 
