@@ -6,5 +6,7 @@ resources:
     type: "aws-static-website:index:Website"
     properties:
       sitePath: "./_site"
+      atomicDeployments: true
 outputs:
   websiteURL: ${web.websiteURL}
+  bucketName: ${web.bucketName}
