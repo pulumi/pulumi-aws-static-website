@@ -131,7 +131,7 @@ export class Website extends pulumi.ComponentResource {
     private getOrganizationName(): string {
         const config = new pulumi.Config();
         const organizationNameOverride = config.get("pulumiOrganizationName");
-        if (organizationNameOverride && organizationNameOverride != "") {
+        if (organizationNameOverride) {
             return organizationNameOverride;
         }
 
@@ -140,7 +140,7 @@ export class Website extends pulumi.ComponentResource {
             .match(/(?<=Owner: )[^\n]+/) ?? [];
 
         if (organization == "") {
-            return execSync("pulumi whoami").toString();
+            throw new Error("pulumi organization not found, set the organization name in your config file to resolve this error by running `pulumi config set pulumiOrganizationName`");
         }
 
         return organization;
