@@ -140,7 +140,7 @@ export class Website extends pulumi.ComponentResource {
             .match(/(?<=Owner: )[^\n]+/) ?? [];
 
         if (organization == "") {
-            throw new Error("pulumi organization not found, set the organization name in your config file to resolve this error by running `pulumi config set pulumiOrganizationName`");
+            throw new Error("pulumi organization not found, set the organization name in your config file to resolve this error by running `pulumi config set pulumiOrganizationName <org name>`");
         }
 
         return organization;
