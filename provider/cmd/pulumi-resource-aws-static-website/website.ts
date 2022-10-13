@@ -129,9 +129,20 @@ export class Website extends pulumi.ComponentResource {
     }
 
     private getOrganizationName(): string {
-        const [ organization ] = execSync(`pulumi --stack='${pulumi.getStack()}' stack`)
+        const config = new pulumi.Config();
+        const organizationNameOverride = config.get("pulumiOrganizationName");
+        if (organizationNameOverride) {
+            return organizationNameOverride;
+        }
+
+        const [ organization = "" ] = execSync(`pulumi --stack=${pulumi.getStack()} stack`)
             .toString()
-            .match(/(?<=Owner: )[^\n]+/)!;
+            .match(/(?<=Owner: )[^\n]+/) ?? [];
+
+        if (organization == "") {
+            throw new Error("pulumi organization not found, set the organization name in your config file to resolve this error by running `pulumi config set pulumiOrganizationName <org name>`");
+        }
+
         return organization;
     }
 
@@ -185,6 +196,8 @@ export class Website extends pulumi.ComponentResource {
                     acl: aws.s3.PublicReadAcl,
                     forceDestroy: true,
                 }, this.resourceOptions);
+            } else {
+                pulumi.log.info("output `bucketName` not found on stack, will remove old bucket after new bucket is provisioned and associated");
             }
         });
 

@@ -123,7 +123,7 @@ func (i *Website) ToWebsiteOutputWithContext(ctx context.Context) WebsiteOutput 
 // WebsiteArrayInput is an input type that accepts WebsiteArray and WebsiteArrayOutput values.
 // You can construct a concrete instance of `WebsiteArrayInput` via:
 //
-//          WebsiteArray{ WebsiteArgs{...} }
+//	WebsiteArray{ WebsiteArgs{...} }
 type WebsiteArrayInput interface {
 	pulumi.Input
 
@@ -148,7 +148,7 @@ func (i WebsiteArray) ToWebsiteArrayOutputWithContext(ctx context.Context) Websi
 // WebsiteMapInput is an input type that accepts WebsiteMap and WebsiteMapOutput values.
 // You can construct a concrete instance of `WebsiteMapInput` via:
 //
-//          WebsiteMap{ "key": WebsiteArgs{...} }
+//	WebsiteMap{ "key": WebsiteArgs{...} }
 type WebsiteMapInput interface {
 	pulumi.Input
 
