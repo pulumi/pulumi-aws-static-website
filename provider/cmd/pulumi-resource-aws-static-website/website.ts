@@ -266,17 +266,32 @@ export class Website extends pulumi.ComponentResource {
     private putContentsSync(bucket: aws.s3.Bucket, rootDir: string) {
         pulumi.log.info(`Syncing contents from local disk at ${rootDir}.`);
 
+        const destinationBucketURI = bucket.bucket.apply((b) => `s3://${b}`);
+
+        const cmd = process.platform === "win32" ?
+            this.buildWindowsCMD(rootDir, destinationBucketURI, bucket.region) :
+            `aws s3 sync "$BUILD_DIR" "$DESTINATION_BUCKET" --acl public-read --delete --quiet --region "$REGION"`;
+
         new local.Command("sync_bucket", {
-            create: `aws s3 sync "$BUILD_DIR" "$DESTINATION_BUCKET" --acl public-read --delete --quiet --region "$REGION"`,
+            create: cmd,
             environment: {
                 BUILD_DIR: rootDir,
-                DESTINATION_BUCKET: bucket.bucket.apply((b) => `s3://${b}`),
+                DESTINATION_BUCKET: destinationBucketURI,
                 REGION: bucket.region,
 
                 // This tells Pulumi to rerun the command on every run.
                 REBUILD_TRIGGER: new Date().getTime().toString(),
             },
         });
+    }
+
+    // Build windows command using interpolation. For some reason the command provider does not correctly interpolate the environment variables
+    // in the command on windows machines.... so we will do it ourselves.
+    private buildWindowsCMD(buildDir: string, destinationBucket: pulumi.Output<string>, region: pulumi.Output<string>): pulumi.Output<string> {
+        // Since windows decided to use backslashes for filepaths and backslashes are escape characters everywhere else in the world, replace
+        // "\" with "\\" because the single backslash gets removed so we need to re-escape it :eye-roll:
+        const dir = buildDir.replace(/\\/g, "\\\\");
+        return pulumi.interpolate `aws s3 sync ${buildDir} ${destinationBucket} --acl public-read --delete --quiet --region ${region}`;
     }
 
     // Provision CloudFront CDN.
