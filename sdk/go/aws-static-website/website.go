@@ -53,6 +53,8 @@ type websiteArgs struct {
 	AtomicDeployments *bool `pulumi:"atomicDeployments"`
 	// TTL in seconds for cached objects.
 	CacheTTL *float64 `pulumi:"cacheTTL"`
+	// Optional arguments used to configure the CDN.
+	CdnArgs *CDNArgs `pulumi:"cdnArgs"`
 	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
 	CertificateARN *string `pulumi:"certificateARN"`
 	// default 404 page
@@ -79,6 +81,8 @@ type WebsiteArgs struct {
 	AtomicDeployments pulumi.BoolPtrInput
 	// TTL in seconds for cached objects.
 	CacheTTL pulumi.Float64PtrInput
+	// Optional arguments used to configure the CDN.
+	CdnArgs CDNArgsPtrInput
 	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
 	CertificateARN pulumi.StringPtrInput
 	// default 404 page
@@ -123,7 +127,7 @@ func (i *Website) ToWebsiteOutputWithContext(ctx context.Context) WebsiteOutput 
 // WebsiteArrayInput is an input type that accepts WebsiteArray and WebsiteArrayOutput values.
 // You can construct a concrete instance of `WebsiteArrayInput` via:
 //
-//          WebsiteArray{ WebsiteArgs{...} }
+//	WebsiteArray{ WebsiteArgs{...} }
 type WebsiteArrayInput interface {
 	pulumi.Input
 
@@ -148,7 +152,7 @@ func (i WebsiteArray) ToWebsiteArrayOutputWithContext(ctx context.Context) Websi
 // WebsiteMapInput is an input type that accepts WebsiteMap and WebsiteMapOutput values.
 // You can construct a concrete instance of `WebsiteMapInput` via:
 //
-//          WebsiteMap{ "key": WebsiteArgs{...} }
+//	WebsiteMap{ "key": WebsiteArgs{...} }
 type WebsiteMapInput interface {
 	pulumi.Input
 

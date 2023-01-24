@@ -2,7 +2,10 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 import * as pulumi from "@pulumi/pulumi";
+import { input as inputs, output as outputs } from "./types";
 import * as utilities from "./utilities";
+
+import * as pulumiAws from "@pulumi/aws";
 
 export class Website extends pulumi.ComponentResource {
     /** @internal */
@@ -61,6 +64,7 @@ export class Website extends pulumi.ComponentResource {
             resourceInputs["addWebsiteVersionHeader"] = args ? args.addWebsiteVersionHeader : undefined;
             resourceInputs["atomicDeployments"] = args ? args.atomicDeployments : undefined;
             resourceInputs["cacheTTL"] = args ? args.cacheTTL : undefined;
+            resourceInputs["cdnArgs"] = args ? args.cdnArgs : undefined;
             resourceInputs["certificateARN"] = args ? args.certificateARN : undefined;
             resourceInputs["error404"] = args ? args.error404 : undefined;
             resourceInputs["indexHTML"] = args ? args.indexHTML : undefined;
@@ -104,6 +108,10 @@ export interface WebsiteArgs {
      * TTL in seconds for cached objects. 
      */
     cacheTTL?: pulumi.Input<number>;
+    /**
+     * Optional arguments used to configure the CDN.
+     */
+    cdnArgs?: pulumi.Input<inputs.CDNArgsArgs>;
     /**
      * The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
      */
