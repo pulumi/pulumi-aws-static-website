@@ -95,6 +95,12 @@ namespace Pulumi.AwsStaticWebsite
         public Input<double>? CacheTTL { get; set; }
 
         /// <summary>
+        /// Optional arguments used to configure the CDN.
+        /// </summary>
+        [Input("cdnArgs")]
+        public Input<Inputs.CDNArgsArgs>? CdnArgs { get; set; }
+
+        /// <summary>
         /// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
         /// </summary>
         [Input("certificateARN")]

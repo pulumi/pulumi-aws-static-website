@@ -14,12 +14,36 @@
     "publisher": "Pulumi",
     "repository": "https://github.com/pulumi/pulumi-aws-static-website",
     "types": {
-        "aws-static-website:index:AtomicDeploymentArgs": {
+        "aws-static-website:index:CDNArgs": {
             "type": "object",
             "properties": {
-                "pulumiOrganization": {
-                    "type": "string",
-                    "description": "The Pulumi Organization you are deploying the website with. You only need to set this option if you are using an Organization in the Pulumi Service."
+                "forwardedValues": {
+                    "description": "The forwarded values configuration that specifies how CloudFront handles query strings, cookies and headers.",
+                    "$ref": "/aws/v5.28.0/schema.json#/types/aws:cloudfront/DistributionDefaultCacheBehaviorForwardedValues:DistributionDefaultCacheBehaviorForwardedValues"
+                },
+                "cloudfrontFunctions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "/aws/v5.28.0/schema.json#/types/aws:cloudfront/DistributionOrderedCacheBehaviorFunctionAssociation:DistributionOrderedCacheBehaviorFunctionAssociation"
+                    },
+                    "description": "A config block that triggers a cloudfront\nfunction with specific actions.\n",
+                    "language": {
+                        "python": {
+                            "mapCase": false
+                        }
+                    }
+                },
+                "lambdaFunctions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "/aws/v5.28.0/schema.json#/types/aws:cloudfront/DistributionOrderedCacheBehaviorLambdaFunctionAssociation:DistributionOrderedCacheBehaviorLambdaFunctionAssociation"
+                    },
+                    "description": "A config block that triggers a lambda\nfunction with specific actions.\n",
+                    "language": {
+                        "python": {
+                            "mapCase": false
+                        }
+                    }
                 }
             }
         }
@@ -31,6 +55,10 @@
                 "withCDN": {
                     "type": "boolean",
                     "description": "Provision CloudFront CDN to serve content."
+                },
+                "cdnArgs": {
+                    "$ref": "#/types/aws-static-website:index:CDNArgs",
+                    "description": "Optional arguments used to configure the CDN."
                 },
                 "targetDomain": {
                     "type": "string",

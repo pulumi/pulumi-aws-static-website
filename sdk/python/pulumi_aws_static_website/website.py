@@ -7,6 +7,8 @@ import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from . import _utilities
+from ._inputs import *
+import pulumi_aws
 
 __all__ = ['WebsiteArgs', 'Website']
 
@@ -17,6 +19,7 @@ class WebsiteArgs:
                  add_website_version_header: Optional[pulumi.Input[bool]] = None,
                  atomic_deployments: Optional[pulumi.Input[bool]] = None,
                  cache_ttl: Optional[pulumi.Input[float]] = None,
+                 cdn_args: Optional[pulumi.Input['CDNArgsArgs']] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
                  error404: Optional[pulumi.Input[str]] = None,
                  index_html: Optional[pulumi.Input[str]] = None,
@@ -30,6 +33,7 @@ class WebsiteArgs:
         :param pulumi.Input[bool] add_website_version_header: Enable a cache control header to be attached to every request from an Cloudfront Function.
         :param pulumi.Input[bool] atomic_deployments: Provision a new bucket on each deployment.
         :param pulumi.Input[float] cache_ttl: TTL in seconds for cached objects. 
+        :param pulumi.Input['CDNArgsArgs'] cdn_args: Optional arguments used to configure the CDN.
         :param pulumi.Input[str] certificate_arn: The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
         :param pulumi.Input[str] error404: default 404 page
         :param pulumi.Input[str] index_html: The default document for the site. Defaults to index.html
@@ -45,6 +49,8 @@ class WebsiteArgs:
             pulumi.set(__self__, "atomic_deployments", atomic_deployments)
         if cache_ttl is not None:
             pulumi.set(__self__, "cache_ttl", cache_ttl)
+        if cdn_args is not None:
+            pulumi.set(__self__, "cdn_args", cdn_args)
         if certificate_arn is not None:
             pulumi.set(__self__, "certificate_arn", certificate_arn)
         if error404 is not None:
@@ -107,6 +113,18 @@ class WebsiteArgs:
     @cache_ttl.setter
     def cache_ttl(self, value: Optional[pulumi.Input[float]]):
         pulumi.set(self, "cache_ttl", value)
+
+    @property
+    @pulumi.getter(name="cdnArgs")
+    def cdn_args(self) -> Optional[pulumi.Input['CDNArgsArgs']]:
+        """
+        Optional arguments used to configure the CDN.
+        """
+        return pulumi.get(self, "cdn_args")
+
+    @cdn_args.setter
+    def cdn_args(self, value: Optional[pulumi.Input['CDNArgsArgs']]):
+        pulumi.set(self, "cdn_args", value)
 
     @property
     @pulumi.getter(name="certificateARN")
@@ -201,6 +219,7 @@ class Website(pulumi.ComponentResource):
                  add_website_version_header: Optional[pulumi.Input[bool]] = None,
                  atomic_deployments: Optional[pulumi.Input[bool]] = None,
                  cache_ttl: Optional[pulumi.Input[float]] = None,
+                 cdn_args: Optional[pulumi.Input[pulumi.InputType['CDNArgsArgs']]] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
                  error404: Optional[pulumi.Input[str]] = None,
                  index_html: Optional[pulumi.Input[str]] = None,
@@ -217,6 +236,7 @@ class Website(pulumi.ComponentResource):
         :param pulumi.Input[bool] add_website_version_header: Enable a cache control header to be attached to every request from an Cloudfront Function.
         :param pulumi.Input[bool] atomic_deployments: Provision a new bucket on each deployment.
         :param pulumi.Input[float] cache_ttl: TTL in seconds for cached objects. 
+        :param pulumi.Input[pulumi.InputType['CDNArgsArgs']] cdn_args: Optional arguments used to configure the CDN.
         :param pulumi.Input[str] certificate_arn: The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
         :param pulumi.Input[str] error404: default 404 page
         :param pulumi.Input[str] index_html: The default document for the site. Defaults to index.html
@@ -252,6 +272,7 @@ class Website(pulumi.ComponentResource):
                  add_website_version_header: Optional[pulumi.Input[bool]] = None,
                  atomic_deployments: Optional[pulumi.Input[bool]] = None,
                  cache_ttl: Optional[pulumi.Input[float]] = None,
+                 cdn_args: Optional[pulumi.Input[pulumi.InputType['CDNArgsArgs']]] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
                  error404: Optional[pulumi.Input[str]] = None,
                  index_html: Optional[pulumi.Input[str]] = None,
@@ -277,6 +298,7 @@ class Website(pulumi.ComponentResource):
             __props__.__dict__["add_website_version_header"] = add_website_version_header
             __props__.__dict__["atomic_deployments"] = atomic_deployments
             __props__.__dict__["cache_ttl"] = cache_ttl
+            __props__.__dict__["cdn_args"] = cdn_args
             __props__.__dict__["certificate_arn"] = certificate_arn
             __props__.__dict__["error404"] = error404
             __props__.__dict__["index_html"] = index_html

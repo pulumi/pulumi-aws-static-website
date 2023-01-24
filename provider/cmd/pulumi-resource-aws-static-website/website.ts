@@ -20,11 +20,18 @@ import * as mime from "mime";
 import * as path from "path";
 import * as fs from "fs";
 
+interface CdnArgs {
+    forwardedValues?: aws.types.input.cloudfront.DistributionDefaultCacheBehaviorForwardedValues;
+    cloudfrontFunctions?: aws.types.input.cloudfront.DistributionOrderedCacheBehaviorFunctionAssociation[];
+    lambdaFunctions?: aws.types.input.cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociation[];
+}
+
 export interface WebsiteArgs {
     sitePath: string;
     indexHTML: string;
     error404: string;
     withCDN: boolean;
+    cdnArgs?: CdnArgs;
     priceClass: string;
     targetDomain: string;
     certificateARN?: string;
@@ -396,6 +403,18 @@ export class Website extends pulumi.ComponentResource {
     private configureDistributionArgs (): aws.cloudfront.DistributionArgs {
         const cacheTtl = this.args.cacheTTL || (10 * 60); // 10 minutes.
 
+        const cfFunctions = this.args?.cdnArgs?.cloudfrontFunctions ?? [];
+        const lambdaFunctions = this.args?.cdnArgs?.lambdaFunctions ?? [];
+
+        if ((cfFunctions.length > 2) || (cfFunctions.length > 1 && this.args.addWebsiteVersionHeader)){
+            let max = this.args.addWebsiteVersionHeader ? 1 : 2;
+            throw new Error(`too many cloudfront functions provided, maximum ${max}`)
+        }
+
+        if (lambdaFunctions.length > 4) {
+            throw new Error("too many lambda functions provided, maximum 4");
+        }
+
         const bucketOrigin: aws.types.input.cloudfront.DistributionOrigin = {
             originId: this.bucket.arn,
             domainName: this.bucket.bucketRegionalDomainName,
@@ -407,7 +426,6 @@ export class Website extends pulumi.ComponentResource {
             },
         };
 
-        const cfFunctions: pulumi.Input<pulumi.Input<aws.types.input.cloudfront.DistributionDefaultCacheBehaviorFunctionAssociation>[]> = [];
         if (this.args.addWebsiteVersionHeader) {
             const cfBuildHeader = this.provisionCloudfrontFunction()
             cfFunctions.push({
@@ -415,6 +433,23 @@ export class Website extends pulumi.ComponentResource {
                 functionArn: cfBuildHeader.arn,
             });
         }
+
+        const cacheForwardedValues = this.args?.cdnArgs?.forwardedValues;
+        const cacheForwardHeaders = pulumi.output(cacheForwardedValues?.headers).apply((headers) => {
+            const result = headers ?? [];
+
+            if (this.args.addWebsiteVersionHeader) {
+                return [ "Website Version", ...result ];
+            }
+
+            return result;
+        });
+
+        const forwardedValues = {
+            headers: cacheForwardHeaders,
+            cookies: cacheForwardedValues?.cookies ?? { forward: "none" },
+            queryString: cacheForwardedValues?.queryString ?? false,
+        };
 
         const distributionArgs: aws.cloudfront.DistributionArgs = {
             enabled: true,
@@ -434,23 +469,19 @@ export class Website extends pulumi.ComponentResource {
             // A CloudFront distribution can configure different cache behaviors based on the request path.
             // Here we just specify a single, default cache behavior which is just read-only requests to S3.
             defaultCacheBehavior: {
+                forwardedValues,
                 targetOriginId: this.bucket.arn,
 
                 viewerProtocolPolicy: "redirect-to-https",
                 allowedMethods: ["GET", "HEAD", "OPTIONS"],
                 cachedMethods: ["GET", "HEAD", "OPTIONS"],
 
-                forwardedValues: {
-                    headers: [ "Website-Version" ],
-                    cookies: { forward: "none" },
-                    queryString: false,
-                },
-
                 minTtl: 0,
                 defaultTtl: cacheTtl,
                 maxTtl: cacheTtl,
 
                 functionAssociations: cfFunctions,
+                lambdaFunctionAssociations: lambdaFunctions,
             },
 
             // Determines the price class of the CloudFront distribution based on edge locations used to serve the content.

@@ -1,4 +1,4 @@
-import * as staticwebsite from "@pulumi/aws-static-website"
+import * as staticwebsite from "@pulumi/aws-static-website";
 
 const websiteArgs =  {
     withCDN: true,
