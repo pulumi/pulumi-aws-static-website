@@ -16,35 +16,35 @@ __all__ = [
 @pulumi.input_type
 class CDNArgsArgs:
     def __init__(__self__, *,
-                 cloudfront_functions: Optional[pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArgs']]]] = None,
+                 cloudfront_function_associations: Optional[pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArgs']]]] = None,
                  forwarded_values: Optional[pulumi.Input['pulumi_aws.cloudfront.DistributionDefaultCacheBehaviorForwardedValuesArgs']] = None,
-                 lambda_functions: Optional[pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArgs']]]] = None):
+                 lambda_function_associations: Optional[pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArgs']]]] = None):
         """
-        :param pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArgs']]] cloudfront_functions: A config block that triggers a cloudfront
+        :param pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArgs']]] cloudfront_function_associations: A config block that triggers a cloudfront
                function with specific actions.
         :param pulumi.Input['pulumi_aws.cloudfront.DistributionDefaultCacheBehaviorForwardedValuesArgs'] forwarded_values: The forwarded values configuration that specifies how CloudFront handles query strings, cookies and headers.
-        :param pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArgs']]] lambda_functions: A config block that triggers a lambda
+        :param pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArgs']]] lambda_function_associations: A config block that triggers a lambda
                function with specific actions.
         """
-        if cloudfront_functions is not None:
-            pulumi.set(__self__, "cloudfront_functions", cloudfront_functions)
+        if cloudfront_function_associations is not None:
+            pulumi.set(__self__, "cloudfront_function_associations", cloudfront_function_associations)
         if forwarded_values is not None:
             pulumi.set(__self__, "forwarded_values", forwarded_values)
-        if lambda_functions is not None:
-            pulumi.set(__self__, "lambda_functions", lambda_functions)
+        if lambda_function_associations is not None:
+            pulumi.set(__self__, "lambda_function_associations", lambda_function_associations)
 
     @property
-    @pulumi.getter(name="cloudfrontFunctions")
-    def cloudfront_functions(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArgs']]]]:
+    @pulumi.getter(name="cloudfrontFunctionAssociations")
+    def cloudfront_function_associations(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArgs']]]]:
         """
         A config block that triggers a cloudfront
         function with specific actions.
         """
-        return pulumi.get(self, "cloudfront_functions")
+        return pulumi.get(self, "cloudfront_function_associations")
 
-    @cloudfront_functions.setter
-    def cloudfront_functions(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArgs']]]]):
-        pulumi.set(self, "cloudfront_functions", value)
+    @cloudfront_function_associations.setter
+    def cloudfront_function_associations(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArgs']]]]):
+        pulumi.set(self, "cloudfront_function_associations", value)
 
     @property
     @pulumi.getter(name="forwardedValues")
@@ -59,16 +59,16 @@ class CDNArgsArgs:
         pulumi.set(self, "forwarded_values", value)
 
     @property
-    @pulumi.getter(name="lambdaFunctions")
-    def lambda_functions(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArgs']]]]:
+    @pulumi.getter(name="lambdaFunctionAssociations")
+    def lambda_function_associations(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArgs']]]]:
         """
         A config block that triggers a lambda
         function with specific actions.
         """
-        return pulumi.get(self, "lambda_functions")
+        return pulumi.get(self, "lambda_function_associations")
 
-    @lambda_functions.setter
-    def lambda_functions(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArgs']]]]):
-        pulumi.set(self, "lambda_functions", value)
+    @lambda_function_associations.setter
+    def lambda_function_associations(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['pulumi_aws.cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArgs']]]]):
+        pulumi.set(self, "lambda_function_associations", value)
 
 

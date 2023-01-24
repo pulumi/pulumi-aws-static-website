@@ -14,12 +14,12 @@ import (
 type CDNArgs struct {
 	// A config block that triggers a cloudfront
 	// function with specific actions.
-	CloudfrontFunctions []cloudfront.DistributionOrderedCacheBehaviorFunctionAssociation `pulumi:"cloudfrontFunctions"`
+	CloudfrontFunctionAssociations []cloudfront.DistributionOrderedCacheBehaviorFunctionAssociation `pulumi:"cloudfrontFunctionAssociations"`
 	// The forwarded values configuration that specifies how CloudFront handles query strings, cookies and headers.
 	ForwardedValues *cloudfront.DistributionDefaultCacheBehaviorForwardedValues `pulumi:"forwardedValues"`
 	// A config block that triggers a lambda
 	// function with specific actions.
-	LambdaFunctions []cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociation `pulumi:"lambdaFunctions"`
+	LambdaFunctionAssociations []cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociation `pulumi:"lambdaFunctionAssociations"`
 }
 
 // CDNArgsInput is an input type that accepts CDNArgsArgs and CDNArgsOutput values.
@@ -36,12 +36,12 @@ type CDNArgsInput interface {
 type CDNArgsArgs struct {
 	// A config block that triggers a cloudfront
 	// function with specific actions.
-	CloudfrontFunctions cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArrayInput `pulumi:"cloudfrontFunctions"`
+	CloudfrontFunctionAssociations cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArrayInput `pulumi:"cloudfrontFunctionAssociations"`
 	// The forwarded values configuration that specifies how CloudFront handles query strings, cookies and headers.
 	ForwardedValues cloudfront.DistributionDefaultCacheBehaviorForwardedValuesPtrInput `pulumi:"forwardedValues"`
 	// A config block that triggers a lambda
 	// function with specific actions.
-	LambdaFunctions cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArrayInput `pulumi:"lambdaFunctions"`
+	LambdaFunctionAssociations cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArrayInput `pulumi:"lambdaFunctionAssociations"`
 }
 
 func (CDNArgsArgs) ElementType() reflect.Type {
@@ -123,9 +123,9 @@ func (o CDNArgsOutput) ToCDNArgsPtrOutputWithContext(ctx context.Context) CDNArg
 
 // A config block that triggers a cloudfront
 // function with specific actions.
-func (o CDNArgsOutput) CloudfrontFunctions() cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArrayOutput {
+func (o CDNArgsOutput) CloudfrontFunctionAssociations() cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArrayOutput {
 	return o.ApplyT(func(v CDNArgs) []cloudfront.DistributionOrderedCacheBehaviorFunctionAssociation {
-		return v.CloudfrontFunctions
+		return v.CloudfrontFunctionAssociations
 	}).(cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArrayOutput)
 }
 
@@ -136,9 +136,9 @@ func (o CDNArgsOutput) ForwardedValues() cloudfront.DistributionDefaultCacheBeha
 
 // A config block that triggers a lambda
 // function with specific actions.
-func (o CDNArgsOutput) LambdaFunctions() cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArrayOutput {
+func (o CDNArgsOutput) LambdaFunctionAssociations() cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArrayOutput {
 	return o.ApplyT(func(v CDNArgs) []cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociation {
-		return v.LambdaFunctions
+		return v.LambdaFunctionAssociations
 	}).(cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArrayOutput)
 }
 
@@ -168,12 +168,12 @@ func (o CDNArgsPtrOutput) Elem() CDNArgsOutput {
 
 // A config block that triggers a cloudfront
 // function with specific actions.
-func (o CDNArgsPtrOutput) CloudfrontFunctions() cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArrayOutput {
+func (o CDNArgsPtrOutput) CloudfrontFunctionAssociations() cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArrayOutput {
 	return o.ApplyT(func(v *CDNArgs) []cloudfront.DistributionOrderedCacheBehaviorFunctionAssociation {
 		if v == nil {
 			return nil
 		}
-		return v.CloudfrontFunctions
+		return v.CloudfrontFunctionAssociations
 	}).(cloudfront.DistributionOrderedCacheBehaviorFunctionAssociationArrayOutput)
 }
 
@@ -189,12 +189,12 @@ func (o CDNArgsPtrOutput) ForwardedValues() cloudfront.DistributionDefaultCacheB
 
 // A config block that triggers a lambda
 // function with specific actions.
-func (o CDNArgsPtrOutput) LambdaFunctions() cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArrayOutput {
+func (o CDNArgsPtrOutput) LambdaFunctionAssociations() cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArrayOutput {
 	return o.ApplyT(func(v *CDNArgs) []cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociation {
 		if v == nil {
 			return nil
 		}
-		return v.LambdaFunctions
+		return v.LambdaFunctionAssociations
 	}).(cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArrayOutput)
 }
 

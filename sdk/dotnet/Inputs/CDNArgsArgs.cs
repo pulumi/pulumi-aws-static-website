@@ -12,17 +12,17 @@ namespace Pulumi.AwsStaticWebsite.Inputs
 
     public sealed class CDNArgsArgs : Pulumi.ResourceArgs
     {
-        [Input("cloudfrontFunctions")]
-        private InputList<Pulumi.Aws.CloudFront.Inputs.DistributionOrderedCacheBehaviorFunctionAssociationArgs>? _cloudfrontFunctions;
+        [Input("cloudfrontFunctionAssociations")]
+        private InputList<Pulumi.Aws.CloudFront.Inputs.DistributionOrderedCacheBehaviorFunctionAssociationArgs>? _cloudfrontFunctionAssociations;
 
         /// <summary>
         /// A config block that triggers a cloudfront
         /// function with specific actions.
         /// </summary>
-        public InputList<Pulumi.Aws.CloudFront.Inputs.DistributionOrderedCacheBehaviorFunctionAssociationArgs> CloudfrontFunctions
+        public InputList<Pulumi.Aws.CloudFront.Inputs.DistributionOrderedCacheBehaviorFunctionAssociationArgs> CloudfrontFunctionAssociations
         {
-            get => _cloudfrontFunctions ?? (_cloudfrontFunctions = new InputList<Pulumi.Aws.CloudFront.Inputs.DistributionOrderedCacheBehaviorFunctionAssociationArgs>());
-            set => _cloudfrontFunctions = value;
+            get => _cloudfrontFunctionAssociations ?? (_cloudfrontFunctionAssociations = new InputList<Pulumi.Aws.CloudFront.Inputs.DistributionOrderedCacheBehaviorFunctionAssociationArgs>());
+            set => _cloudfrontFunctionAssociations = value;
         }
 
         /// <summary>
@@ -31,17 +31,17 @@ namespace Pulumi.AwsStaticWebsite.Inputs
         [Input("forwardedValues")]
         public Input<Pulumi.Aws.CloudFront.Inputs.DistributionDefaultCacheBehaviorForwardedValuesArgs>? ForwardedValues { get; set; }
 
-        [Input("lambdaFunctions")]
-        private InputList<Pulumi.Aws.CloudFront.Inputs.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArgs>? _lambdaFunctions;
+        [Input("lambdaFunctionAssociations")]
+        private InputList<Pulumi.Aws.CloudFront.Inputs.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArgs>? _lambdaFunctionAssociations;
 
         /// <summary>
         /// A config block that triggers a lambda
         /// function with specific actions.
         /// </summary>
-        public InputList<Pulumi.Aws.CloudFront.Inputs.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArgs> LambdaFunctions
+        public InputList<Pulumi.Aws.CloudFront.Inputs.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArgs> LambdaFunctionAssociations
         {
-            get => _lambdaFunctions ?? (_lambdaFunctions = new InputList<Pulumi.Aws.CloudFront.Inputs.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArgs>());
-            set => _lambdaFunctions = value;
+            get => _lambdaFunctionAssociations ?? (_lambdaFunctionAssociations = new InputList<Pulumi.Aws.CloudFront.Inputs.DistributionOrderedCacheBehaviorLambdaFunctionAssociationArgs>());
+            set => _lambdaFunctionAssociations = value;
         }
 
         public CDNArgsArgs()

@@ -11,7 +11,7 @@ export interface CDNArgsArgs {
      * A config block that triggers a cloudfront
      * function with specific actions.
      */
-    cloudfrontFunctions?: pulumi.Input<pulumi.Input<pulumiAws.types.input.cloudfront.DistributionOrderedCacheBehaviorFunctionAssociation>[]>;
+    cloudfrontFunctionAssociations?: pulumi.Input<pulumi.Input<pulumiAws.types.input.cloudfront.DistributionOrderedCacheBehaviorFunctionAssociation>[]>;
     /**
      * The forwarded values configuration that specifies how CloudFront handles query strings, cookies and headers.
      */
@@ -20,5 +20,5 @@ export interface CDNArgsArgs {
      * A config block that triggers a lambda
      * function with specific actions.
      */
-    lambdaFunctions?: pulumi.Input<pulumi.Input<pulumiAws.types.input.cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociation>[]>;
+    lambdaFunctionAssociations?: pulumi.Input<pulumi.Input<pulumiAws.types.input.cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociation>[]>;
 }
