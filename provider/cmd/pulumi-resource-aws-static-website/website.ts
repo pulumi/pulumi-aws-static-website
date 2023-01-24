@@ -22,8 +22,8 @@ import * as fs from "fs";
 
 interface CdnArgs {
     forwardedValues?: aws.types.input.cloudfront.DistributionDefaultCacheBehaviorForwardedValues;
-    cloudfrontFunctions?: aws.types.input.cloudfront.DistributionOrderedCacheBehaviorFunctionAssociation[];
-    lambdaFunctions?: aws.types.input.cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociation[];
+    cloudfrontFunctionAssociations?: aws.types.input.cloudfront.DistributionOrderedCacheBehaviorFunctionAssociation[];
+    lambdaFunctionAssociations?: aws.types.input.cloudfront.DistributionOrderedCacheBehaviorLambdaFunctionAssociation[];
 }
 
 export interface WebsiteArgs {
@@ -403,8 +403,8 @@ export class Website extends pulumi.ComponentResource {
     private configureDistributionArgs (): aws.cloudfront.DistributionArgs {
         const cacheTtl = this.args.cacheTTL || (10 * 60); // 10 minutes.
 
-        const cfFunctions = this.args?.cdnArgs?.cloudfrontFunctions ?? [];
-        const lambdaFunctions = this.args?.cdnArgs?.lambdaFunctions ?? [];
+        const cfFunctions = this.args?.cdnArgs?.cloudfrontFunctionAssociations ?? [];
+        const lambdaFunctions = this.args?.cdnArgs?.lambdaFunctionAssociations ?? [];
 
         if ((cfFunctions.length > 2) || (cfFunctions.length > 1 && this.args.addWebsiteVersionHeader)){
             let max = this.args.addWebsiteVersionHeader ? 1 : 2;

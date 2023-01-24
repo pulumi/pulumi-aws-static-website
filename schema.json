@@ -21,7 +21,7 @@
                     "description": "The forwarded values configuration that specifies how CloudFront handles query strings, cookies and headers.",
                     "$ref": "/aws/v5.28.0/schema.json#/types/aws:cloudfront/DistributionDefaultCacheBehaviorForwardedValues:DistributionDefaultCacheBehaviorForwardedValues"
                 },
-                "cloudfrontFunctions": {
+                "cloudfrontFunctionAssociations": {
                     "type": "array",
                     "items": {
                         "$ref": "/aws/v5.28.0/schema.json#/types/aws:cloudfront/DistributionOrderedCacheBehaviorFunctionAssociation:DistributionOrderedCacheBehaviorFunctionAssociation"
@@ -33,7 +33,7 @@
                         }
                     }
                 },
-                "lambdaFunctions": {
+                "lambdaFunctionAssociations": {
                     "type": "array",
                     "items": {
                         "$ref": "/aws/v5.28.0/schema.json#/types/aws:cloudfront/DistributionOrderedCacheBehaviorLambdaFunctionAssociation:DistributionOrderedCacheBehaviorLambdaFunctionAssociation"
