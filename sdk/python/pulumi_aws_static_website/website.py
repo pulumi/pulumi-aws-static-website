@@ -39,7 +39,7 @@ class WebsiteArgs:
         :param pulumi.Input[str] error404: default 404 page
         :param pulumi.Input[str] index_html: The default document for the site. Defaults to index.html
         :param pulumi.Input[str] price_class: The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
-        :param pulumi.Input[str] subdomain: An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias.
+        :param pulumi.Input[str] subdomain: An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias or if a deeply nested subdomain is needed (e.g. foo.bar.baz.com).
         :param pulumi.Input[str] target_domain: The domain used to serve the content. A Route53 hosted zone must exist for this domain.
         :param pulumi.Input[bool] with_cdn: Provision CloudFront CDN to serve content.
         :param pulumi.Input[bool] with_logs: Provision a bucket to hold access logs.
@@ -182,7 +182,7 @@ class WebsiteArgs:
     @pulumi.getter
     def subdomain(self) -> Optional[pulumi.Input[str]]:
         """
-        An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias.
+        An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias or if a deeply nested subdomain is needed (e.g. foo.bar.baz.com).
         """
         return pulumi.get(self, "subdomain")
 
@@ -259,7 +259,7 @@ class Website(pulumi.ComponentResource):
         :param pulumi.Input[str] index_html: The default document for the site. Defaults to index.html
         :param pulumi.Input[str] price_class: The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
         :param pulumi.Input[str] site_path: The root directory containing the website's contents.
-        :param pulumi.Input[str] subdomain: An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias.
+        :param pulumi.Input[str] subdomain: An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias or if a deeply nested subdomain is needed (e.g. foo.bar.baz.com).
         :param pulumi.Input[str] target_domain: The domain used to serve the content. A Route53 hosted zone must exist for this domain.
         :param pulumi.Input[bool] with_cdn: Provision CloudFront CDN to serve content.
         :param pulumi.Input[bool] with_logs: Provision a bucket to hold access logs.

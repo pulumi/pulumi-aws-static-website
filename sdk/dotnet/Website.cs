@@ -131,7 +131,7 @@ namespace Pulumi.AwsStaticWebsite
         public Input<string> SitePath { get; set; } = null!;
 
         /// <summary>
-        /// An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias.
+        /// An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias or if a deeply nested subdomain is needed (e.g. foo.bar.baz.com).
         /// </summary>
         [Input("subdomain")]
         public Input<string>? Subdomain { get; set; }

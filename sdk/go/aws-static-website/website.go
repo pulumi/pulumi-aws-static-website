@@ -65,7 +65,7 @@ type websiteArgs struct {
 	PriceClass *string `pulumi:"priceClass"`
 	// The root directory containing the website's contents.
 	SitePath string `pulumi:"sitePath"`
-	// An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias.
+	// An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias or if a deeply nested subdomain is needed (e.g. foo.bar.baz.com).
 	Subdomain *string `pulumi:"subdomain"`
 	// The domain used to serve the content. A Route53 hosted zone must exist for this domain.
 	TargetDomain *string `pulumi:"targetDomain"`
@@ -95,7 +95,7 @@ type WebsiteArgs struct {
 	PriceClass pulumi.StringPtrInput
 	// The root directory containing the website's contents.
 	SitePath pulumi.StringInput
-	// An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias.
+	// An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias or if a deeply nested subdomain is needed (e.g. foo.bar.baz.com).
 	Subdomain pulumi.StringPtrInput
 	// The domain used to serve the content. A Route53 hosted zone must exist for this domain.
 	TargetDomain pulumi.StringPtrInput

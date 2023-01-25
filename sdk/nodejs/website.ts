@@ -134,7 +134,7 @@ export interface WebsiteArgs {
      */
     sitePath: pulumi.Input<string>;
     /**
-     * An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias.
+     * An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias or if a deeply nested subdomain is needed (e.g. foo.bar.baz.com).
      */
     subdomain?: pulumi.Input<string>;
     /**
