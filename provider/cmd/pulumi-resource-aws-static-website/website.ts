@@ -37,7 +37,7 @@ export interface WebsiteArgs {
     certificateARN?: string;
     cacheTTL?: number;
     withLogs?: boolean;
-
+    subdomain?: string;
     atomicDeployments?: boolean;
     addWebsiteVersionHeader?: boolean;
 }
@@ -330,10 +330,11 @@ export class Website extends pulumi.ComponentResource {
                 sslSupportMethod: "sni-only",
             };
         } else {
-            certificate = this.provisionAndValidateCert(this.bucket);
+            let certificateValidation;
+            [certificate, certificateValidation] = this.provisionAndValidateCert(this.bucket);
             distributionArgs.viewerCertificate = {
                 cloudfrontDefaultCertificate: false,
-                acmCertificateArn: certificate.arn,
+                acmCertificateArn: certificateValidation.certificateArn,
                 sslSupportMethod: "sni-only",
             };
         }
@@ -372,6 +373,24 @@ export class Website extends pulumi.ComponentResource {
                     dependsOn: certificate,
                 }
         );
+
+        if (this.args.subdomain) {
+            const subdomainRecord = new aws.route53.Record(
+                `${this.args.targetDomain}-subdomain-alias`,
+                {
+                    name: `${this.args.subdomain}.${this.args.targetDomain}`,
+                    zoneId: zone.then(zone => zone.zoneId),
+                    type: "A",
+                    aliases: [
+                        {
+                            name: cdn.domainName,
+                            zoneId: cdn.hostedZoneId,
+                            evaluateTargetHealth: true,
+                        },
+                    ],
+                },
+            );
+        }
 
         const originAccessIdentity = new aws.cloudfront.OriginAccessIdentity("originAccessIdentity", {
             comment: "this is needed to setup s3 polices and make s3 not public.",
@@ -451,13 +470,15 @@ export class Website extends pulumi.ComponentResource {
             queryString: cacheForwardedValues?.queryString ?? false,
         };
 
+        const distributionAliases = this.args.subdomain ? [this.args.targetDomain, `${this.args.subdomain}.${this.args.targetDomain}`] : [this.args.targetDomain];
+
         const distributionArgs: aws.cloudfront.DistributionArgs = {
             enabled: true,
 
             // Alternate aliases the CloudFront distribution can be reached at, in addition to https://xxxx.cloudfront.net.
             // Required if you want to access the distribution via config.targetDomain as well.
 
-            aliases: [this.args.targetDomain],
+            aliases: distributionAliases,
 
             // We only specify one origin for this distribution, the S3 content bucket.
             origins: [
@@ -528,7 +549,7 @@ export class Website extends pulumi.ComponentResource {
     }
 
     // Provision and validate ACM certificate.
-    private provisionAndValidateCert (bucket: aws.s3.Bucket): aws.acm.Certificate {
+    private provisionAndValidateCert (bucket: aws.s3.Bucket): [aws.acm.Certificate, aws.acm.CertificateValidation] {
         const eastRegion = new aws.Provider("east", {
             profile: aws.config.profile,
             region: "us-east-1", // Per AWS, ACM certificate must be in the us-east-1 region.
@@ -540,6 +561,7 @@ export class Website extends pulumi.ComponentResource {
         const certificateConfig: aws.acm.CertificateArgs = {
             domainName: this.args.targetDomain,
             validationMethod: "DNS",
+            subjectAlternativeNames: this.args.subdomain ? [`${this.args.subdomain}.${this.args.targetDomain}`] : [],
         };
 
         const certificate = new aws.acm.Certificate("certificate", certificateConfig, { provider: eastRegion, ...this.resourceOptions });
@@ -560,7 +582,25 @@ export class Website extends pulumi.ComponentResource {
             dependsOn: certificate,
         });
 
-        return certificate;
+        const subdomainCertificateValidationDomain = this.args.subdomain ? new aws.route53.Record(`subdomain-certificate-validation`, {
+            name: certificate.domainValidationOptions[1].resourceRecordName,
+            zoneId: hostedZoneId,
+            type: certificate.domainValidationOptions[1].resourceRecordType,
+            records: [certificate.domainValidationOptions[1].resourceRecordValue],
+            ttl: cacheTTL,
+        }) : undefined;
+
+        const validationRecordFqdns = subdomainCertificateValidationDomain === undefined ?
+        [certificateValidationDomain.fqdn] : [certificateValidationDomain.fqdn, subdomainCertificateValidationDomain.fqdn];
+
+        // Note: the CertificationValidation resource is just here to allow us to wait until the validation is complete
+        // before continuing and doesn't actually provision anything at all.
+        const certificateValidation = new aws.acm.CertificateValidation("certificateValidation", {
+            certificateArn: certificate.arn,
+            validationRecordFqdns: validationRecordFqdns,
+        }, { provider: eastRegion });
+
+        return [certificate, certificateValidation];
     }
 
     private getPriceClass (): string {

@@ -24,6 +24,7 @@ class WebsiteArgs:
                  error404: Optional[pulumi.Input[str]] = None,
                  index_html: Optional[pulumi.Input[str]] = None,
                  price_class: Optional[pulumi.Input[str]] = None,
+                 subdomain: Optional[pulumi.Input[str]] = None,
                  target_domain: Optional[pulumi.Input[str]] = None,
                  with_cdn: Optional[pulumi.Input[bool]] = None,
                  with_logs: Optional[pulumi.Input[bool]] = None):
@@ -38,6 +39,7 @@ class WebsiteArgs:
         :param pulumi.Input[str] error404: default 404 page
         :param pulumi.Input[str] index_html: The default document for the site. Defaults to index.html
         :param pulumi.Input[str] price_class: The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
+        :param pulumi.Input[str] subdomain: An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias.
         :param pulumi.Input[str] target_domain: The domain used to serve the content. A Route53 hosted zone must exist for this domain.
         :param pulumi.Input[bool] with_cdn: Provision CloudFront CDN to serve content.
         :param pulumi.Input[bool] with_logs: Provision a bucket to hold access logs.
@@ -59,6 +61,8 @@ class WebsiteArgs:
             pulumi.set(__self__, "index_html", index_html)
         if price_class is not None:
             pulumi.set(__self__, "price_class", price_class)
+        if subdomain is not None:
+            pulumi.set(__self__, "subdomain", subdomain)
         if target_domain is not None:
             pulumi.set(__self__, "target_domain", target_domain)
         if with_cdn is not None:
@@ -175,6 +179,18 @@ class WebsiteArgs:
         pulumi.set(self, "price_class", value)
 
     @property
+    @pulumi.getter
+    def subdomain(self) -> Optional[pulumi.Input[str]]:
+        """
+        An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias.
+        """
+        return pulumi.get(self, "subdomain")
+
+    @subdomain.setter
+    def subdomain(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "subdomain", value)
+
+    @property
     @pulumi.getter(name="targetDomain")
     def target_domain(self) -> Optional[pulumi.Input[str]]:
         """
@@ -225,6 +241,7 @@ class Website(pulumi.ComponentResource):
                  index_html: Optional[pulumi.Input[str]] = None,
                  price_class: Optional[pulumi.Input[str]] = None,
                  site_path: Optional[pulumi.Input[str]] = None,
+                 subdomain: Optional[pulumi.Input[str]] = None,
                  target_domain: Optional[pulumi.Input[str]] = None,
                  with_cdn: Optional[pulumi.Input[bool]] = None,
                  with_logs: Optional[pulumi.Input[bool]] = None,
@@ -242,6 +259,7 @@ class Website(pulumi.ComponentResource):
         :param pulumi.Input[str] index_html: The default document for the site. Defaults to index.html
         :param pulumi.Input[str] price_class: The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
         :param pulumi.Input[str] site_path: The root directory containing the website's contents.
+        :param pulumi.Input[str] subdomain: An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias.
         :param pulumi.Input[str] target_domain: The domain used to serve the content. A Route53 hosted zone must exist for this domain.
         :param pulumi.Input[bool] with_cdn: Provision CloudFront CDN to serve content.
         :param pulumi.Input[bool] with_logs: Provision a bucket to hold access logs.
@@ -278,6 +296,7 @@ class Website(pulumi.ComponentResource):
                  index_html: Optional[pulumi.Input[str]] = None,
                  price_class: Optional[pulumi.Input[str]] = None,
                  site_path: Optional[pulumi.Input[str]] = None,
+                 subdomain: Optional[pulumi.Input[str]] = None,
                  target_domain: Optional[pulumi.Input[str]] = None,
                  with_cdn: Optional[pulumi.Input[bool]] = None,
                  with_logs: Optional[pulumi.Input[bool]] = None,
@@ -306,6 +325,7 @@ class Website(pulumi.ComponentResource):
             if site_path is None and not opts.urn:
                 raise TypeError("Missing required property 'site_path'")
             __props__.__dict__["site_path"] = site_path
+            __props__.__dict__["subdomain"] = subdomain
             __props__.__dict__["target_domain"] = target_domain
             __props__.__dict__["with_cdn"] = with_cdn
             __props__.__dict__["with_logs"] = with_logs
