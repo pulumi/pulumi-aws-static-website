@@ -64,6 +64,10 @@
                     "type": "string",
                     "description": "The domain used to serve the content. A Route53 hosted zone must exist for this domain."
                 },
+                "subdomain": {
+                    "type": "string",
+                    "description": "An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias or if a deeply nested subdomain is needed (e.g. foo.bar.baz.com)."
+                },
                 "sitePath": {
                     "type": "string",
                     "description": "The root directory containing the website's contents."

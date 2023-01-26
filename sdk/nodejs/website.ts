@@ -70,6 +70,7 @@ export class Website extends pulumi.ComponentResource {
             resourceInputs["indexHTML"] = args ? args.indexHTML : undefined;
             resourceInputs["priceClass"] = args ? args.priceClass : undefined;
             resourceInputs["sitePath"] = args ? args.sitePath : undefined;
+            resourceInputs["subdomain"] = args ? args.subdomain : undefined;
             resourceInputs["targetDomain"] = args ? args.targetDomain : undefined;
             resourceInputs["withCDN"] = args ? args.withCDN : undefined;
             resourceInputs["withLogs"] = args ? args.withLogs : undefined;
@@ -132,6 +133,10 @@ export interface WebsiteArgs {
      * The root directory containing the website's contents.
      */
     sitePath: pulumi.Input<string>;
+    /**
+     * An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias or if a deeply nested subdomain is needed (e.g. foo.bar.baz.com).
+     */
+    subdomain?: pulumi.Input<string>;
     /**
      * The domain used to serve the content. A Route53 hosted zone must exist for this domain.
      */
