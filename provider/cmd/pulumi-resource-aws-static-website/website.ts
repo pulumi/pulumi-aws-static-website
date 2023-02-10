@@ -315,6 +315,15 @@ export class Website extends pulumi.ComponentResource {
                 cloudfrontDefaultCertificate: true,
                 sslSupportMethod: "sni-only",
             };
+
+            if (this.args.certificateARN) {
+                distributionArgs.viewerCertificate = {
+                    cloudfrontDefaultCertificate: false,
+                    acmCertificateArn: this.args.certificateARN,
+                    sslSupportMethod: "sni-only",
+                };
+            }
+
             cdn = new aws.cloudfront.Distribution(
                 "website-cdn",
                 distributionArgs,
