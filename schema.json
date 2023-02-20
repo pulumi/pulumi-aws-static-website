@@ -103,6 +103,10 @@
                 "atomicDeployments": {
                     "description": "Provision a new bucket on each deployment.",
                     "type": "boolean"
+                },
+                "contentBucketPrivate": {
+                    "description": "Optionally set to true to use a private ACL on the content bucket. Defaults to false for backwards compatibility. If enabled, only CloudFront can access the bucket through OAI.",
+                    "type": "boolean"
                 }
             },
             "requiredInputs": [
