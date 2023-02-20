@@ -107,6 +107,12 @@ namespace Pulumi.AwsStaticWebsite
         public Input<string>? CertificateARN { get; set; }
 
         /// <summary>
+        /// Optionally set to true to use a private ACL on the content bucket. Defaults to false for backwards compatibility. If enabled, only CloudFront can access the bucket through OAI.
+        /// </summary>
+        [Input("contentBucketPrivate")]
+        public Input<bool>? ContentBucketPrivate { get; set; }
+
+        /// <summary>
         /// default 404 page
         /// </summary>
         [Input("error404")]

@@ -66,6 +66,7 @@ export class Website extends pulumi.ComponentResource {
             resourceInputs["cacheTTL"] = args ? args.cacheTTL : undefined;
             resourceInputs["cdnArgs"] = args ? args.cdnArgs : undefined;
             resourceInputs["certificateARN"] = args ? args.certificateARN : undefined;
+            resourceInputs["contentBucketPrivate"] = args ? args.contentBucketPrivate : undefined;
             resourceInputs["error404"] = args ? args.error404 : undefined;
             resourceInputs["indexHTML"] = args ? args.indexHTML : undefined;
             resourceInputs["priceClass"] = args ? args.priceClass : undefined;
@@ -117,6 +118,10 @@ export interface WebsiteArgs {
      * The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
      */
     certificateARN?: pulumi.Input<string>;
+    /**
+     * Optionally set to true to use a private ACL on the content bucket. Defaults to false for backwards compatibility. If enabled, only CloudFront can access the bucket through OAI.
+     */
+    contentBucketPrivate?: pulumi.Input<boolean>;
     /**
      * default 404 page
      */
