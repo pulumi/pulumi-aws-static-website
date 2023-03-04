@@ -40,6 +40,7 @@ export interface WebsiteArgs {
     subdomain?: string;
     atomicDeployments?: boolean;
     addWebsiteVersionHeader?: boolean;
+    contentBucketPrivate?: boolean;
 }
 
 /**
@@ -51,6 +52,7 @@ export class Website extends pulumi.ComponentResource {
     private args: WebsiteArgs;
     private resourceOptions: pulumi.CustomResourceOptions;
     private buildIdentifier = new Date().getTime();
+    private contentBucketAcl: string;
 
     bucketName?: pulumi.Output<string>;
     bucketWebsiteURL?: pulumi.Output<string>;
@@ -101,6 +103,9 @@ export class Website extends pulumi.ComponentResource {
         } else {
             this.bucket = this.provisionContentBucket();
         }
+
+        this.contentBucketAcl = args.contentBucketPrivate ?
+            aws.s3.CannedAcl.Private : aws.s3.CannedAcl.PublicRead;
 
         this.bucketName = this.bucket.bucket;
         this.bucketWebsiteURL = pulumi.interpolate`http://${this.bucket.websiteEndpoint}`;
@@ -164,7 +169,7 @@ export class Website extends pulumi.ComponentResource {
                     indexDocument: this.args.indexHTML,
                     errorDocument: this.args.error404,
                 },
-                acl: aws.s3.PublicReadAcl,
+                acl: this.contentBucketAcl,
                 forceDestroy: true,
 
             },
@@ -187,7 +192,7 @@ export class Website extends pulumi.ComponentResource {
                 indexDocument: this.args.indexHTML,
                 errorDocument: this.args.error404,
             },
-            acl: aws.s3.PublicReadAcl,
+            acl: this.contentBucketAcl,
             forceDestroy: true,
         }, this.resourceOptions);
 
@@ -258,7 +263,7 @@ export class Website extends pulumi.ComponentResource {
                     {
                         key: relativeFilePath,
 
-                        acl: "public-read",
+                        acl: this.contentBucketAcl,
                         bucket,
                         contentType: mime.getType(filePath) || undefined,
                         source: new pulumi.asset.FileAsset(filePath),
@@ -277,7 +282,7 @@ export class Website extends pulumi.ComponentResource {
 
         const cmd = process.platform === "win32" ?
             this.buildWindowsCMD(rootDir, destinationBucketURI, bucket.region) :
-            `aws s3 sync "$BUILD_DIR" "$DESTINATION_BUCKET" --acl public-read --delete --quiet --region "$REGION"`;
+            `aws s3 sync "$BUILD_DIR" "$DESTINATION_BUCKET" --acl ${this.contentBucketAcl} --delete --quiet --region "$REGION"`;
 
         new local.Command("sync_bucket", {
             create: cmd,
@@ -298,7 +303,7 @@ export class Website extends pulumi.ComponentResource {
         // Since windows decided to use backslashes for filepaths and backslashes are escape characters everywhere else in the world, replace
         // "\" with "\\" because the single backslash gets removed so we need to re-escape it :eye-roll:
         const dir = buildDir.replace(/\\/g, "\\\\");
-        return pulumi.interpolate `aws s3 sync ${buildDir} ${destinationBucket} --acl public-read --delete --quiet --region ${region}`;
+        return pulumi.interpolate `aws s3 sync ${buildDir} ${destinationBucket} --acl ${this.contentBucketAcl} --delete --quiet --region ${region}`;
     }
 
     // Provision CloudFront CDN.

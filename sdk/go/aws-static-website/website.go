@@ -57,6 +57,8 @@ type websiteArgs struct {
 	CdnArgs *CDNArgs `pulumi:"cdnArgs"`
 	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
 	CertificateARN *string `pulumi:"certificateARN"`
+	// Optionally set to true to use a private ACL on the content bucket. Defaults to false for backwards compatibility. If enabled, only CloudFront can access the bucket through OAI.
+	ContentBucketPrivate *bool `pulumi:"contentBucketPrivate"`
 	// default 404 page
 	Error404 *string `pulumi:"error404"`
 	// The default document for the site. Defaults to index.html
@@ -87,6 +89,8 @@ type WebsiteArgs struct {
 	CdnArgs CDNArgsPtrInput
 	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
 	CertificateARN pulumi.StringPtrInput
+	// Optionally set to true to use a private ACL on the content bucket. Defaults to false for backwards compatibility. If enabled, only CloudFront can access the bucket through OAI.
+	ContentBucketPrivate pulumi.BoolPtrInput
 	// default 404 page
 	Error404 pulumi.StringPtrInput
 	// The default document for the site. Defaults to index.html
@@ -131,7 +135,7 @@ func (i *Website) ToWebsiteOutputWithContext(ctx context.Context) WebsiteOutput 
 // WebsiteArrayInput is an input type that accepts WebsiteArray and WebsiteArrayOutput values.
 // You can construct a concrete instance of `WebsiteArrayInput` via:
 //
-//	WebsiteArray{ WebsiteArgs{...} }
+//          WebsiteArray{ WebsiteArgs{...} }
 type WebsiteArrayInput interface {
 	pulumi.Input
 
@@ -156,7 +160,7 @@ func (i WebsiteArray) ToWebsiteArrayOutputWithContext(ctx context.Context) Websi
 // WebsiteMapInput is an input type that accepts WebsiteMap and WebsiteMapOutput values.
 // You can construct a concrete instance of `WebsiteMapInput` via:
 //
-//	WebsiteMap{ "key": WebsiteArgs{...} }
+//          WebsiteMap{ "key": WebsiteArgs{...} }
 type WebsiteMapInput interface {
 	pulumi.Input
 

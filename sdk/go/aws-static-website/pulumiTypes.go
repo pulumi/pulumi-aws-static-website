@@ -25,7 +25,7 @@ type CDNArgs struct {
 // CDNArgsInput is an input type that accepts CDNArgsArgs and CDNArgsOutput values.
 // You can construct a concrete instance of `CDNArgsInput` via:
 //
-//	CDNArgsArgs{...}
+//          CDNArgsArgs{...}
 type CDNArgsInput interface {
 	pulumi.Input
 
@@ -67,11 +67,11 @@ func (i CDNArgsArgs) ToCDNArgsPtrOutputWithContext(ctx context.Context) CDNArgsP
 // CDNArgsPtrInput is an input type that accepts CDNArgsArgs, CDNArgsPtr and CDNArgsPtrOutput values.
 // You can construct a concrete instance of `CDNArgsPtrInput` via:
 //
-//	        CDNArgsArgs{...}
+//          CDNArgsArgs{...}
 //
-//	or:
+//  or:
 //
-//	        nil
+//          nil
 type CDNArgsPtrInput interface {
 	pulumi.Input
 

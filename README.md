@@ -94,6 +94,8 @@ This component takes the following inputs.
 - cacheTTL (number) - TTL in seconds for cached objects
 - withLogs (boolean) - provision a bucket to house access logs
 - priceClass (string) - The [price class](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html) to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`"
+- subdomain (string) - An optional subdomain that can be used to serve the content. This can typically be used to provision a www alias or if a deeply nested subdomain is needed (e.g. foo.bar.baz.com).
+- contentBucketPrivate (boolean) - Optionally set to true to use a private ACL on the content bucket. Defaults to false for backwards compatibility. If enabled, only CloudFront can access the bucket through OAI.
 
 ## Outputs
 
