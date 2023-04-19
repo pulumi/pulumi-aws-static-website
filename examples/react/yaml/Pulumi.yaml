@@ -6,9 +6,7 @@ resources:
   web:
     type: "aws-static-website:index:Website"
     properties:
-      #withCDN: true
       sitePath: "../website/build"
-      #pulumiOrganization: zchase
 outputs:
   websiteURL: ${web.websiteURL}
   bucketName: ${web.bucketName}
