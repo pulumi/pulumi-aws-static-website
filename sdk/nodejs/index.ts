@@ -5,8 +5,21 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
 // Export members:
-export * from "./provider";
-export * from "./website";
+export { ProviderArgs } from "./provider";
+export type Provider = import("./provider").Provider;
+export const Provider: typeof import("./provider").Provider = null as any;
+utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
+
+export { PublicBucketPolicyArgs } from "./publicBucketPolicy";
+export type PublicBucketPolicy = import("./publicBucketPolicy").PublicBucketPolicy;
+export const PublicBucketPolicy: typeof import("./publicBucketPolicy").PublicBucketPolicy = null as any;
+utilities.lazyLoad(exports, ["PublicBucketPolicy"], () => require("./publicBucketPolicy"));
+
+export { WebsiteArgs } from "./website";
+export type Website = import("./website").Website;
+export const Website: typeof import("./website").Website = null as any;
+utilities.lazyLoad(exports, ["Website"], () => require("./website"));
+
 
 // Export sub-modules:
 import * as types from "./types";
@@ -15,13 +28,12 @@ export {
     types,
 };
 
-// Import resources to register:
-import { Website } from "./website";
-
 const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
+            case "aws-static-website:index:PublicBucketPolicy":
+                return new PublicBucketPolicy(name, <any>undefined, { urn })
             case "aws-static-website:index:Website":
                 return new Website(name, <any>undefined, { urn })
             default:
@@ -30,9 +42,6 @@ const _module = {
     },
 };
 pulumi.runtime.registerResourceModule("aws-static-website", "index", _module)
-
-import { Provider } from "./provider";
-
 pulumi.runtime.registerResourcePackage("aws-static-website", {
     version: utilities.getVersion(),
     constructProvider: (name: string, type: string, urn: string): pulumi.ProviderResource => {

@@ -6,6 +6,7 @@ from . import _utilities
 import typing
 # Export this package's modules as members:
 from .provider import *
+from .public_bucket_policy import *
 from .website import *
 from ._inputs import *
 _utilities.register(
@@ -16,6 +17,7 @@ _utilities.register(
   "mod": "index",
   "fqn": "pulumi_aws_static_website",
   "classes": {
+   "aws-static-website:index:PublicBucketPolicy": "PublicBucketPolicy",
    "aws-static-website:index:Website": "Website"
   }
  }

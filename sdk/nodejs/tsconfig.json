@@ -15,6 +15,7 @@
     "files": [
         "index.ts",
         "provider.ts",
+        "publicBucketPolicy.ts",
         "types/index.ts",
         "types/input.ts",
         "types/output.ts",

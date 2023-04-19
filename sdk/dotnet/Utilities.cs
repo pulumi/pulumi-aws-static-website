@@ -74,7 +74,7 @@ namespace Pulumi.AwsStaticWebsite
         }
     }
 
-    internal sealed class AwsStaticWebsiteResourceTypeAttribute : Pulumi.ResourceTypeAttribute
+    internal sealed class AwsStaticWebsiteResourceTypeAttribute : global::Pulumi.ResourceTypeAttribute
     {
         public AwsStaticWebsiteResourceTypeAttribute(string type) : base(type, Utilities.Version)
         {

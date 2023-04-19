@@ -10,7 +10,7 @@ using Pulumi.Serialization;
 namespace Pulumi.AwsStaticWebsite.Inputs
 {
 
-    public sealed class CDNArgsArgs : Pulumi.ResourceArgs
+    public sealed class CDNArgsArgs : global::Pulumi.ResourceArgs
     {
         [Input("cloudfrontFunctionAssociations")]
         private InputList<Pulumi.Aws.CloudFront.Inputs.DistributionOrderedCacheBehaviorFunctionAssociationArgs>? _cloudfrontFunctionAssociations;
@@ -47,5 +47,6 @@ namespace Pulumi.AwsStaticWebsite.Inputs
         public CDNArgsArgs()
         {
         }
+        public static new CDNArgsArgs Empty => new CDNArgsArgs();
     }
 }

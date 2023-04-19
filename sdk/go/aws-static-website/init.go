@@ -20,6 +20,8 @@ func (m *module) Version() semver.Version {
 
 func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi.Resource, err error) {
 	switch typ {
+	case "aws-static-website:index:PublicBucketPolicy":
+		r = &PublicBucketPolicy{}
 	case "aws-static-website:index:Website":
 		r = &Website{}
 	default:
