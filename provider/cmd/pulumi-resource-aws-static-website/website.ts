@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { execSync } from 'child_process'
+import { execSync } from "child_process";
 import { local } from "@pulumi/command";
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 import * as mime from "mime";
 import * as path from "path";
 import * as fs from "fs";
+import { PublicBucketPolicy } from "./publicBucketPolicy";
 
 interface CdnArgs {
     forwardedValues?: aws.types.input.cloudfront.DistributionDefaultCacheBehaviorForwardedValues;
@@ -164,14 +165,17 @@ export class Website extends pulumi.ComponentResource {
                     indexDocument: this.args.indexHTML,
                     errorDocument: this.args.error404,
                 },
-                acl: aws.s3.PublicReadAcl,
                 forceDestroy: true,
 
             },
             this.resourceOptions);
 
+        const publicPolicy = new PublicBucketPolicy("public-bucket-policy", {
+            bucket: contentBucket,
+        }, this.resourceOptions)
+
         const webContentsRootPath = path.join(process.cwd(), this.args.sitePath);
-        this.putContents(contentBucket, webContentsRootPath);
+        this.putContents(contentBucket, publicPolicy, webContentsRootPath);
 
         return contentBucket;
     }
@@ -187,8 +191,11 @@ export class Website extends pulumi.ComponentResource {
                 indexDocument: this.args.indexHTML,
                 errorDocument: this.args.error404,
             },
-            acl: aws.s3.PublicReadAcl,
             forceDestroy: true,
+        }, this.resourceOptions);
+
+        const publicPolicy = new PublicBucketPolicy("public-bucket-policy", {
+            bucket: currentBucket,
         }, this.resourceOptions);
 
         lastBucketName.apply(n => {
@@ -200,8 +207,11 @@ export class Website extends pulumi.ComponentResource {
                         indexDocument: this.args.indexHTML,
                         errorDocument: this.args.error404,
                     },
-                    acl: aws.s3.PublicReadAcl,
                     forceDestroy: true,
+                }, this.resourceOptions);
+
+                const previousPublicPolicy = new PublicBucketPolicy("public-bucket-policy", {
+                    bucket: previousBucket,
                 }, this.resourceOptions);
             } else {
                 pulumi.log.info("output `bucketName` not found on stack, will remove old bucket after new bucket is provisioned and associated");
@@ -211,11 +221,11 @@ export class Website extends pulumi.ComponentResource {
         const webContentsRootPath = path.join(process.cwd(), this.args.sitePath);
 
         if (this.args.atomicDeployments === undefined) {
-            this.putContents(currentBucket, webContentsRootPath);
+            this.putContents(currentBucket, publicPolicy, webContentsRootPath);
             return currentBucket;
         }
 
-        this.putContentsSync(currentBucket, webContentsRootPath);
+        this.putContentsSync(currentBucket, publicPolicy, webContentsRootPath);
         return currentBucket;
     }
 
@@ -233,7 +243,7 @@ export class Website extends pulumi.ComponentResource {
     }
 
     // Upload website content to s3 content bucket.
-    private putContents (bucket: aws.s3.Bucket, rootDir: string) {
+    private putContents (bucket: aws.s3.Bucket, publicPolicy: PublicBucketPolicy, rootDir: string) {
         function crawlDirectory (dir: string, f: (_: string) => void) {
             const files = fs.readdirSync(dir);
             for (const file of files) {
@@ -265,12 +275,13 @@ export class Website extends pulumi.ComponentResource {
                     },
                     {
                         parent: bucket,
+                        dependsOn: [ publicPolicy.ownershipControls, publicPolicy.publicAccessBlock ],
                     });
             });
     }
 
     // Upload website content to s3 content bucket.
-    private putContentsSync(bucket: aws.s3.Bucket, rootDir: string) {
+    private putContentsSync(bucket: aws.s3.Bucket, publicPolicy: PublicBucketPolicy, rootDir: string) {
         pulumi.log.info(`Syncing contents from local disk at ${rootDir}.`);
 
         const destinationBucketURI = bucket.bucket.apply((b) => `s3://${b}`);
@@ -289,7 +300,7 @@ export class Website extends pulumi.ComponentResource {
                 // This tells Pulumi to rerun the command on every run.
                 REBUILD_TRIGGER: new Date().getTime().toString(),
             },
-        });
+        }, { dependsOn: [ publicPolicy.ownershipControls, publicPolicy.publicAccessBlock ] });
     }
 
     // Build windows command using interpolation. For some reason the command provider does not correctly interpolate the environment variables

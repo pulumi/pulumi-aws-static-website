@@ -38,6 +38,7 @@ def readme():
 
 
 setup(name='pulumi_aws_static_website',
+      python_requires='>=3.7',
       version=VERSION,
       description="A Pulumi component to deploy a static website to AWS",
       long_description=readme(),

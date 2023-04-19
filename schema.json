@@ -49,6 +49,30 @@
         }
     },
     "resources": {
+        "aws-static-website:index:PublicBucketPolicy": {
+            "isComponent": true,
+            "inputProperties": {
+                "bucket": {
+                    "description": "The bucket to apply the public policy to.",
+                    "$ref": "/aws/v5.28.0/schema.json#/resources/aws:s3%2Fbucket:Bucket"
+                }
+            },
+            "requiredInputs": [
+                "bucket"
+            ],
+            "properties": {
+                "ownershipControls": {
+                    "$ref": "/aws/v5.28.0/schema.json#/resources/aws:s3%2FbucketOwnershipControls:BucketOwnershipControls"
+                },
+                "publicAccessBlock": {
+                    "$ref": "/aws/v5.28.0/schema.json#/resources/aws:s3%2FbucketPublicAccessBlock:BucketPublicAccessBlock"
+                }
+            },
+            "required": [
+                "ownershipControls",
+                "publicAccessBlock"
+            ]
+        },
         "aws-static-website:index:Website": {
             "isComponent": true,
             "inputProperties": {

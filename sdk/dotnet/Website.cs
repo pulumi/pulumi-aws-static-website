@@ -10,7 +10,7 @@ using Pulumi.Serialization;
 namespace Pulumi.AwsStaticWebsite
 {
     [AwsStaticWebsiteResourceType("aws-static-website:index:Website")]
-    public partial class Website : Pulumi.ComponentResource
+    public partial class Website : global::Pulumi.ComponentResource
     {
         /// <summary>
         /// The name of the s3 bucket containing the website contents.
@@ -74,7 +74,7 @@ namespace Pulumi.AwsStaticWebsite
         }
     }
 
-    public sealed class WebsiteArgs : Pulumi.ResourceArgs
+    public sealed class WebsiteArgs : global::Pulumi.ResourceArgs
     {
         /// <summary>
         /// Enable a cache control header to be attached to every request from an Cloudfront Function.
@@ -157,5 +157,6 @@ namespace Pulumi.AwsStaticWebsite
         public WebsiteArgs()
         {
         }
+        public static new WebsiteArgs Empty => new WebsiteArgs();
     }
 }

@@ -19,9 +19,11 @@
         "@pulumi/pulumi": "^3.37.0"
     },
     "devDependencies": {
+        "@types/node": "^14",
         "typescript": "^3.7.0"
     },
     "pulumi": {
-        "resource": true
+        "resource": true,
+        "name": "aws-static-website"
     }
 }
