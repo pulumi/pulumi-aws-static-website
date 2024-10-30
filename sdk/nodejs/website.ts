@@ -67,6 +67,7 @@ export class Website extends pulumi.ComponentResource {
             resourceInputs["cacheTTL"] = args ? args.cacheTTL : undefined;
             resourceInputs["cdnArgs"] = args ? args.cdnArgs : undefined;
             resourceInputs["certificateARN"] = args ? args.certificateARN : undefined;
+            resourceInputs["error403"] = args ? args.error403 : undefined;
             resourceInputs["error404"] = args ? args.error404 : undefined;
             resourceInputs["indexHTML"] = args ? args.indexHTML : undefined;
             resourceInputs["priceClass"] = args ? args.priceClass : undefined;
@@ -118,6 +119,10 @@ export interface WebsiteArgs {
      * The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
      */
     certificateARN?: pulumi.Input<string>;
+    /**
+     * default 403 page
+     */
+    error403?: pulumi.Input<string>;
     /**
      * default 404 page
      */

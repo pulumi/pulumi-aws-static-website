@@ -43,6 +43,7 @@ This component takes the following inputs.
 - withCDN - provision a CloudFront CDN to serve content
 - targetDomain - the domain used to serve the content. A Route53 hosted zone must exist for this domain is this option is specified
 - index.html - the default document for the site. Defaults to index.html
+- error403 - the default 403 error page
 - error404 - the default 404 error page
 - certificateARN - the ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process
 - cacheTTL - TTL inseconds for cached objects

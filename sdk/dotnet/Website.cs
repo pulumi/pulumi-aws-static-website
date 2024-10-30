@@ -107,6 +107,12 @@ namespace Pulumi.AwsStaticWebsite
         public Input<string>? CertificateARN { get; set; }
 
         /// <summary>
+        /// default 403 page
+        /// </summary>
+        [Input("error403")]
+        public Input<string>? Error403 { get; set; }
+
+        /// <summary>
         /// default 404 page
         /// </summary>
         [Input("error404")]
