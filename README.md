@@ -90,6 +90,7 @@ This component takes the following inputs.
 - targetDomain (string) - the domain used to serve the content. A Route53 hosted zone must exist for this domain is this option is specified
 - index.html (string) - the default document for the site. Defaults to index.html
 - error404 (string) - the default 404 error page
+- error403 (string) - the default 403 error page
 - certificateARN (string) - the ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process
 - cacheTTL (number) - TTL in seconds for cached objects
 - withLogs (boolean) - provision a bucket to house access logs

@@ -22,6 +22,7 @@ class WebsiteArgs:
                  cache_ttl: Optional[pulumi.Input[float]] = None,
                  cdn_args: Optional[pulumi.Input['CDNArgsArgs']] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
+                 error403: Optional[pulumi.Input[str]] = None,
                  error404: Optional[pulumi.Input[str]] = None,
                  index_html: Optional[pulumi.Input[str]] = None,
                  price_class: Optional[pulumi.Input[str]] = None,
@@ -37,6 +38,7 @@ class WebsiteArgs:
         :param pulumi.Input[float] cache_ttl: TTL in seconds for cached objects. 
         :param pulumi.Input['CDNArgsArgs'] cdn_args: Optional arguments used to configure the CDN.
         :param pulumi.Input[str] certificate_arn: The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
+        :param pulumi.Input[str] error403: default 403 page
         :param pulumi.Input[str] error404: default 404 page
         :param pulumi.Input[str] index_html: The default document for the site. Defaults to index.html
         :param pulumi.Input[str] price_class: The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
@@ -56,6 +58,8 @@ class WebsiteArgs:
             pulumi.set(__self__, "cdn_args", cdn_args)
         if certificate_arn is not None:
             pulumi.set(__self__, "certificate_arn", certificate_arn)
+        if error403 is not None:
+            pulumi.set(__self__, "error403", error403)
         if error404 is not None:
             pulumi.set(__self__, "error404", error404)
         if index_html is not None:
@@ -142,6 +146,18 @@ class WebsiteArgs:
     @certificate_arn.setter
     def certificate_arn(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "certificate_arn", value)
+
+    @property
+    @pulumi.getter
+    def error403(self) -> Optional[pulumi.Input[str]]:
+        """
+        default 403 page
+        """
+        return pulumi.get(self, "error403")
+
+    @error403.setter
+    def error403(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "error403", value)
 
     @property
     @pulumi.getter
@@ -238,6 +254,7 @@ class Website(pulumi.ComponentResource):
                  cache_ttl: Optional[pulumi.Input[float]] = None,
                  cdn_args: Optional[pulumi.Input[pulumi.InputType['CDNArgsArgs']]] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
+                 error403: Optional[pulumi.Input[str]] = None,
                  error404: Optional[pulumi.Input[str]] = None,
                  index_html: Optional[pulumi.Input[str]] = None,
                  price_class: Optional[pulumi.Input[str]] = None,
@@ -256,6 +273,7 @@ class Website(pulumi.ComponentResource):
         :param pulumi.Input[float] cache_ttl: TTL in seconds for cached objects. 
         :param pulumi.Input[pulumi.InputType['CDNArgsArgs']] cdn_args: Optional arguments used to configure the CDN.
         :param pulumi.Input[str] certificate_arn: The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
+        :param pulumi.Input[str] error403: default 403 page
         :param pulumi.Input[str] error404: default 404 page
         :param pulumi.Input[str] index_html: The default document for the site. Defaults to index.html
         :param pulumi.Input[str] price_class: The price class to use for the CloudFront configuration. Defaults to 100 if not specified. Valid values are `all`, `100`, and `200`
@@ -293,6 +311,7 @@ class Website(pulumi.ComponentResource):
                  cache_ttl: Optional[pulumi.Input[float]] = None,
                  cdn_args: Optional[pulumi.Input[pulumi.InputType['CDNArgsArgs']]] = None,
                  certificate_arn: Optional[pulumi.Input[str]] = None,
+                 error403: Optional[pulumi.Input[str]] = None,
                  error404: Optional[pulumi.Input[str]] = None,
                  index_html: Optional[pulumi.Input[str]] = None,
                  price_class: Optional[pulumi.Input[str]] = None,
@@ -317,6 +336,7 @@ class Website(pulumi.ComponentResource):
             __props__.__dict__["cache_ttl"] = cache_ttl
             __props__.__dict__["cdn_args"] = cdn_args
             __props__.__dict__["certificate_arn"] = certificate_arn
+            __props__.__dict__["error403"] = error403
             __props__.__dict__["error404"] = error404
             __props__.__dict__["index_html"] = index_html
             __props__.__dict__["price_class"] = price_class
