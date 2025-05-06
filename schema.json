@@ -100,6 +100,10 @@
                     "type": "string",
                     "description": "The default document for the site. Defaults to index.html"
                 },
+                "error403": {
+                    "type": "string",
+                    "description": "default 403 page"
+                },
                 "error404": {
                     "type": "string",
                     "description": "default 404 page"

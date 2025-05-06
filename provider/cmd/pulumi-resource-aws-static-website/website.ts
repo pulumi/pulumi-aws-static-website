@@ -30,6 +30,7 @@ interface CdnArgs {
 export interface WebsiteArgs {
     sitePath: string;
     indexHTML: string;
+    error403?: string;
     error404: string;
     withCDN: boolean;
     cdnArgs?: CdnArgs;
@@ -86,6 +87,11 @@ export class Website extends pulumi.ComponentResource {
         // Check the error document exists if specified.
         if (args.error404 && !fs.existsSync(path.join(args.sitePath, args.error404))) {
             pulumi.log.warn(`Default document "${args.error404}" does not exist.`);
+        }
+
+        // Check the error document exists if specified.
+        if (args.error403 && !fs.existsSync(path.join(args.sitePath, args.error403))) {
+            pulumi.log.warn(`Default document "${args.error403}" does not exist.`);
         }
 
         // Get the current stack and check the outputs.
@@ -532,7 +538,8 @@ export class Website extends pulumi.ComponentResource {
             // You can customize error responses. When CloudFront receives an error from the origin (e.g. S3 or some other
             // web service) it can return a different error code, and return the response for a different resource.
             customErrorResponses: [
-                { errorCode: 404, responseCode: 404, responsePagePath: `/${this.args.error404}` }
+                { errorCode: 404, responseCode: 404, responsePagePath: `/${this.args.error404}` },
+                { errorCode: 403, responseCode: 403, responsePagePath: `/${this.args.error403}` }
             ],
 
             restrictions: {

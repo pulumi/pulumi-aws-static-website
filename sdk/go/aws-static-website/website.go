@@ -57,6 +57,8 @@ type websiteArgs struct {
 	CdnArgs *CDNArgs `pulumi:"cdnArgs"`
 	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
 	CertificateARN *string `pulumi:"certificateARN"`
+	// default 403 page
+	Error403 *string `pulumi:"error403"`
 	// default 404 page
 	Error404 *string `pulumi:"error404"`
 	// The default document for the site. Defaults to index.html
@@ -87,6 +89,8 @@ type WebsiteArgs struct {
 	CdnArgs CDNArgsPtrInput
 	// The ARN of the ACM certificate to use for serving HTTPS. If one is not provided, a certificate will be created during the provisioning process.
 	CertificateARN pulumi.StringPtrInput
+	// default 403 page
+	Error403 pulumi.StringPtrInput
 	// default 404 page
 	Error404 pulumi.StringPtrInput
 	// The default document for the site. Defaults to index.html
